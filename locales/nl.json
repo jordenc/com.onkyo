@@ -1,0 +1,12 @@
+{
+	"pair": {
+		"start": {
+      "intro": "Vul het IP-adres van uw Onkyo receiver in.",
+			"title": "Apparaat zoeken...",
+			"error": "Er is een fout opgetreden.",
+      "required": "IP adres is verplicht.",
+      "ipAddress": "IP adres",
+      "saveSettings": "Gegevens opslaan"
+		}
+  }
+}

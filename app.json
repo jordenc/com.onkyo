@@ -1,0 +1,180 @@
+{
+    "id": "com.onkyo",
+    "name": {
+        "en": "Onkyo receiver",
+        "nl": "Onkyo receiver"
+    },
+    "version": "0.0.2",
+    "compatibility": "0.x || 1.x",
+    "author": {
+        "name": "Chamid Media",
+        "email": "info@chamidmedia.nl"
+    },
+    "images": {
+      "large": "./assets/images/large.jpg",
+      "small": "./assets/images/small.jpg"
+    },
+    "category": "appliances",
+    "description": {
+    	"en": "Onkyo receiver app for Homey",
+		"nl": "Onkyo receiver app voor Homey"
+    },
+    "dependencies": {
+    		"net": "*"
+    },
+    "drivers": [
+      {
+          "id": "receiver",
+          "name": {
+              "en": "Onkyo receiver",
+              "nl": "Onkyo receiver"
+          },
+          "images": {
+              "large": "drivers/receiver/assets/images/large.jpg",
+              "small": "drivers/receiver/assets/images/small.jpg"
+          },
+          "class": "other",
+          "capabilities": [ "" ],
+          "pair": [
+            {
+              "id": "start"
+            },
+            {
+              "id": "list_devices",
+              "template": "list_devices",
+              "navigation": {
+                  "next": "add_receiver"
+              }
+            },
+            {
+              "id": "add_receiver",
+              "template": "add_devices"
+            }
+          ]
+      }
+    ],
+    "flow": {
+        "actions": [
+        {
+            "id": "powerOn",
+            "title": {
+                "en": "Turn power on",
+                "nl": "Zet aan"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
+        {
+            "id": "powerOff",
+            "title": {
+                "en": "Power off/standby",
+                "nl": "Uitschakelen/standby"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
+        {
+            "id": "changeInput",
+            "title": {
+                "en": "Switch to input",
+                "nl": "Schakel naar input"
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": "autocomplete",
+                "placeholder": {
+                  "en": "input",
+                  "nl": "input"
+                }
+              },
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
+        {
+            "id": "mute",
+            "title": {
+                "en": "Mute",
+                "nl": "Zet mute aan"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
+        {
+            "id": "unMute",
+            "title": {
+                "en": "Unmute",
+                "nl": "Zet mute uit"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
+        {
+            "id": "setVolume",
+            "title": {
+                "en": "Change volume",
+                "nl": "Verander volume"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              },
+              {
+                "name": "volume",
+                "type": "number",
+                "min": 0,
+                "max": 99,
+                "placeholder": {
+                   "en": "Target volume",
+                   "nl": "Gewenst volume"
+                }
+              }
+            ]
+        }
+      ]
+    }
+}
