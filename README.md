@@ -11,6 +11,6 @@ Enables the following cards to use in your flow:
 - Switch input to Bluray/DVD player, VCR/DVR, Cable/Sat TV, PC, Game, AUX, TV/CD, Phono, Tuner, Net, USB
 - Mute or unmute
 
-You need to have the IP-address of your receiver to add the device to Homey (There is no discovery (yet))
+You need to have the (local) IP-address of your receiver to add the device to Homey (There is no discovery (yet))
 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
