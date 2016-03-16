@@ -59,7 +59,7 @@
             "id": "powerOn",
             "title": {
                 "en": "Turn power on",
-                "nl": "Zet aan"
+                "nl": "Aanzetten"
             },
             "args": [
               {
@@ -174,7 +174,41 @@
                 }
               }
             ]
-        }
+        },
+         {
+            "id": "volumeDown",
+            "title": {
+                "en": "Volume down (-1)",
+                "nl": "Volume omlaag (-1)"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
+         {
+            "id": "volumeUp",
+            "title": {
+                "en": "Volume up (+1)",
+                "nl": "Volume omhoog (+1)"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              }
+            ]
+        },
       ]
     }
 }

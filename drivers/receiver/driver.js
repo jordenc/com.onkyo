@@ -29,7 +29,7 @@ var allPossibleInputs = [
 		{	inputName: '!1SLI22',
 	 		friendlyName: "Phono"
 		},
-		{	//inputName: '!SLI24',
+		{
 			inputName: '!1SLI24',
 	 		friendlyName: "Tuner"
 		},
