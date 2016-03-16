@@ -54,6 +54,23 @@
       }
     ],
     "flow": {
+	    "conditions": [
+		    {
+			    "id": "receiver_on",
+			    "title": {
+				    "en": "Receiver is powered on",
+				    "nl": "Receiver is aan"
+			    }
+  
+		    },
+		    {
+			    "id": "receiver_off",
+			    "title": {
+				    "en": "Receiver is powered off",
+				    "nl": "Receiver is uit"
+			    }			    
+		    }
+	    ],
         "actions": [
         {
             "id": "powerOn",
