@@ -1,12 +1,12 @@
 {
 	"pair": {
 		"start": {
-      "intro": "Enter the IP address of your Onkyo receiver.",
+			"intro": "Enter the IP address of your Onkyo receiver.",
 			"title": "Finding device...",
 			"error": "An error has occurred.",
-      "required": "IP address is a required value.",
-      "ipAddress": "IP address",
-      "saveSettings": "Save settings"
+			"required": "IP address is a required value.",
+			"ipAddress": "IP address",
+			"saveSettings": "Save settings"
 		}
-  }
+  	}
 }
