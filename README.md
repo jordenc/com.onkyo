@@ -1,5 +1,7 @@
 # Onkyo receiver app for Athom Homey
 
+Version 0.5.0
+
 Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
 Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
 
