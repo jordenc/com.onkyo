@@ -56,19 +56,56 @@
     "flow": {
 	    "conditions": [
 		    {
-			    "id": "receiver_on",
+			    "id": "receiverOn",
 			    "title": {
 				    "en": "Receiver is powered on",
 				    "nl": "Receiver is aan"
-			    }
+			    },
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                }
+	              }
+	            ]
   
 		    },
 		    {
-			    "id": "receiver_off",
+			    "id": "receiverOff",
 			    "title": {
 				    "en": "Receiver is powered off",
 				    "nl": "Receiver is uit"
-			    }			    
+			    },
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                }
+	              }
+	            ]			    
+		    },
+		    {
+			    "id": "muted",
+			    "title": {
+				    "en": "Receiver is muted",
+				    "nl": "Receiver is muted"
+			    },
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                }
+	              }
+	            ]		    
 		    }
 	    ],
         "actions": [

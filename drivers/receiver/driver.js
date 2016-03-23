@@ -87,7 +87,6 @@ module.exports.pair = function (socket) {
 
 // flow action handlers
 
-//1PWRQSTN = the current power status of the receiver.
 Homey.manager('flow').on('action.powerOn', function( callback, args ){
 	sendCommand ('!1PWR01', args.device.ipaddress);
 	callback(null, true); 
@@ -162,27 +161,68 @@ Homey.manager('flow').on('action.setPreset', function (callback, args) {
 	callback (null, true);	
 });
 
+// CONDITIONS
 
+Homey.manager('flow').on('condition.receiverOn', function( callback, args ){
+	sendCommand ('!1PWRQSTN', args.device.ipaddress, callback, '!1PWR01');
+	//callback (null, true); 
+});
+
+
+Homey.manager('flow').on('condition.receiverOff', function( callback, args ){
+	sendCommand ('!1PWRQSTN', args.device.ipaddress, callback, '!1PWR00');
+	//callback (null, true); 
+});
+
+Homey.manager('flow').on('condition.muted', function( callback, args ){
+	sendCommand ('!1AMTQSTN', args.device.ipaddress, callback, '!1AMT01');
+});
+
+Homey.manager('flow').on('condition.notmuted', function( callback, args ){
+	sendCommand ('!1AMTQSTN', args.device.ipaddress, callback, '!1AMT00');
+});
 //
 
-function sendCommand (cmd, hostIP) {
+function sendCommand (cmd, hostIP, callback, substring) {
 
 	Homey.log ("Onkyo receiver app - sending " + cmd + " to " + hostIP);
 		
 	client = new net.Socket();
-	client.connect(60128, hostIP, function() {
 	
-		//Homey.log ("execute command...");
+	//if we require an answer, listen for an answer
+	if (substring) {
+		
+		client.on('data', function(data) {
+			Homey.log('Received: ' + data);
+			client.destroy();
+			
+			var test = data.toString();
+			
+			Homey.log ('checking if ' + data + ' contains ' + substring);
+			
+			if (test.indexOf(substring) >= 0) {
+				
+				Homey.log ('callback true');
+				callback (null, true);
+				
+			} else {
+				
+				Homey.log ('callback false');
+				callback (null, false);
+				
+			}
+			
+		});
+	
+	}
+	
+	client.connect(60128, hostIP, function() {
 	
 		var cmdLength=cmd.length+1; 
 		var code=String.fromCharCode(cmdLength);
 		var line="ISCP\x00\x00\x00\x10\x00\x00\x00"+code+"\x01\x00\x00\x00"+cmd+"\x0D";
 			
 		client.write(line);
-		
-		//Homey.log("done");
-		
-		client.destroy();
 			
 	});			
 
@@ -199,6 +239,8 @@ module.exports.renamed = function (device_data, new_name) {
 	// Check for valid new name
 	if (typeof device_data === "object" && typeof new_name === "string" && new_name !== '') {
 
+		Homey.log ('new name: ' + new_name);
+		Homey.log ('device_data: ' + device_data.id + ' / ' + device_data.ipaddress);
 		/*
 		// Parse new label and truncate at 32 bytes
 		var label = Cutter.truncateToBinarySize(new_name, 32);
