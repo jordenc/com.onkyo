@@ -57,6 +57,7 @@ module.exports.pair = function (socket) {
 
 		Homey.log("Onkyo receiver app - list_devices tempIP is " + tempIP);
 		
+		//Execute !xECNQSTN to get type number as name?
 		var devices = [{
 			data: {
 				id			: tempIP,
@@ -116,6 +117,16 @@ Homey.manager('flow').on('action.mute', function( callback, args ){
 Homey.manager('flow').on('action.unMute', function( callback, args ){
 	sendCommand ('!1AMT00', args.device.ipaddress);
 	callback (null, true); 
+});
+
+Homey.manager('flow').on('action.spotify', function (callback, args) {
+	/*!1NSV"ssiaaaa…aaaabbbb…bbbb"
+		ss = 0A
+		i = 1 (account = yes)
+		aaaa…aaaa = username (UTF-8 encoded)
+		bbbb…bbbb = password (UTF-8 encoded)
+	*/
+	callback (null, true);
 });
 
 Homey.manager('flow').on('action.setVolume', function( callback, args ){
@@ -181,6 +192,10 @@ Homey.manager('flow').on('condition.inputselected.input.autocomplete', function(
 	callback(null, items);
 });
 
+Homey.manager('flow').on('condition.getVolume', function( callback, args ){
+	sendCommand ('!1MVLQSTN', args.device.ipaddress, callback, 'test');
+});
+
 //
 
 function sendCommand (cmd, hostIP, callback, substring) {
@@ -227,37 +242,6 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	});			
 
 }
-
-/**
- * When a device is renamed in Homey, make sure the actual
- * label of the device is changed as well
- * @param device_data
- * @param new_name
- */
-module.exports.renamed = function (device_data, new_name) {
-
-	// Check for valid new name
-	if (typeof device_data === "object" && typeof new_name === "string" && new_name !== '') {
-
-		Homey.log ('new name: ' + new_name);
-		Homey.log ('device_data: ' + device_data.id + ' / ' + device_data.ipaddress);
-		/*
-		// Parse new label and truncate at 32 bytes
-		var label = Cutter.truncateToBinarySize(new_name, 32);
-
-		// Get light targeted
-		var light = getLight(device_data.id);
-		var temp_light = getLight(device_data.id, temp_lights);
-
-		// Store new name internally
-		if (light) light.name = label;
-		if (temp_light) temp_light.name = label;
-
-		if (light) light.data.client.setLabel(label);
-		*/
-	}
-};
-
 
 function searchForInputsByValue ( value ) {
 	var possibleInputs = allPossibleInputs;

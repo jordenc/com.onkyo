@@ -118,7 +118,7 @@
 	              }
 	            ]		    
 		    }
-	    ],
+		],
         "actions": [
         {
             "id": "powerOn",
@@ -309,6 +309,40 @@
                 }
               }
 
+            ]
+        },
+        {
+            "id": "spotify",
+            "title": {
+                "en": "Spotify (experimental)",
+                "nl": "Spotify (testversie)"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                },
+                "filter": "driver_id=receiver"
+            },
+            {
+                "name": "username",
+                "type": "text",
+                "placeholder": {
+                  "en": "Spotify username",
+                  "nl": "Spotify gebruikersnaam"
+                }
+            },
+            {
+                "name": "password",
+                "type": "text",
+                "placeholder": {
+                  "en": "Spotify password",
+                  "nl": "Spotify wachtwoord"
+                }
+              }
             ]
         }
 
