@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "0.5.0",
+    "version": "0.5.1",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -225,7 +225,36 @@
                 }
               }
             ]
+        },
+         {
+            "id": "setPreset",
+            "title": {
+                "en": "Set tuner to preset number",
+                "nl": "Zet radiotuner op preset nummer"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                }
+              },
+              {
+                "name": "preset",
+                "type": "number",
+                "min": 1,
+                "max": 40,
+                "placeholder": {
+                   "en": "Preset number",
+                   "nl": "Gewenste preset"
+                }
+              }
+
+            ]
         }
+
       ]
     }
 }

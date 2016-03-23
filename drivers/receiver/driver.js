@@ -38,7 +38,8 @@ var allPossibleInputs = [
 		},
 		{	inputName: '!1SLI29',
 	 		friendlyName: "USB"
-		}/*,
+		}
+		/*,
 		{	inputName: '!SLI00',
 	 		friendlyName: "STRM BOX"
 		},
@@ -148,6 +149,20 @@ Homey.manager('flow').on('action.volumeUp', function (callback, args) {
 	callback (null, true);	
 });
 
+Homey.manager('flow').on('action.setPreset', function (callback, args) {
+	
+	var preset = args.preset;
+	
+	Homey.log ('Set Preset to=' + preset);
+	var hexPreset = preset.toString(16).toUpperCase();
+	
+	if (hexPreset.length < 2) hexPreset = '0' + hexPreset;
+	
+	sendCommand ('!1PRS' + hexPreset, args.device.ipaddress);
+	callback (null, true);	
+});
+
+
 //
 
 function sendCommand (cmd, hostIP) {
@@ -157,7 +172,7 @@ function sendCommand (cmd, hostIP) {
 	client = new net.Socket();
 	client.connect(60128, hostIP, function() {
 	
-		Homey.log ("execute command...");
+		//Homey.log ("execute command...");
 	
 		var cmdLength=cmd.length+1; 
 		var code=String.fromCharCode(cmdLength);
@@ -165,13 +180,42 @@ function sendCommand (cmd, hostIP) {
 			
 		client.write(line);
 		
-		Homey.log("done");
+		//Homey.log("done");
 		
 		client.destroy();
 			
 	});			
 
 }
+
+/**
+ * When a device is renamed in Homey, make sure the actual
+ * label of the device is changed as well
+ * @param device_data
+ * @param new_name
+ */
+module.exports.renamed = function (device_data, new_name) {
+
+	// Check for valid new name
+	if (typeof device_data === "object" && typeof new_name === "string" && new_name !== '') {
+
+		/*
+		// Parse new label and truncate at 32 bytes
+		var label = Cutter.truncateToBinarySize(new_name, 32);
+
+		// Get light targeted
+		var light = getLight(device_data.id);
+		var temp_light = getLight(device_data.id, temp_lights);
+
+		// Store new name internally
+		if (light) light.name = label;
+		if (temp_light) temp_light.name = label;
+
+		if (light) light.data.client.setLabel(label);
+		*/
+	}
+};
+
 
 function searchForInputsByValue ( value ) {
 	var possibleInputs = allPossibleInputs;
