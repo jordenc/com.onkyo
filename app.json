@@ -74,23 +74,6 @@
   
 		    },
 		    {
-			    "id": "receiverOff",
-			    "title": {
-				    "en": "Receiver is powered off",
-				    "nl": "Receiver is uit"
-			    },
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                }
-	              }
-	            ]			    
-		    },
-		    {
 			    "id": "muted",
 			    "title": {
 				    "en": "Receiver is muted",
@@ -103,6 +86,31 @@
 	                "placeholder": {
 	                  "en": "Select receiver",
 	                  "nl": "Selecteer receiver"
+	                }
+	              }
+	            ]		    
+		    },
+		    {
+			    "id": "inputselected",
+			    "title": {
+				    "en": "Receiver has input selected",
+				    "nl": "Receiver heeft input geselecteerd"
+			    },
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                }
+	              },
+	              {
+				  	"name": "input",
+	                "type": "autocomplete",
+	                "placeholder": {
+	                  "en": "input",
+	                  "nl": "input"
 	                }
 	              }
 	            ]		    

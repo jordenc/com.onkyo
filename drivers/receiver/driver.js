@@ -165,22 +165,22 @@ Homey.manager('flow').on('action.setPreset', function (callback, args) {
 
 Homey.manager('flow').on('condition.receiverOn', function( callback, args ){
 	sendCommand ('!1PWRQSTN', args.device.ipaddress, callback, '!1PWR01');
-	//callback (null, true); 
-});
-
-
-Homey.manager('flow').on('condition.receiverOff', function( callback, args ){
-	sendCommand ('!1PWRQSTN', args.device.ipaddress, callback, '!1PWR00');
-	//callback (null, true); 
 });
 
 Homey.manager('flow').on('condition.muted', function( callback, args ){
 	sendCommand ('!1AMTQSTN', args.device.ipaddress, callback, '!1AMT01');
 });
 
-Homey.manager('flow').on('condition.notmuted', function( callback, args ){
-	sendCommand ('!1AMTQSTN', args.device.ipaddress, callback, '!1AMT00');
+Homey.manager('flow').on('condition.inputselected', function( callback, args ){
+	sendCommand ('!1SLIQSTN', args.device.ipaddress, callback, args.input.inputName);
 });
+
+Homey.manager('flow').on('condition.inputselected.input.autocomplete', function( callback, value ) {
+	var inputSearchString = value.query;
+	var items = searchForInputsByValue( inputSearchString );
+	callback(null, items);
+});
+
 //
 
 function sendCommand (cmd, hostIP, callback, substring) {
