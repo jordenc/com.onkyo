@@ -58,8 +58,8 @@
 		    {
 			    "id": "receiverOn",
 			    "title": {
-				    "en": "Receiver is powered on",
-				    "nl": "Receiver is aan"
+				    "en": "Receiver !{{is|is not}} powered on",
+				    "nl": "Receiver !{{is|is niet}} aan"
 			    },
 	            "args": [
 	              {
@@ -77,8 +77,8 @@
 		    {
 			    "id": "muted",
 			    "title": {
-				    "en": "Receiver is muted",
-				    "nl": "Receiver is muted"
+				    "en": "Receiver !{{is|is not}} muted",
+				    "nl": "Receiver !{{is|is niet}} muted"
 			    },
 	            "args": [
 	              {
@@ -95,8 +95,8 @@
 		    {
 			    "id": "inputselected",
 			    "title": {
-				    "en": "Receiver has input selected",
-				    "nl": "Receiver heeft input geselecteerd"
+				    "en": "Receiver !{{has|has not got}} input selected",
+				    "nl": "Receiver !{{heeft|heeft niet}} input geselecteerd"
 			    },
 	            "args": [
 	              {
@@ -125,6 +125,23 @@
             "title": {
                 "en": "Turn power on",
                 "nl": "Aanzetten"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                },
+	            "filter": "driver_id=receiver"
+              }
+            ]
+        },
+        {
+            "id": "getType",
+            "title": {
+                "en": "Get type of Onkyo device"
             },
             "args": [
               {

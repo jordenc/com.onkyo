@@ -51,6 +51,11 @@ var allPossibleInputs = [
 module.exports.pair = function (socket) {
 	// socket is a direct channel to the front-end
 
+
+//Right it seems Onkyo have implemented broadcast on the dddp 9131 (Dynamic Device Discovery Port 9131) - Broadcast Group "239.255.250.250". Well at least on the NR609. This broadcasts info from the AVR every minute (approx) on my home network. The received data looks like this:
+
+
+
 	// this method is run when Homey.emit('list_devices') is run on the front-end
 	// which happens when you use the template `list_devices`
 	socket.on('list_devices', function (data, callback) {
@@ -88,35 +93,36 @@ module.exports.pair = function (socket) {
 
 // flow action handlers
 
-Homey.manager('flow').on('action.powerOn', function( callback, args ){
-	sendCommand ('!1PWR01', args.device.ipaddress);
-	callback(null, true); 
+Homey.manager('flow').on('action.getType', function (callback, args) {
+	
+	//sendCommand ('!xECNQSTN', args.device.ipaddress, callback, '--test--');
+	sendCommand ('!1NLSC-P', args.device.ipaddress, callback, '--test--');
 });
 
-Homey.manager('flow').on('action.powerOff', function( callback, args ){
-	sendCommand ('!1PWR00', args.device.ipaddress);
-	callback(null, true); 
+Homey.manager('flow').on('action.powerOn', function (callback, args) {
+	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
-Homey.manager('flow').on('action.changeInput', function( callback, args ){
-	sendCommand (args.input.inputName, args.device.ipaddress);
-	callback(null, true); 
+Homey.manager('flow').on('action.powerOff', function (callback, args) {
+	sendCommand ('!1PWR00', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
-Homey.manager('flow').on('action.changeInput.input.autocomplete', function( callback, value ) {
+Homey.manager('flow').on('action.changeInput', function (callback, args) {
+	sendCommand (args.input.inputName, args.device.ipaddress, callback, args.input.inputName);
+});
+
+Homey.manager('flow').on('action.changeInput.input.autocomplete', function (callback, value) {
 	var inputSearchString = value.query;
 	var items = searchForInputsByValue( inputSearchString );
 	callback(null, items);
 });
 
-Homey.manager('flow').on('action.mute', function( callback, args ){
-	sendCommand ('!1AMT01', args.device.ipaddress);
-	callback( null, true ); 
+Homey.manager('flow').on('action.mute', function (callback, args){
+	sendCommand ('!1AMT01', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
-Homey.manager('flow').on('action.unMute', function( callback, args ){
-	sendCommand ('!1AMT00', args.device.ipaddress);
-	callback (null, true); 
+Homey.manager('flow').on('action.unMute', function (callback, args){
+	sendCommand ('!1AMT00', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
 Homey.manager('flow').on('action.spotify', function (callback, args) {
@@ -126,17 +132,16 @@ Homey.manager('flow').on('action.spotify', function (callback, args) {
 		aaaa…aaaa = username (UTF-8 encoded)
 		bbbb…bbbb = password (UTF-8 encoded)
 	*/
-	callback (null, true);
+	callback (null, false);
 });
 
-Homey.manager('flow').on('action.setVolume', function( callback, args ){
+Homey.manager('flow').on('action.setVolume', function (callback, args){
 	var targetVolume = args.volume;
 	
 	if (targetVolume > 100) {
 		
 		Homey.log ('Target Volume (' + targetVolume + ') is too high (> 100)');
-		
-		callback (null, true);
+		callback (null, false);
 		
 	}
 	
@@ -146,17 +151,14 @@ Homey.manager('flow').on('action.setVolume', function( callback, args ){
 	if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
 	
 	Homey.log ('target volume in HEX=' + hexVolume);
-	sendCommand ('!1MVL' + hexVolume, args.device.ipaddress);
-	callback (null, true); 
+	sendCommand ('!1MVL' + hexVolume, args.device.ipaddress, callback, '!1NLSC-P');
 });
 
 Homey.manager('flow').on('action.volumeDown', function (callback, args) {
-	sendCommand ('!1MVLDOWN', args.device.ipaddress);
-	callback(null, true);	
+	sendCommand ('!1MVLDOWN', args.device.ipaddress, callback, '!1NLSC-P');
 });
 Homey.manager('flow').on('action.volumeUp', function (callback, args) {
-	sendCommand ('!1MVLUP', args.device.ipaddress);
-	callback (null, true);	
+	sendCommand ('!1MVLUP', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
 Homey.manager('flow').on('action.setPreset', function (callback, args) {
@@ -168,31 +170,30 @@ Homey.manager('flow').on('action.setPreset', function (callback, args) {
 	
 	if (hexPreset.length < 2) hexPreset = '0' + hexPreset;
 	
-	sendCommand ('!1PRS' + hexPreset, args.device.ipaddress);
-	callback (null, true);	
+	sendCommand ('!1PRS' + hexPreset, args.device.ipaddress, callback, '!1NLSC-P');
 });
 
 // CONDITIONS
 
-Homey.manager('flow').on('condition.receiverOn', function( callback, args ){
+Homey.manager('flow').on('condition.receiverOn', function (callback, args) {
 	sendCommand ('!1PWRQSTN', args.device.ipaddress, callback, '!1PWR01');
 });
 
-Homey.manager('flow').on('condition.muted', function( callback, args ){
+Homey.manager('flow').on('condition.muted', function (callback, args) {
 	sendCommand ('!1AMTQSTN', args.device.ipaddress, callback, '!1AMT01');
 });
 
-Homey.manager('flow').on('condition.inputselected', function( callback, args ){
+Homey.manager('flow').on('condition.inputselected', function (callback, args) {
 	sendCommand ('!1SLIQSTN', args.device.ipaddress, callback, args.input.inputName);
 });
 
-Homey.manager('flow').on('condition.inputselected.input.autocomplete', function( callback, value ) {
+Homey.manager('flow').on('condition.inputselected.input.autocomplete', function (callback, value) {
 	var inputSearchString = value.query;
 	var items = searchForInputsByValue( inputSearchString );
 	callback(null, items);
 });
 
-Homey.manager('flow').on('condition.getVolume', function( callback, args ){
+Homey.manager('flow').on('condition.getVolume', function (callback, args) {
 	sendCommand ('!1MVLQSTN', args.device.ipaddress, callback, 'test');
 });
 
