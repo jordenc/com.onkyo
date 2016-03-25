@@ -139,23 +139,6 @@
             ]
         },
         {
-            "id": "getType",
-            "title": {
-                "en": "Get type of Onkyo device"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-	            "filter": "driver_id=receiver"
-              }
-            ]
-        },
-        {
             "id": "powerOff",
             "title": {
                 "en": "Power off/standby",

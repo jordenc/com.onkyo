@@ -92,13 +92,11 @@ module.exports.pair = function (socket) {
 }
 
 // flow action handlers
-
+/*
 Homey.manager('flow').on('action.getType', function (callback, args) {
-	
-	//sendCommand ('!xECNQSTN', args.device.ipaddress, callback, '--test--');
-	sendCommand ('!1NLSC-P', args.device.ipaddress, callback, '--test--');
+	sendCommand ('!xECNQSTN', args.device.ipaddress, callback, '--test--');
 });
-
+*/
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
 	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
 });
