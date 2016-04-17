@@ -48,6 +48,10 @@ function saveSettings () {
 
 }
 
+function discover() {
+	console.log('DISCOVER');
+	Homey.emit( 'self.discover' );
+}
 </script>
 
     <p data-i18n="pair.start.intro">enter IP address</p>
@@ -70,6 +74,8 @@ function saveSettings () {
 				<td><input id="ipAddress" type="text" value="" placeholder="192.168.1.123"/></td>
 			</tr>
 		</table>
+
+<button class="button" data-i18n="pair.start.discover" onclick="discover()">Discover</button>
 
 		<p>
 		&nbsp;

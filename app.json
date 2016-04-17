@@ -312,10 +312,10 @@
             ]
         },
         {
-            "id": "spotify",
+            "id": "discover",
             "title": {
-                "en": "Spotify (experimental)",
-                "nl": "Spotify (testversie)"
+                "en": "Discover (experimental)",
+                "nl": "Discover (testversie)"
             },
             "args": [
               {
@@ -326,23 +326,7 @@
                   "nl": "Selecteer receiver"
                 },
                 "filter": "driver_id=receiver"
-            },
-            {
-                "name": "username",
-                "type": "text",
-                "placeholder": {
-                  "en": "Spotify username",
-                  "nl": "Spotify gebruikersnaam"
-                }
-            },
-            {
-                "name": "password",
-                "type": "text",
-                "placeholder": {
-                  "en": "Spotify password",
-                  "nl": "Spotify wachtwoord"
-                }
-              }
+            }
             ]
         }
 

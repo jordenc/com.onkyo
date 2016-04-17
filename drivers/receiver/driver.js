@@ -92,11 +92,111 @@ module.exports.pair = function (socket) {
 }
 
 // flow action handlers
-/*
-Homey.manager('flow').on('action.getType', function (callback, args) {
-	sendCommand ('!xECNQSTN', args.device.ipaddress, callback, '--test--');
+
+Homey.manager('flow').on('action.discover', function (callback, args) {
+	
+	var self, eiscp, send_queue,
+    dgram = require('dgram'),
+    util = require('util'),
+    events = require('events'),
+    config = { port: 60128, reconnect: true, reconnect_sleep: 5, modelsets: [], send_delay: 500, verify_commands: true };
+    
+    module.exports = self = new events.EventEmitter();
+	
+	//https://github.com/tillbaks/node-eiscp/blob/master/eiscp.js
+	self.discover = function () {
+		
+		Homey.log('__DISCOVERY__');
+    /*
+      discover([options, ] callback)
+      Sends broadcast and waits for response callback called when number of devices or timeout reached
+      option.devices    - stop listening after this amount of devices have answered (default: 1)
+      option.timeout    - time in seconds to wait for devices to respond (default: 10)
+      option.address    - broadcast address to send magic packet to (default: 255.255.255.255)
+      option.port       - receiver port should always be 60128 this is just available if you need it
+    */
+    var callback, timeout_timer,
+        options = {},
+        result = [],
+        client = dgram.createSocket('udp4'),
+        argv = Array.prototype.slice.call(arguments),
+        argc = argv.length;
+
+    if (argc === 1 && typeof argv[0] === 'function') {
+        callback = argv[0];
+    } else if (argc === 2 && typeof argv[1] === 'function') {
+        options = argv[0];
+        callback = argv[1];
+    } else {
+        return;
+    }
+
+    options.devices = options.devices || 5;
+    options.timeout = options.timeout || 10;
+    options.address = options.address || '255.255.255.255';
+    options.port = options.port || 60128;
+
+    function close() {
+        client.close();
+        callback(false, result);
+    }
+
+    client
+	.on('error', function (err) {
+        //self.emit('error', util.format("ERROR (server_error) Server error on %s:%s - %s", options.address, options.port, err));
+        
+        Homey.log(util.format("ERROR (server_error) Server error on %s:%s - %s", options.address, options.port, err));
+        client.close();
+        callback(err, null);
+    })
+	.on('message', function (packet, rinfo) {
+        var message = eiscp_packet_extract(packet),
+            command = message.slice(0, 3),
+            data;
+        if (command === 'ECN') {
+            data = message.slice(3).split('/');
+            result.push({
+                host:     rinfo.address,
+                port:     data[1],
+                model:    data[0],
+                mac:      data[3].slice(0, 12), // There's lots of null chars after MAC so we slice them off
+                areacode: data[2]
+            });
+            //self.emit('debug', util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
+            Homey.log(util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
+            if (result.length >= options.devices) {
+                clearTimeout(timeout_timer);
+                close();
+            }
+        } else {
+            //self.emit('debug', util.format("DEBUG (received_data) Recevied data from %s:%s - %j", rinfo.address, rinfo.port, message));
+            Homey.log(util.format("DEBUG (received_data) Received data from %s:%s - %j", rinfo.address, rinfo.port, message));
+        }
+    })
+	.on('listening', function () {
+        client.setBroadcast(true);
+        var buffer = eiscp_packet('!xECNQSTN');
+        //self.emit('debug', util.format("DEBUG (sent_discovery) Sent broadcast discovery packet to %s:%s", options.address, options.port));
+        
+        Homey.log('test ' + util.format("DEBUG (sent_discovery) Sent broadcast discovery packet to %s:%s", options.address, options.port));
+        client.send(buffer, 0, buffer.length, options.port, options.address);
+        timeout_timer = setTimeout(close, options.timeout * 1000);
+    })
+    .bind(0);
+};
+	
+	
+	
+	
+	self.discover(callback);
+	
+	
+	
+	
+	
+	//callback (null, true);
 });
-*/
+
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
 	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
 });
@@ -232,14 +332,26 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	
 	client.connect(60128, hostIP, function() {
 	
-		var cmdLength=cmd.length+1; 
-		var code=String.fromCharCode(cmdLength);
-		var line="ISCP\x00\x00\x00\x10\x00\x00\x00"+code+"\x01\x00\x00\x00"+cmd+"\x0D";
+		var line = eiscp_packet(cmd);
 			
 		client.write(line);
 			
 	});			
 
+}
+
+
+function eiscp_packet (cmd) {
+	
+	var cmdLength=cmd.length+1; 
+	var code=String.fromCharCode(cmdLength);
+	var line="ISCP\x00\x00\x00\x10\x00\x00\x00"+code+"\x01\x00\x00\x00"+cmd+"\x0D";
+	
+	return line;
+}
+
+function eiscp_packet_extract(packet) {
+    return packet.toString('ascii', 18, packet.length - 3);
 }
 
 function searchForInputsByValue ( value ) {

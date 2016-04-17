@@ -6,7 +6,8 @@
 			"error": "An error has occurred.",
 			"required": "IP address is a required value.",
 			"ipAddress": "IP address",
-			"saveSettings": "Save settings"
+			"saveSettings": "Save settings",
+			"discover": "Discover"
 		}
   	}
 }

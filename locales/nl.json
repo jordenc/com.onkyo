@@ -6,7 +6,8 @@
 			"error": "Er is een fout opgetreden.",
 			"required": "IP adres is verplicht.",
 			"ipAddress": "IP adres",
-			"saveSettings": "Gegevens opslaan"
+			"saveSettings": "Gegevens opslaan",
+			"discover": "Zoeken"
 		}
 	}	
 }
