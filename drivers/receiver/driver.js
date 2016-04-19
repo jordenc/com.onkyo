@@ -48,52 +48,7 @@ var allPossibleInputs = [
 		}*/
 ];
 
-module.exports.pair = function (socket) {
-	// socket is a direct channel to the front-end
-
-
-//Right it seems Onkyo have implemented broadcast on the dddp 9131 (Dynamic Device Discovery Port 9131) - Broadcast Group "239.255.250.250". Well at least on the NR609. This broadcasts info from the AVR every minute (approx) on my home network. The received data looks like this:
-
-
-
-	// this method is run when Homey.emit('list_devices') is run on the front-end
-	// which happens when you use the template `list_devices`
-	socket.on('list_devices', function (data, callback) {
-
-		Homey.log("Onkyo receiver app - list_devices tempIP is " + tempIP);
-		
-		//Execute !xECNQSTN to get type number as name?
-		var devices = [{
-			data: {
-				id			: tempIP,
-				ipaddress 	: tempIP
-			}
-		}];
-
-		callback (null, devices);
-
-	});
-
-	// this is called when the user presses save settings button in start.html
-	socket.on('get_devices', function (data, callback) {
-
-		// Set passed pair settings in variables
-		tempIP = data.ipaddress;
-		Homey.log ( "Onkyo receiver app - got get_devices from front-end, tempIP =" + tempIP );
-
-		// assume IP is OK and continue
-		socket.emit ('continue', null);
-
-	});
-
-	socket.on('disconnect', function(){
-		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
-	})
-}
-
-// flow action handlers
-
-Homey.manager('flow').on('action.discover', function (callback, args) {
+function discoverDevices() {
 	
 	var self, eiscp, send_queue,
     dgram = require('dgram'),
@@ -162,11 +117,20 @@ Homey.manager('flow').on('action.discover', function (callback, args) {
                 mac:      data[3].slice(0, 12), // There's lots of null chars after MAC so we slice them off
                 areacode: data[2]
             });
+            var devices = [{
+				name: data[0],
+				data: {
+					id			: rinfo.address
+				}
+			}];
+		
             //self.emit('debug', util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
             Homey.log(util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
             if (result.length >= options.devices) {
                 clearTimeout(timeout_timer);
                 close();
+                
+                return devices;
             }
         } else {
             //self.emit('debug', util.format("DEBUG (received_data) Recevied data from %s:%s - %j", rinfo.address, rinfo.port, message));
@@ -188,15 +152,46 @@ Homey.manager('flow').on('action.discover', function (callback, args) {
 	
 	
 	
-	self.discover(callback);
-	
-	
-	
-	
-	
-	//callback (null, true);
-});
+	self.discover();
 
+}
+
+
+module.exports.pair = function (socket) {
+	// socket is a direct channel to the front-end
+
+	// this method is run when Homey.emit('list_devices') is run on the front-end
+	// which happens when you use the template `list_devices`
+	socket.on('list_devices', function (data, callback) {
+
+		Homey.log("Onkyo receiver app - list_devices tempIP is " + tempIP);
+		
+		var devices = discoverDevices();
+
+		callback (null, devices);
+
+	});
+
+	// this is called when the user presses save settings button in start.html
+	socket.on('get_devices', function (data, callback) {
+
+		var devices = discoverDevices();
+		
+		// Set passed pair settings in variables
+		tempIP = data.ipaddress;
+		Homey.log ( "Onkyo receiver app - got get_devices from front-end, tempIP =" + tempIP );
+
+		// assume IP is OK and continue
+		socket.emit ('continue', null);
+
+	});
+
+	socket.on('disconnect', function(){
+		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
+	})
+}
+
+// flow action handlers
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
 	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
 });

@@ -23,6 +23,8 @@ Homey.on('continue', function( success, callback ){
 
 function saveSettings () {
 
+Homey.emit( 'get_devices');
+/*
 	// variables
 	var inputIPAddress = document.getElementById( 'ipAddress' ).value;
 	
@@ -45,7 +47,7 @@ function saveSettings () {
 		Homey.done();
 
 	}
-
+*/
 }
 
 function discover() {
