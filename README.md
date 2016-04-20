@@ -1,6 +1,6 @@
 # Onkyo receiver app for Athom Homey
 
-Version 0.5.1
+Version 0.8.0
 
 Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
 Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
@@ -19,6 +19,6 @@ Conditions available in your flows:
 - Is receiver muted?
 - Is input xxx selected?
 
-You need to have the (local) IP-address of your receiver to add the device to Homey (There is no discovery (yet))
+NEW: Discovery will fill in the IP-address and type as name of the device. Ofcourse, it is still possible to change the IP-address (for example, if you have more devices than 1).
 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
