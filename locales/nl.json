@@ -2,12 +2,12 @@
 	"pair": {
 		"start": {
 			"intro": "Vul het IP-adres van uw Onkyo receiver in.",
-			"title": "Apparaat zoeken...",
+			"title": "Apparaat toevoegen",
 			"error": "Er is een fout opgetreden.",
 			"required": "IP adres is verplicht.",
 			"ipAddress": "IP adres",
-			"saveSettings": "Gegevens opslaan",
-			"discover": "Zoeken"
+			"Name": "Naam",
+			"saveSettings": "<i class='fa fa-floppy-o'></i>  Gegevens opslaan"
 		}
 	}	
 }

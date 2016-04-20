@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "0.7.0",
+    "version": "0.8.0",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -41,14 +41,7 @@
             },
             {
               "id": "list_devices",
-              "template": "list_devices",
-              "navigation": {
-                  "next": "add_receiver"
-              }
-            },
-            {
-              "id": "add_receiver",
-              "template": "add_devices"
+              "template": "list_devices"
             }
           ]
       }
@@ -310,26 +303,7 @@
               }
 
             ]
-        },
-        {
-            "id": "discover",
-            "title": {
-                "en": "Discover (experimental)",
-                "nl": "Discover (testversie)"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-            }
-            ]
         }
-
       ]
     }
 }

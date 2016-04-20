@@ -2,6 +2,7 @@
 
 var net = require('net');
 var tempIP = '';
+var tempName = '';
 var client;
 
 var allPossibleInputs = [
@@ -48,138 +49,113 @@ var allPossibleInputs = [
 		}*/
 ];
 
-function discoverDevices() {
-	
-	var self, eiscp, send_queue,
-    dgram = require('dgram'),
-    util = require('util'),
-    events = require('events'),
-    config = { port: 60128, reconnect: true, reconnect_sleep: 5, modelsets: [], send_delay: 500, verify_commands: true };
-    
-    module.exports = self = new events.EventEmitter();
-	
-	//https://github.com/tillbaks/node-eiscp/blob/master/eiscp.js
-	self.discover = function () {
-		
-		Homey.log('__DISCOVERY__');
-    /*
-      discover([options, ] callback)
-      Sends broadcast and waits for response callback called when number of devices or timeout reached
-      option.devices    - stop listening after this amount of devices have answered (default: 1)
-      option.timeout    - time in seconds to wait for devices to respond (default: 10)
-      option.address    - broadcast address to send magic packet to (default: 255.255.255.255)
-      option.port       - receiver port should always be 60128 this is just available if you need it
-    */
-    var callback, timeout_timer,
-        options = {},
-        result = [],
-        client = dgram.createSocket('udp4'),
-        argv = Array.prototype.slice.call(arguments),
-        argc = argv.length;
-
-    if (argc === 1 && typeof argv[0] === 'function') {
-        callback = argv[0];
-    } else if (argc === 2 && typeof argv[1] === 'function') {
-        options = argv[0];
-        callback = argv[1];
-    } else {
-        return;
-    }
-
-    options.devices = options.devices || 5;
-    options.timeout = options.timeout || 10;
-    options.address = options.address || '255.255.255.255';
-    options.port = options.port || 60128;
-
-    function close() {
-        client.close();
-        callback(false, result);
-    }
-
-    client
-	.on('error', function (err) {
-        //self.emit('error', util.format("ERROR (server_error) Server error on %s:%s - %s", options.address, options.port, err));
-        
-        Homey.log(util.format("ERROR (server_error) Server error on %s:%s - %s", options.address, options.port, err));
-        client.close();
-        callback(err, null);
-    })
-	.on('message', function (packet, rinfo) {
-        var message = eiscp_packet_extract(packet),
-            command = message.slice(0, 3),
-            data;
-        if (command === 'ECN') {
-            data = message.slice(3).split('/');
-            result.push({
-                host:     rinfo.address,
-                port:     data[1],
-                model:    data[0],
-                mac:      data[3].slice(0, 12), // There's lots of null chars after MAC so we slice them off
-                areacode: data[2]
-            });
-            var devices = [{
-				name: data[0],
-				data: {
-					id			: rinfo.address
-				}
-			}];
-		
-            //self.emit('debug', util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
-            Homey.log(util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
-            if (result.length >= options.devices) {
-                clearTimeout(timeout_timer);
-                close();
-                
-                return devices;
-            }
-        } else {
-            //self.emit('debug', util.format("DEBUG (received_data) Recevied data from %s:%s - %j", rinfo.address, rinfo.port, message));
-            Homey.log(util.format("DEBUG (received_data) Received data from %s:%s - %j", rinfo.address, rinfo.port, message));
-        }
-    })
-	.on('listening', function () {
-        client.setBroadcast(true);
-        var buffer = eiscp_packet('!xECNQSTN');
-        //self.emit('debug', util.format("DEBUG (sent_discovery) Sent broadcast discovery packet to %s:%s", options.address, options.port));
-        
-        Homey.log('test ' + util.format("DEBUG (sent_discovery) Sent broadcast discovery packet to %s:%s", options.address, options.port));
-        client.send(buffer, 0, buffer.length, options.port, options.address);
-        timeout_timer = setTimeout(close, options.timeout * 1000);
-    })
-    .bind(0);
-};
-	
-	
-	
-	
-	self.discover();
-
-}
-
-
 module.exports.pair = function (socket) {
-	// socket is a direct channel to the front-end
+	
+	socket.on('start', function(data, callback) {
 
-	// this method is run when Homey.emit('list_devices') is run on the front-end
-	// which happens when you use the template `list_devices`
-	socket.on('list_devices', function (data, callback) {
-
-		Homey.log("Onkyo receiver app - list_devices tempIP is " + tempIP);
+        // fire the callback (you can only do this once)
+        // ( err, result )
+        callback( null, 'Started!' );
 		
-		var devices = discoverDevices();
-
-		callback (null, devices);
-
+		var net = require('net');
+		var self, eiscp, send_queue,
+	    dgram = require('dgram'),
+	    util = require('util'),
+	    events = require('events'),
+	    config = { port: 60128, reconnect: true, reconnect_sleep: 5, modelsets: [], send_delay: 500, verify_commands: true };
+	    
+	    module.exports = self = new events.EventEmitter();
+			
+		Homey.log('__DISCOVERY STARTED__');
+	    /*
+	      discover([options, ] callback)
+	      Sends broadcast and waits for response callback called when number of devices or timeout reached
+	      option.devices    - stop listening after this amount of devices have answered (default: 1)
+	      option.timeout    - time in seconds to wait for devices to respond (default: 10)
+	      option.address    - broadcast address to send magic packet to (default: 255.255.255.255)
+	      option.port       - receiver port should always be 60128 this is just available if you need it
+	    */
+	    var callback, timeout_timer,
+	        options = {},
+	        result = [],
+	        client = dgram.createSocket('udp4'),
+	        argv = Array.prototype.slice.call(arguments),
+	        argc = argv.length;
+	
+	    if (argc === 1 && typeof argv[0] === 'function') {
+	        callback = argv[0];
+	    } else if (argc === 2 && typeof argv[1] === 'function') {
+	        options = argv[0];
+	        callback = argv[1];
+	    } else {
+	        return;
+	    }
+	
+	    options.devices = options.devices || 1;
+	    options.timeout = options.timeout || 10;
+	    options.address = options.address || '255.255.255.255';
+	    options.port = options.port || 60128;
+	
+	    function close() {
+	        client.close();
+	        callback(false, result);
+	    }
+	
+	    client
+		.on('error', function (err) {
+	        
+	        Homey.log(util.format("ERROR (server_error) Server error on %s:%s - %s", options.address, options.port, err));
+	        client.close();
+	        callback(err, null);
+	    })
+		.on('message', function (packet, rinfo) {
+	        var message = eiscp_packet_extract(packet),
+	            command = message.slice(0, 3),
+	            data;
+	        if (command === 'ECN') {
+	            data = message.slice(3).split('/');
+	            result.push({
+	                host:     rinfo.address,
+	                port:     data[1],
+	                model:    data[0],
+	                mac:      data[3].slice(0, 12), // There's lots of null chars after MAC so we slice them off
+	                areacode: data[2]
+	            });
+	            var device = [{
+					name: data[0],	
+					ip: rinfo.address
+				}];
+				
+				socket.emit ('fill', device);
+	            Homey.log(util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
+	            if (result.length >= options.devices) {
+	                clearTimeout(timeout_timer);
+	                close();
+	                
+	                return device;
+	            }
+	        } else {
+	            Homey.log(util.format("DEBUG (received_data) Received data from %s:%s - %j", rinfo.address, rinfo.port, message));
+	        }
+	    })
+		.on('listening', function () {
+	        client.setBroadcast(true);
+	        var buffer = eiscp_packet('!xECNQSTN');
+	        
+	        Homey.log('test ' + util.format("DEBUG (sent_discovery) Sent broadcast discovery packet to %s:%s", options.address, options.port));
+	        client.send(buffer, 0, buffer.length, options.port, options.address);
+	        timeout_timer = setTimeout(close, options.timeout * 1000);
+	    })
+	    .bind(0);
 	});
-
+	
 	// this is called when the user presses save settings button in start.html
 	socket.on('get_devices', function (data, callback) {
-
-		var devices = discoverDevices();
 		
 		// Set passed pair settings in variables
 		tempIP = data.ipaddress;
-		Homey.log ( "Onkyo receiver app - got get_devices from front-end, tempIP =" + tempIP );
+		tempName = data.name;
+		Homey.log ( "Onkyo receiver app - got get_devices from front-end, tempIP = " + tempIP + " & name = " + tempName );
 
 		// assume IP is OK and continue
 		socket.emit ('continue', null);
@@ -188,7 +164,7 @@ module.exports.pair = function (socket) {
 
 	socket.on('disconnect', function(){
 		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
-	})
+	});
 }
 
 // flow action handlers
@@ -216,16 +192,6 @@ Homey.manager('flow').on('action.mute', function (callback, args){
 
 Homey.manager('flow').on('action.unMute', function (callback, args){
 	sendCommand ('!1AMT00', args.device.ipaddress, callback, '!1NLSC-P');
-});
-
-Homey.manager('flow').on('action.spotify', function (callback, args) {
-	/*!1NSV"ssiaaaa…aaaabbbb…bbbb"
-		ss = 0A
-		i = 1 (account = yes)
-		aaaa…aaaa = username (UTF-8 encoded)
-		bbbb…bbbb = password (UTF-8 encoded)
-	*/
-	callback (null, false);
 });
 
 Homey.manager('flow').on('action.setVolume', function (callback, args){
