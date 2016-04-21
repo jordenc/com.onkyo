@@ -40,13 +40,6 @@ var allPossibleInputs = [
 		{	inputName: '!1SLI29',
 	 		friendlyName: "USB"
 		}
-		/*,
-		{	inputName: '!SLI00',
-	 		friendlyName: "STRM BOX"
-		},
-		{	inputName: '!SLI00',
-	 		friendlyName: "Bluetooth"
-		}*/
 ];
 		
 var allPossibleListenmodes = [
