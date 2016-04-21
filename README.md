@@ -1,6 +1,6 @@
 # Onkyo receiver app for Athom Homey
 
-Version 0.8.0
+Version 0.9.0
 
 Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
 Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
@@ -13,6 +13,7 @@ Enables the following cards to use in your flows:
 - Switch input to Bluray/DVD player, VCR/DVR, Cable/Sat TV, PC, Game, AUX, TV/CD, Phono, Tuner, Net, USB
 - Mute or unmute
 - Set Tuner Preset (to switch tuner to a saved radio channel - make sure you set input to TUNER first)
+- Set listenmode (NEW)
 
 Conditions available in your flows:
 - Is receiver powered on?

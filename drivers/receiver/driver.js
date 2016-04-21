@@ -48,6 +48,208 @@ var allPossibleInputs = [
 	 		friendlyName: "Bluetooth"
 		}*/
 ];
+		
+var allPossibleListenmodes = [
+		{	modeName: '!1LMD00',
+	 		friendlyName: "Stereo"
+		},
+		{	modeName: '!1LMD00',
+	 		friendlyName: "Direct"
+		},
+		{	modeName: '!1LMD02',
+	 		friendlyName: "Surround"
+		},
+		{	modeName: '!1LMD03',
+	 		friendlyName: "Film"
+		},
+		{	modeName: '!1LMD04',
+	 		friendlyName: "THX"
+		},
+		{	modeName: '!1LMD05',
+			friendlyName: "Action"
+		},
+		{	modeName: '!1LMD06',
+			friendlyName: "Musical"
+		},
+		{	modeName: '!1LMD07',
+	 		friendlyName: "Mono movie"
+		},
+		{
+			modeName: '!1LMD08',
+	 		friendlyName: "Orchestra"
+		},
+		{	modeName: '!1LMD09',
+	 		friendlyName: "Unplugged"
+		},
+		{	modeName: '!1LMD09',
+	 		friendlyName: "Studio/Mix"
+		},
+		{	modeName: '!1LMD0B',
+	 		friendlyName: "TV Logic"
+		},
+		{	modeName: '!1LMD0C',
+	 		friendlyName: "All channels stereo"
+		},
+		{	modeName: '!1LMD0D',
+	 		friendlyName: "Theater-dimensional"
+		},
+		{	modeName: '!1LMD0E',
+	 		friendlyName: "Enhanced"
+		},
+		{	modeName: '!1LMD0F',
+	 		friendlyName: "Mono"
+		},
+		{	modeName: '!1LMD11',
+	 		friendlyName: "Pure audio"
+		},
+		{	modeName: '!1LMD12',
+	 		friendlyName: "Multiplex"
+		},
+		{	modeName: '!1LMD13',
+	 		friendlyName: "Full mono"
+		},
+		{	modeName: '!1LMD14',
+	 		friendlyName: "Dolby Virtual"
+		},
+		{	modeName: '!1LMD15',
+	 		friendlyName: "DTS Surround Sensation"
+		},
+		{	modeName: '!1LMD16',
+	 		friendlyName: "Audyssey DSX"
+		},
+		{	modeName: '!1LMD1F',
+	 		friendlyName: "Whole House Mode"
+		},
+		{	modeName: '!1LMD40',
+	 		friendlyName: "5.1ch Surround"
+		},
+		{	modeName: '!1LMD41',
+	 		friendlyName: "Dolby EX/DTS ES"
+		},
+		{	modeName: '!1LMD42',
+	 		friendlyName: "THX Cinema"
+		},
+		{	modeName: '!1LMD43',
+	 		friendlyName: "THX Surround EX"
+		},
+		{	modeName: '!1LMD44',
+	 		friendlyName: "THX Music"
+		},
+		{	modeName: '!1LMD45',
+	 		friendlyName: "THX Games"
+		},
+		{	modeName: '!1LMD50',
+	 		friendlyName: "THX U2/S2/I/S Cinema/Cinema2"
+		},
+		{	modeName: '!1LMD51',
+	 		friendlyName: "THX MusicMode,THX U2/S2/I/S Music"
+		},
+		{	modeName: '!1LMD52',
+	 		friendlyName: "THX Games Mode,THX U2/S2/I/S Games"
+		},
+		{	modeName: '!1LMD80',
+	 		friendlyName: "PLII/PLIIx Movie"
+		},
+		{	modeName: '!1LMD81',
+	 		friendlyName: "PLII/PLIIx Music"
+		},
+		{	modeName: '!1LMD82',
+	 		friendlyName: "Neo:6 Cinema/Neo:X Cinema"
+		},
+		{	modeName: '!1LMD83',
+	 		friendlyName: "Neo:6 Music/Neo:X Music"
+		},
+		{	modeName: '!1LMD84',
+	 		friendlyName: "PLII/PLIIx THX Cinema"
+		},
+		{	modeName: '!1LMD85',
+	 		friendlyName: "Neo:6/Neo:X THX Cinema"
+		},
+		{	modeName: '!1LMD86',
+	 		friendlyName: "PLII/PLIIx Game"
+		},
+		{	modeName: '!1LMD88',
+	 		friendlyName: "Neural THX/Neural Surround"
+		},
+		{	modeName: '!1LMD89',
+	 		friendlyName: "PLII/PLIIx THX Games"
+		},
+		{	modeName: '!1LMD8A',
+	 		friendlyName: "Neo:6/Neo:X THX Games"
+		},
+		{	modeName: '!1LMD8B',
+	 		friendlyName: "PLII/PLIIx THX Music"
+		},
+		{	modeName: '!1LMD8C',
+	 		friendlyName: "Neo:6/Neo:X THX Music"
+		},
+		{	modeName: '!1LMD8D',
+	 		friendlyName: "Neural THX Cinema"
+		},
+		{	modeName: '!1LMD8E',
+	 		friendlyName: "Neural THX Music"
+		},
+		{	modeName: '!1LMD8F',
+	 		friendlyName: "Neural THX Games"
+		},
+		{	modeName: '!1LMD90',
+	 		friendlyName: "PLIIz Height"
+		},
+		{	modeName: '!1LMD91',
+	 		friendlyName: "Neo:6 Cinema DTS Surround Sensation"
+		},
+		{	modeName: '!1LMD92',
+	 		friendlyName: "Neo:6 Music DTS Surround Sensation"
+		},
+		{	modeName: '!1LMD93',
+	 		friendlyName: "Neural Digital Music"
+		},
+		{	modeName: '!1LMD94',
+	 		friendlyName: "PLIIz Height + THX Cinema"
+		},
+		{	modeName: '!1LMD95',
+	 		friendlyName: "PLIIz Height + THX Music"
+		},
+		{	modeName: '!1LMD96',
+	 		friendlyName: "PLIIz Height + THX Games"
+		},
+		{	modeName: '!1LMD97',
+	 		friendlyName: "PLIIz Height + THX U2/S2 Cinema"
+		},
+		{	modeName: '!1LMD98',
+	 		friendlyName: "PLIIz Height + THX U2/S2 Music"
+		},
+		{	modeName: '!1LMD99',
+	 		friendlyName: "PLIIz Height + THX U2/S2 Games"
+		},
+		{	modeName: '!1LMD9A',
+	 		friendlyName: "Neo:X Game"
+		},
+		{	modeName: '!1LMDA0',
+	 		friendlyName: "PLIIx/PLII Movie + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA1',
+	 		friendlyName: "PLIIx/PLII Music + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA2',
+	 		friendlyName: "PLIIx/PLII Game + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA3',
+	 		friendlyName: "Neo:6 Cinema + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA4',
+	 		friendlyName: "Neo:6 Music + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA5',
+	 		friendlyName: "Neural Surround + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA6',
+	 		friendlyName: "Neural Digital Music + Audyssey DSX"
+		},
+		{	modeName: '!1LMDA7',
+	 		friendlyName: "Dolby EX + Audyssey DSX"
+		}
+];
 
 module.exports.pair = function (socket) {
 	
@@ -180,9 +382,14 @@ Homey.manager('flow').on('action.changeInput', function (callback, args) {
 	sendCommand (args.input.inputName, args.device.ipaddress, callback, args.input.inputName);
 });
 
-Homey.manager('flow').on('action.changeInput.input.autocomplete', function (callback, value) {
-	var inputSearchString = value.query;
-	var items = searchForInputsByValue( inputSearchString );
+Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
+	sendCommand (args.input.inputName, args.device.ipaddress, callback, args.listenmode.modeName);
+});
+
+
+Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', function (callback, value) {
+	var modeSearchString = value.query;
+	var items = searchForListenmodesByValue( modeSearchString );
 	callback(null, items);
 });
 
@@ -313,6 +520,18 @@ function eiscp_packet (cmd) {
 
 function eiscp_packet_extract(packet) {
     return packet.toString('ascii', 18, packet.length - 3);
+}
+
+function searchForListenmodesByValue ( value ) {
+	var possibleListenmodes = allPossibleListenmodes;
+	var tempItems = [];
+	for (var i = 0; i < possibleListenmodes.length; i++) {
+		var tempMode = possibleListenmodes[i];
+		if ( tempMode.friendlyName.indexOf(value) >= 0 ) {
+			tempItems.push({ icon: "", name: tempMode.friendlyName, modeName: tempInput.modeName });
+		}
+	}
+	return tempItems;
 }
 
 function searchForInputsByValue ( value ) {

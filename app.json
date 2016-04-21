@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "0.8.0",
+    "version": "0.9.0",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -162,6 +162,32 @@
                 "placeholder": {
                   "en": "input",
                   "nl": "input"
+                }
+              },
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                },
+                "filter": "driver_id=receiver"
+              }
+            ]
+        },
+        {
+            "id": "changeListenmode",
+            "title": {
+                "en": "Change listen mode",
+                "nl": "Verander luistermode"
+            },
+            "args": [
+              {
+                "name": "listenmode",
+                "type": "autocomplete",
+                "placeholder": {
+                  "en": "mode",
+                  "nl": "mode"
                 }
               },
               {
