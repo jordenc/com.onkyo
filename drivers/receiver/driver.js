@@ -383,13 +383,13 @@ Homey.manager('flow').on('action.changeInput', function (callback, args) {
 });
 
 Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
-	sendCommand (args.input.inputName, args.device.ipaddress, callback, args.listenmode.modeName);
+	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, args.listenmode.modeName);
 });
 
 
 Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', function (callback, value) {
 	var modeSearchString = value.query;
-	var items = searchForListenmodesByValue( modeSearchString );
+	var items = searchForListenmodesByValue(modeSearchString);
 	callback(null, items);
 });
 
@@ -498,6 +498,10 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	
 	}
 	
+	client.on('error', function(err){
+	    Homey.log("Error: "+err.message);
+	})
+	
 	client.connect(60128, hostIP, function() {
 	
 		var line = eiscp_packet(cmd);
@@ -528,7 +532,7 @@ function searchForListenmodesByValue ( value ) {
 	for (var i = 0; i < possibleListenmodes.length; i++) {
 		var tempMode = possibleListenmodes[i];
 		if ( tempMode.friendlyName.indexOf(value) >= 0 ) {
-			tempItems.push({ icon: "", name: tempMode.friendlyName, modeName: tempInput.modeName });
+			tempItems.push({ icon: "", name: tempMode.friendlyName, modeName: tempMode.modeName });
 		}
 	}
 	return tempItems;
