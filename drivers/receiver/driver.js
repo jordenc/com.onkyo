@@ -30,8 +30,7 @@ var allPossibleInputs = [
 		{	inputName: '!1SLI22',
 	 		friendlyName: "Phono"
 		},
-		{
-			inputName: '!1SLI24',
+		{	inputName: '!1SLI24',
 	 		friendlyName: "Tuner"
 		},
 		{	inputName: '!1SLI2B',
@@ -67,8 +66,7 @@ var allPossibleListenmodes = [
 		{	modeName: '!1LMD07',
 	 		friendlyName: "Mono movie"
 		},
-		{
-			modeName: '!1LMD08',
+		{	modeName: '!1LMD08',
 	 		friendlyName: "Orchestra"
 		},
 		{	modeName: '!1LMD09',
@@ -377,6 +375,11 @@ Homey.manager('flow').on('action.changeInput', function (callback, args) {
 
 Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
 	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, args.listenmode.modeName);
+});
+Homey.manager('flow').on('condition.changeInput.input.autocomplete', function (callback, value) {
+	var inputSearchString = value.query;
+	var items = searchForInputsByValue( inputSearchString );
+	callback(null, items);
 });
 
 
