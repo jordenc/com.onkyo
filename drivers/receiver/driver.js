@@ -380,7 +380,7 @@ Homey.manager('flow').on('action.changeInput.input.autocomplete', function (call
 });
 
 Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
-	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, args.listenmode.modeName);
+	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, '!1NLSC-P');
 });
 
 Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', function (callback, value) {
@@ -472,7 +472,7 @@ function sendCommand (cmd, hostIP, callback, substring) {
 		
 		client.on('data', function(data) {
 			Homey.log('Received: ' + data);
-			client.destroy();
+			/*client.destroy();*/
 			
 			var test = data.toString();
 			
