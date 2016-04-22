@@ -373,15 +373,15 @@ Homey.manager('flow').on('action.changeInput', function (callback, args) {
 	sendCommand (args.input.inputName, args.device.ipaddress, callback, args.input.inputName);
 });
 
-Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
-	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, args.listenmode.modeName);
-});
-Homey.manager('flow').on('condition.changeInput.input.autocomplete', function (callback, value) {
+Homey.manager('flow').on('action.changeInput.input.autocomplete', function (callback, value) {
 	var inputSearchString = value.query;
 	var items = searchForInputsByValue( inputSearchString );
 	callback(null, items);
 });
 
+Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
+	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, args.listenmode.modeName);
+});
 
 Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', function (callback, value) {
 	var modeSearchString = value.query;
