@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "0.9.0",
+    "version": "0.9.1",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -43,7 +43,26 @@
               "id": "list_devices",
               "template": "list_devices"
             }
-          ]
+          ],
+          "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General settings"
+                    },
+                    "children": [
+	                    {
+	                        "id": "ip",
+	                        "type": "text",
+	                        "label": {
+	                            "en": "IP address",
+	                            "nl": "IP adres"
+	                        },
+	                        "value": "0.0.0.0"
+	                    }
+	                ]
+	            }
+	        ]
       }
     ],
     "flow": {

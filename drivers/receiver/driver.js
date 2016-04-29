@@ -349,6 +349,10 @@ module.exports.pair = function (socket) {
 		tempIP = data.ipaddress;
 		tempName = data.name;
 		Homey.log ( "Onkyo receiver app - got get_devices from front-end, tempIP = " + tempIP + " & name = " + tempName );
+		
+		var settings = {
+			ip: data.ipaddress
+		}
 
 		// assume IP is OK and continue
 		socket.emit ('continue', null);
@@ -358,8 +362,8 @@ module.exports.pair = function (socket) {
 	socket.on('disconnect', function(){
 		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
 	});
-}
-
+}	
+	
 // flow action handlers
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
 	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
@@ -545,3 +549,11 @@ function searchForInputsByValue ( value ) {
 	}
 	return tempItems;
 }
+
+/*
+module.exports.getSettings( device_data, function( err, settings ){
+	
+	Homey.log ('device_data = ' + JSON.stringify(device_data));
+ 
+});
+*/

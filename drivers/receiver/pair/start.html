@@ -28,6 +28,9 @@ function saveSettings () {
 	        id: $('#ipAddress').val(),
 	        ipaddress: $('#ipAddress').val()
 	    },
+	    settings: {
+		    'ip': $('#ipAddress').val()
+	    },
 	    name: $('#Name').val()
 	}, function( err, result ){
 	    if( err ) return console.error(err);
