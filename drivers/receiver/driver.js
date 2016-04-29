@@ -530,7 +530,7 @@ function searchForListenmodesByValue ( value ) {
 	var tempItems = [];
 	for (var i = 0; i < possibleListenmodes.length; i++) {
 		var tempMode = possibleListenmodes[i];
-		if ( tempMode.friendlyName.indexOf(value) >= 0 ) {
+		if ( tempMode.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
 			tempItems.push({ icon: "", name: tempMode.friendlyName, modeName: tempMode.modeName });
 		}
 	}
@@ -542,7 +542,7 @@ function searchForInputsByValue ( value ) {
 	var tempItems = [];
 	for (var i = 0; i < possibleInputs.length; i++) {
 		var tempInput = possibleInputs[i];
-		if ( tempInput.friendlyName.indexOf(value) >= 0 ) {
+		if ( tempInput.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
 			tempItems.push({ icon: "", name: tempInput.friendlyName, inputName: tempInput.inputName });
 		}
 	}
