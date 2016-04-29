@@ -350,10 +350,6 @@ module.exports.pair = function (socket) {
 		tempName = data.name;
 		Homey.log ( "Onkyo receiver app - got get_devices from front-end, tempIP = " + tempIP + " & name = " + tempName );
 		
-		var settings = {
-			ip: data.ipaddress
-		}
-
 		// assume IP is OK and continue
 		socket.emit ('continue', null);
 
@@ -550,10 +546,22 @@ function searchForInputsByValue ( value ) {
 	return tempItems;
 }
 
-/*
-module.exports.getSettings( device_data, function( err, settings ){
-	
-	Homey.log ('device_data = ' + JSON.stringify(device_data));
- 
-});
-*/
+module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
+    // run when the user has changed the device's settings in Homey.
+    // changedKeysArr contains an array of keys that have been changed, for your convenience :)
+
+    // always fire the callback, or the settings won't change!
+    // if the settings must not be saved for whatever reason:
+    // callback( "Your error message", null );
+    // else
+    
+    Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
+    //Homey.log('device=' + JSON.stringify(device));
+    //device_data.ipaddress = newSettingsObj.ip;
+    
+    var devices = Homey.manager('drivers').getDriver ('receiver');
+    Homey.log('devices=' + JSON.stringify(devices));
+    
+    callback( null, true );
+
+}
