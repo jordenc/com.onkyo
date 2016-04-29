@@ -4,6 +4,7 @@ var net = require('net');
 var tempIP = '';
 var tempName = '';
 var client;
+var receivers = [];
 
 var allPossibleInputs = [
 		{	inputName: '!1SLI10',
@@ -362,6 +363,8 @@ module.exports.pair = function (socket) {
 	
 // flow action handlers
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
+	
+	Homey.log ('args = ' + JSON.stringify(args));
 	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
@@ -559,8 +562,15 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
     //Homey.log('device=' + JSON.stringify(device));
     //device_data.ipaddress = newSettingsObj.ip;
     
-    var devices = Homey.manager('drivers').getDriver ('receiver');
-    Homey.log('devices=' + JSON.stringify(devices));
+    /*    try {
+      changedKeysArr.forEach(function (key) {
+        trackers[device_data.id].settings[key] = newSettingsObj[key]
+      })
+      callback(null, true)
+    } catch (error) {
+      callback(error)
+    }
+    */
     
     callback( null, true );
 
