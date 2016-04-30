@@ -55,7 +55,8 @@
                 {
                     "type": "group",
                     "label": {
-                        "en": "General settings"
+                        "en": "General settings",
+                        "nl": "Algemene instellingen"
                     },
                     "children": [
 	                    {
