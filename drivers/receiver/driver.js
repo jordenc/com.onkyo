@@ -30,7 +30,7 @@ module.exports.init = function(devices_data, callback) {
 	    
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
-		})
+		});
 	 
 	});
 	
