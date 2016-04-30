@@ -540,10 +540,11 @@ Homey.manager('flow').on('condition.inputselected.input.autocomplete', function 
 	callback(null, items);
 });
 
+/*
 Homey.manager('flow').on('condition.getVolume', function (callback, args) {
 	sendCommand ('!1MVLQSTN', devices[args.device.id].settings.ipaddress, callback, 'test');
 });
-
+*/
 //
 
 function sendCommand (cmd, hostIP, callback, substring) {
@@ -559,7 +560,7 @@ function sendCommand (cmd, hostIP, callback, substring) {
 			Homey.log('Received: ' + data);
 			client.destroy();
 			
-			Homey.log ('RAW: ' + JSON.stringify(data));
+			//Homey.log ('RAW: ' + JSON.stringify(data));
 			var test = data.toString();
 			
 			Homey.log ('checking if ' + data + ' contains ' + substring);
