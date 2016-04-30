@@ -9,10 +9,28 @@ Homey.emit( 'start', { 'foo': 'bar' }, function( err, result ){
     console.log(result); // result is Started!
 });
 
+Homey.on('done', function (data) {
+	
+	if (typeof data[0].host === 'undefined') {
+		
+		document.getElementById('pairSettings').style.visibility = 'visible';
+		
+		
+	} else {
+		
+		alert('host = ' + data[0].host);
+		Homey.showView('list_devices');
+		
+	}
+	
+});
+
 Homey.on('fill', function(data) {
 
 	$('#Name').val(data[0]['name']);
 	$('#ipAddress').val(data[0]['ip']);
+	
+	document.getElementById('tempdata').innerHTML = JSON.stringify(data);
 	
 });
 
@@ -25,8 +43,7 @@ function saveSettings () {
 	$('#save').prop('disabled', true);
 	Homey.addDevice({
 	    data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
-	        id: $('#ipAddress').val(),
-	        ipaddress: $('#ipAddress').val()
+	        id: $('#ipAddress').val()
 	    },
 	    settings: {
 		    'ipaddress': $('#ipAddress').val()
@@ -38,6 +55,7 @@ function saveSettings () {
 	    
 	    Homey.done();
 	});
+	//Homey.emit('get_devices', data);
 	
 }
 </script>
@@ -45,7 +63,7 @@ function saveSettings () {
     <p data-i18n="pair.start.intro">enter IP address</p>
 
 		<style>
-			.pairSettings {
+			#pairSettings {
 				font-size:16px;
 				border:none;
 			}
@@ -55,8 +73,12 @@ function saveSettings () {
 			}
 
 		</style>
+		
+		<div id="tempdata">
+			
+		</div>
 
-		<table class="pairSettings">
+		<table id="pairSettings" style='display: none'>
 			<tr>
 				<td style="width:100px;" data-i18n="pair.start.Name">Name</td>
 				<td><input id="Name" type="text" value="" placeholder="TX-NR..."/></td>

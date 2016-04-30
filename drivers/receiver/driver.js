@@ -4,7 +4,25 @@ var net = require('net');
 var tempIP = '';
 var tempName = '';
 var client;
-var receivers = [];
+var devices = {};
+var result = [];
+
+module.exports.init = function(devices_data, callback) {
+    
+    devices_data.forEach(function initdevice(device) {
+	    
+	    devices[device.id] = device;
+	    //Homey.log('device init =' + JSON.stringify(device));
+	    
+	    module.exports.getSettings(device, function(err, settings){
+		    //Homey.log ('settings imported: ' + JSON.stringify(settings));
+		    devices[device.id].settings = settings;
+		})
+	 
+	});
+	
+};
+
 
 var allPossibleInputs = [
 		{	inputName: '!1SLI10',
@@ -271,7 +289,6 @@ module.exports.pair = function (socket) {
 	    */
 	    var callback, timeout_timer,
 	        options = {},
-	        result = [],
 	        client = dgram.createSocket('udp4'),
 	        argv = Array.prototype.slice.call(arguments),
 	        argc = argv.length;
@@ -291,14 +308,16 @@ module.exports.pair = function (socket) {
 	    options.port = options.port || 60128;
 	
 	    function close() {
+		    Homey.log('__DISCOVERY ENDED__');
 	        client.close();
-	        callback(false, result);
+	        callback (null, result);
+	        socket.emit('done', result);
 	    }
 	
 	    client
 		.on('error', function (err) {
 	        
-	        Homey.log(util.format("ERROR (server_error) Server error on %s:%s - %s", options.address, options.port, err));
+	        Homey.log(util.format("Server error on %s:%s - %s", options.address, options.port, err));
 	        client.close();
 	        callback(err, null);
 	    })
@@ -308,35 +327,46 @@ module.exports.pair = function (socket) {
 	            data;
 	        if (command === 'ECN') {
 	            data = message.slice(3).split('/');
-	            result.push({
-	                host:     rinfo.address,
-	                port:     data[1],
-	                model:    data[0],
-	                mac:      data[3].slice(0, 12), // There's lots of null chars after MAC so we slice them off
-	                areacode: data[2]
-	            });
-	            var device = [{
-					name: data[0],	
-					ip: rinfo.address
-				}];
+	            
+	            //only add new devices
+	            if(typeof devices[data[3].slice(0, 12)] === 'undefined') {
+		            result.push({
+		                host:     rinfo.address,
+		                port:     data[1],
+		                model:    data[0],
+		                mac:      data[3].slice(0, 12), // There's lots of null chars after MAC so we slice them off
+		                areacode: data[2]
+		            });
+		            
+		            Homey.log(util.format("Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
+	            
+					socket.emit ('fill', result);
+					
+					if (result.length >= options.devices) {
+		                clearTimeout(timeout_timer);
+		                close();
+		                
+		                callback (null, result);
+		                
+		            }
+	            
+	            } else {
 				
-				socket.emit ('fill', device);
-	            Homey.log(util.format("DEBUG (received_discovery) Received discovery packet from %s:%s (%j)", rinfo.address, rinfo.port, result));
-	            if (result.length >= options.devices) {
-	                clearTimeout(timeout_timer);
-	                close();
-	                
-	                return device;
+					Homey.log('device with MAC-address ' + data[3].slice(0, 12) + ' already exists on the system');		            
+		            
 	            }
+
+				
+
 	        } else {
-	            Homey.log(util.format("DEBUG (received_data) Received data from %s:%s - %j", rinfo.address, rinfo.port, message));
+	            Homey.log(util.format("Received data from %s:%s - %j", rinfo.address, rinfo.port, message));
 	        }
 	    })
 		.on('listening', function () {
 	        client.setBroadcast(true);
 	        var buffer = eiscp_packet('!xECNQSTN');
 	        
-	        Homey.log('test ' + util.format("DEBUG (sent_discovery) Sent broadcast discovery packet to %s:%s", options.address, options.port));
+	        Homey.log(util.format("Sent broadcast discovery packet to %s:%s", options.address, options.port));
 	        client.send(buffer, 0, buffer.length, options.port, options.address);
 	        timeout_timer = setTimeout(close, options.timeout * 1000);
 	    })
@@ -355,6 +385,51 @@ module.exports.pair = function (socket) {
 		socket.emit ('continue', null);
 
 	});
+	
+	socket.on('add_device', function (device, callback) {
+    	Homey.log('pairing: device added', device);
+    	
+		devices[device.data.id] = {
+        	id: device.data.id,
+			name: device.name,
+			settings: {
+				ipaddress: device.settings.ipaddress
+        }
+      }
+      callback(null);
+    });
+    
+    socket.on('list_devices', function( data, callback ){
+        
+        var new_devices = [];
+        Homey.log ('list_devices got ' + JSON.stringify(result));
+
+		result.forEach(function initdevice(device) {
+	    
+	    	new_devices = [
+                {
+                    name: device.model,
+                    data: {
+                        id: device.mac
+                    },
+                    settings: {
+                    	"ipaddress": device.host
+                    }
+                }
+            ]
+        });
+		
+		Homey.log('new_devices = ' + JSON.stringify(new_devices));
+        
+        callback(null, new_devices);
+
+    });
+    
+    socket.on('close', function (data, callback) {
+	   
+	   Homey.log('pairing closed');
+	    
+    });
 
 	socket.on('disconnect', function(){
 		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
@@ -365,7 +440,10 @@ module.exports.pair = function (socket) {
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
 	
 	Homey.log ('args = ' + JSON.stringify(args));
-	sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
+	Homey.log ('device_id = ' + args.device.id);
+	Homey.log ('device=' + JSON.stringify (devices[args.device.id]));
+	callback(null,true);
+	//sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
 });
 
 Homey.manager('flow').on('action.powerOff', function (callback, args) {
