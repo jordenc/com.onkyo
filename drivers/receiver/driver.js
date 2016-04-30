@@ -7,22 +7,37 @@ var client;
 var devices = {};
 var result = [];
 
+module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
+
+    Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
+    
+    try {
+      changedKeysArr.forEach(function (key) {
+        devices[device_data.id].settings[key] = newSettingsObj[key]
+      })
+      callback(null, true)
+    } catch (error) {
+      callback(error)
+    }
+
+};
+
 module.exports.init = function(devices_data, callback) {
     
     devices_data.forEach(function initdevice(device) {
 	    
 	    devices[device.id] = device;
-	    //Homey.log('device init =' + JSON.stringify(device));
 	    
 	    module.exports.getSettings(device, function(err, settings){
-		    //Homey.log ('settings imported: ' + JSON.stringify(settings));
 		    devices[device.id].settings = settings;
 		})
 	 
 	});
 	
+	Homey.log("Onkyo app - init done");
+	
+	callback (null, true);
 };
-
 
 var allPossibleInputs = [
 		{	inputName: '!1SLI10',
@@ -424,12 +439,6 @@ module.exports.pair = function (socket) {
         callback(null, new_devices);
 
     });
-    
-    socket.on('close', function (data, callback) {
-	   
-	   Homey.log('pairing closed');
-	    
-    });
 
 	socket.on('disconnect', function(){
 		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
@@ -438,20 +447,15 @@ module.exports.pair = function (socket) {
 	
 // flow action handlers
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
-	
-	Homey.log ('args = ' + JSON.stringify(args));
-	Homey.log ('device_id = ' + args.device.id);
-	Homey.log ('device=' + JSON.stringify (devices[args.device.id]));
-	callback(null,true);
-	//sendCommand ('!1PWR01', args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1PWR01', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
 });
 
 Homey.manager('flow').on('action.powerOff', function (callback, args) {
-	sendCommand ('!1PWR00', args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1PWR00', devices[args.device.id].settings.ipaddress, callback, '!1PWR00');
 });
 
 Homey.manager('flow').on('action.changeInput', function (callback, args) {
-	sendCommand (args.input.inputName, args.device.ipaddress, callback, args.input.inputName);
+	sendCommand (args.input.inputName, devices[args.device.id].settings.ipaddress, callback, args.input.inputName);
 });
 
 Homey.manager('flow').on('action.changeInput.input.autocomplete', function (callback, value) {
@@ -461,7 +465,7 @@ Homey.manager('flow').on('action.changeInput.input.autocomplete', function (call
 });
 
 Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
-	sendCommand (args.listenmode.modeName, args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand (args.listenmode.modeName, devices[args.device.id].settings.ipaddress, callback, args.listenmode.modeName);
 });
 
 Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', function (callback, value) {
@@ -471,11 +475,11 @@ Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', func
 });
 
 Homey.manager('flow').on('action.mute', function (callback, args){
-	sendCommand ('!1AMT01', args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1AMT01', devices[args.device.id].settings.ipaddress, callback, '!1AMT01');
 });
 
 Homey.manager('flow').on('action.unMute', function (callback, args){
-	sendCommand ('!1AMT00', args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1AMT00', devices[args.device.id].settings.ipaddress, callback, '!1AMT00');
 });
 
 Homey.manager('flow').on('action.setVolume', function (callback, args){
@@ -494,14 +498,14 @@ Homey.manager('flow').on('action.setVolume', function (callback, args){
 	if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
 	
 	Homey.log ('target volume in HEX=' + hexVolume);
-	sendCommand ('!1MVL' + hexVolume, args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1MVL' + hexVolume, devices[args.device.id].settings.ipaddress, callback, '!1MVL' + hexVolume);
 });
 
 Homey.manager('flow').on('action.volumeDown', function (callback, args) {
-	sendCommand ('!1MVLDOWN', args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1MVLDOWN', devices[args.device.id].settings.ipaddress, callback, '!1MVLDOWN');
 });
 Homey.manager('flow').on('action.volumeUp', function (callback, args) {
-	sendCommand ('!1MVLUP', args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1MVLUP', devices[args.device.id].settings.ipaddress, callback, '!1MVLUP');
 });
 
 Homey.manager('flow').on('action.setPreset', function (callback, args) {
@@ -513,21 +517,21 @@ Homey.manager('flow').on('action.setPreset', function (callback, args) {
 	
 	if (hexPreset.length < 2) hexPreset = '0' + hexPreset;
 	
-	sendCommand ('!1PRS' + hexPreset, args.device.ipaddress, callback, '!1NLSC-P');
+	sendCommand ('!1PRS' + hexPreset, devices[args.device.id].settings.ipaddress, callback, '!1PRS' + hexPreset);
 });
 
 // CONDITIONS
 
 Homey.manager('flow').on('condition.receiverOn', function (callback, args) {
-	sendCommand ('!1PWRQSTN', args.device.ipaddress, callback, '!1PWR01');
+	sendCommand ('!1PWRQSTN', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
 });
 
 Homey.manager('flow').on('condition.muted', function (callback, args) {
-	sendCommand ('!1AMTQSTN', args.device.ipaddress, callback, '!1AMT01');
+	sendCommand ('!1AMTQSTN', devices[args.device.id].settings.ipaddress, callback, '!1AMT01');
 });
 
 Homey.manager('flow').on('condition.inputselected', function (callback, args) {
-	sendCommand ('!1SLIQSTN', args.device.ipaddress, callback, args.input.inputName);
+	sendCommand ('!1SLIQSTN', devices[args.device.id].settings.ipaddress, callback, args.input.inputName);
 });
 
 Homey.manager('flow').on('condition.inputselected.input.autocomplete', function (callback, value) {
@@ -537,7 +541,7 @@ Homey.manager('flow').on('condition.inputselected.input.autocomplete', function 
 });
 
 Homey.manager('flow').on('condition.getVolume', function (callback, args) {
-	sendCommand ('!1MVLQSTN', args.device.ipaddress, callback, 'test');
+	sendCommand ('!1MVLQSTN', devices[args.device.id].settings.ipaddress, callback, 'test');
 });
 
 //
@@ -553,8 +557,9 @@ function sendCommand (cmd, hostIP, callback, substring) {
 		
 		client.on('data', function(data) {
 			Homey.log('Received: ' + data);
-			/*client.destroy();*/
+			client.destroy();
 			
+			Homey.log ('RAW: ' + JSON.stringify(data));
 			var test = data.toString();
 			
 			Homey.log ('checking if ' + data + ' contains ' + substring);
@@ -577,6 +582,7 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	
 	client.on('error', function(err){
 	    Homey.log("Error: "+err.message);
+	    callback (err.message, false);
 	})
 	
 	client.connect(60128, hostIP, function() {
@@ -625,31 +631,4 @@ function searchForInputsByValue ( value ) {
 		}
 	}
 	return tempItems;
-}
-
-module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
-    // run when the user has changed the device's settings in Homey.
-    // changedKeysArr contains an array of keys that have been changed, for your convenience :)
-
-    // always fire the callback, or the settings won't change!
-    // if the settings must not be saved for whatever reason:
-    // callback( "Your error message", null );
-    // else
-    
-    Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
-    //Homey.log('device=' + JSON.stringify(device));
-    //device_data.ipaddress = newSettingsObj.ip;
-    
-    /*    try {
-      changedKeysArr.forEach(function (key) {
-        trackers[device_data.id].settings[key] = newSettingsObj[key]
-      })
-      callback(null, true)
-    } catch (error) {
-      callback(error)
-    }
-    */
-    
-    callback( null, true );
-
 }

@@ -7,7 +7,8 @@
 			"required": "IP adres is verplicht.",
 			"ipAddress": "IP adres",
 			"Name": "Naam",
-			"saveSettings": "<i class='fa fa-floppy-o'></i>  Gegevens opslaan"
+			"saveSettings": "<i class='fa fa-floppy-o'></i>  Gegevens opslaan",
+			"discovery": "Zoeken naar apparaten, een moment geduld a.u.b."
 		}
 	}	
 }
