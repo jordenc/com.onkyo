@@ -46,7 +46,27 @@ function saveSettings () {
 	    settings: {
 		    'ipaddress': $('#ipAddress').val()
 	    },
-	    name: $('#Name').val()
+	    name: $('#Name').val(),
+	    capabilities: [
+        	'onoff'/*,
+        	'dim',
+        	{
+                "id": "my_capability",
+                "type": "number",
+                "title": {
+                    "en": "My Capability"
+                },
+                "units": {
+                    "en": "Emiles"
+                },
+                "desc": {
+                    "en": "Amount of Emiles per Emile"
+                },
+                "decimals": 2,
+                "getable": true,
+                "setable": true
+            }*/
+        ]
 	}, function( err, result ){
 	    if( err ) return console.error(err);
 	    console.log( result);

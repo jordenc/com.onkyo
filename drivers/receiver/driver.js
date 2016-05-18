@@ -26,6 +26,8 @@ module.exports.init = function(devices_data, callback) {
     
     devices_data.forEach(function initdevice(device) {
 	    
+	    Homey.log('add device: ' + JSON.stringify(device));
+	    
 	    devices[device.id] = device;
 	    
 	    module.exports.getSettings(device, function(err, settings){
@@ -36,8 +38,56 @@ module.exports.init = function(devices_data, callback) {
 	
 	Homey.log("Onkyo app - init done");
 	
+	
 	callback (null, true);
 };
+
+module.exports.deleted = function( device_data ) {
+    
+    Homey.log('deleted: ' + JSON.stringify(device_data));
+    
+    devices.splice(device_data.id, 1);
+
+}
+
+// CAPABILITIES
+module.exports.capabilities = {
+    onoff: {
+
+        // this function is called by Homey when it wants to GET the dim state, e.g. when the user loads the smartphone interface
+        // `device_data` is the object as saved during pairing
+        // `callback` should return the current value in the format callback( err, value )
+        get: function( device_data, callback ){
+
+			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
+			sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '!1PWR00');
+            
+        },
+
+
+        set: function( device_data, onoff, callback ) {
+	        
+	        Homey.log('Setting device_status of ' + devices[device_data.id].settings.ipaddress + ' to ' + onoff);
+	        /*
+            var bulb = getBulb( device_data.id );
+            if( bulb instanceof Error ) return callback( bulb );
+
+            if( bulb.state.dim != dim ) {
+                bulb.state.dim = dim;
+                module.exports.realtime( device_data, 'dim', dim);
+                updateBulb( device_data.id );
+            }
+
+            // send the new dim value to Homey
+            if( typeof callback == 'function' ) {
+                callback( null, bulb.state.dim );
+            }
+            */
+        }
+    }
+}
+
+// END CAPABILITIES
 
 var allPossibleInputs = [
 		{	inputName: '!1SLI10',
@@ -409,9 +459,18 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress
+            },
+            capabilities: [
+            	'onoff',
+            	'volume_set',
+            	'volume_up',
+            	'volume_down',
+            	'volume_mute'
+            ]
         }
-      }
-      callback(null);
+		
+		callback(null);
+    
     });
     
     socket.on('list_devices', function( data, callback ){
@@ -429,7 +488,15 @@ module.exports.pair = function (socket) {
                     },
                     settings: {
                     	"ipaddress": device.host
-                    }
+                	},
+                	capabilities: [
+		            	'onoff',
+		            	'volume_set',
+		            	'volume_up',
+		            	'volume_down',
+		            	'volume_mute'
+		            ]
+
                 }
             ]
         });
