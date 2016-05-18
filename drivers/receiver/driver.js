@@ -32,6 +32,10 @@ module.exports.init = function(devices_data, callback) {
 	    
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
+		    
+		    module.exports.realtime(device, "onoff", true);
+
+
 		});
 	 
 	});
@@ -41,6 +45,7 @@ module.exports.init = function(devices_data, callback) {
 	
 	callback (null, true);
 };
+
 
 module.exports.deleted = function( device_data ) {
     
