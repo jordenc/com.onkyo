@@ -34,7 +34,14 @@
               "small": "drivers/receiver/assets/images/small.jpg"
           },
           "class": "speaker",
-          "capabilities": [ "onoff", "volume_set", "volume_up", "volume_down", "volume_mute" ],
+          "capabilities": [ "" ],
+          "mobile": {
+	         "components": [ {
+		        "id": "toggle",
+		        "capabilities": ["onoff"]
+		     }
+		     ]
+          },
           "pair": [
             {
               "id": "start"

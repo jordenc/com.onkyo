@@ -35,7 +35,6 @@ module.exports.init = function(devices_data, callback) {
 		    
 		    module.exports.realtime(device, "onoff", true);
 
-
 		});
 	 
 	});
@@ -65,29 +64,25 @@ module.exports.capabilities = {
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-			sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '!1PWR00');
+            sendCommand ('!1PWRQSTN', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
             
         },
 
 
-        set: function( device_data, onoff, callback ) {
+        set: function( device_data, turnon, callback ) {
 	        
-	        Homey.log('Setting device_status of ' + devices[device_data.id].settings.ipaddress + ' to ' + onoff);
-	        /*
-            var bulb = getBulb( device_data.id );
-            if( bulb instanceof Error ) return callback( bulb );
+	        Homey.log('Setting device_status of ' + devices[device_data.id].settings.ipaddress + ' to ' + turnon);
 
-            if( bulb.state.dim != dim ) {
-                bulb.state.dim = dim;
-                module.exports.realtime( device_data, 'dim', dim);
-                updateBulb( device_data.id );
-            }
+			if (turnon) {
+				
+				sendCommand ('!1PWR01', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
+				
+			} else {
+				
+				sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '!1PWR00');
+				
+			}
 
-            // send the new dim value to Homey
-            if( typeof callback == 'function' ) {
-                callback( null, bulb.state.dim );
-            }
-            */
         }
     }
 }
@@ -464,14 +459,7 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress
-            },
-            capabilities: [
-            	'onoff',
-            	'volume_set',
-            	'volume_up',
-            	'volume_down',
-            	'volume_mute'
-            ]
+            }
         }
 		
 		callback(null);
@@ -493,14 +481,7 @@ module.exports.pair = function (socket) {
                     },
                     settings: {
                     	"ipaddress": device.host
-                	},
-                	capabilities: [
-		            	'onoff',
-		            	'volume_set',
-		            	'volume_up',
-		            	'volume_down',
-		            	'volume_mute'
-		            ]
+                	}
 
                 }
             ]
