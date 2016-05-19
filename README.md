@@ -23,6 +23,9 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 0.9.2:**
+- Device can now be turned on/off directly from the (mobile) card
+
 **Version 0.9.1:**
 - Pairing now works better, up to 5 devices are added automaticly per pairing session using discovery.
 - If no (new) devices are found, you can add a device manually
