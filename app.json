@@ -36,8 +36,9 @@
           "class": "speaker",
           "capabilities": [ "" ],
           "mobile": {
-	         "components": [ {
-		        "id": "toggle",
+	         "components": [ 
+	         {
+		        "id": "icon",
 		        "capabilities": ["onoff"]
 		     }
 		     ]

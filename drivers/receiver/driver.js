@@ -33,7 +33,7 @@ module.exports.init = function(devices_data, callback) {
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
 		    
-		    module.exports.realtime(device, "onoff", true);
+		    //module.exports.realtime(device, "onoff", true);
 
 		});
 	 
@@ -64,7 +64,7 @@ module.exports.capabilities = {
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-            sendCommand ('!1PWRQSTN', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
+            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
             
         },
 
