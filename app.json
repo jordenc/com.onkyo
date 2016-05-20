@@ -40,6 +40,27 @@
 	         {
 		        "id": "icon",
 		        "capabilities": ["onoff"]
+		     },
+		     {
+		        "id": "toggle",
+		        "capabilities": [
+		        {
+                    "id": "my_volume",
+                    "type": "number",
+                    "title": {
+                        "en": "My Capability"
+                    },
+                    "units": {
+                        "en": "Emiles"
+                    },
+                    "desc": {
+                        "en": "Amount of Emiles per Emile"
+                    },
+                    "decimals": 2,
+                    "getable": true,
+                    "setable": true
+                }
+		        ]
 		     }
 		     ]
           },

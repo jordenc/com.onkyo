@@ -45,13 +45,12 @@ module.exports.init = function(devices_data, callback) {
 	callback (null, true);
 };
 
-
 module.exports.deleted = function( device_data ) {
     
     Homey.log('deleted: ' + JSON.stringify(device_data));
     
-    devices.splice(device_data.id, 1);
-
+    devices[device_data.id] = [];
+	
 }
 
 // CAPABILITIES
@@ -64,10 +63,9 @@ module.exports.capabilities = {
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
-            
+            //sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
+            callback(null,true);
         },
-
 
         set: function( device_data, turnon, callback ) {
 	        
@@ -84,7 +82,30 @@ module.exports.capabilities = {
 			}
 
         }
+    }/*,
+    my_volume: {
+
+        // this function is called by Homey when it wants to GET the dim state, e.g. when the user loads the smartphone interface
+        // `device_data` is the object as saved during pairing
+        // `callback` should return the current value in the format callback( err, value )
+        get: function( device_data, callback ){
+
+			Homey.log('Getting volume of ' + devices[device_data.id].settings.ipaddress);
+            //sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
+            callback(null,12);
+        },
+
+
+        set: function( device_data, volume, callback ) {
+	        
+	        Homey.log('Setting volume of ' + devices[device_data.id].settings.ipaddress + ' to ' + volume);
+
+			//sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '!1PWR00');
+			callback (null, true);
+
+        }
     }
+	*/
 }
 
 // END CAPABILITIES
@@ -451,6 +472,22 @@ module.exports.pair = function (socket) {
 
 	});
 	
+	socket.on('manual_add', function (device) {
+		
+		Homey.log('manual pairing: device added', device);
+    	
+		devices[device.data.id] = {
+        	id: device.data.id,
+			name: device.name,
+			settings: {
+				ipaddress: device.settings.ipaddress
+            }
+        }
+        
+        Homey.log('devices=' + JSON.stringify(devices));		
+		
+	});
+	
 	socket.on('add_device', function (device, callback) {
     	Homey.log('pairing: device added', device);
     	
@@ -461,6 +498,8 @@ module.exports.pair = function (socket) {
 				ipaddress: device.settings.ipaddress
             }
         }
+        
+        Homey.log('devices=' + JSON.stringify(devices));
 		
 		callback(null);
     

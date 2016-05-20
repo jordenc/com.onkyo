@@ -71,6 +71,36 @@ function saveSettings () {
 	    if( err ) return console.error(err);
 	    console.log( result);
 	    
+	    Homey.emit ('manual_add', {
+		    data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+		        id: $('#ipAddress').val()
+		    },
+		    settings: {
+			    'ipaddress': $('#ipAddress').val()
+		    },
+		    name: $('#Name').val(),
+		    capabilities: [
+	        	'onoff'/*,
+	        	'dim',
+	        	{
+	                "id": "my_capability",
+	                "type": "number",
+	                "title": {
+	                    "en": "My Capability"
+	                },
+	                "units": {
+	                    "en": "Emiles"
+	                },
+	                "desc": {
+	                    "en": "Amount of Emiles per Emile"
+	                },
+	                "decimals": 2,
+	                "getable": true,
+	                "setable": true
+	            }*/
+	        ]
+		});
+	    
 	    Homey.done();
 	});
 	//Homey.emit('get_devices', data);
