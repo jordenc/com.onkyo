@@ -63,8 +63,8 @@ module.exports.capabilities = {
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-            //sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
-            callback(null,true);
+            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
+            
         },
 
         set: function( device_data, turnon, callback ) {

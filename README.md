@@ -23,6 +23,10 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 0.9.3:**
+- Fixed a bug on manual pairing
+- Fixed a bug on deleting
+
 **Version 0.9.2:**
 - Device can now be turned on/off directly from the (mobile) card
 
