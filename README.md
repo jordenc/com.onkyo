@@ -29,7 +29,7 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
-**Version 0.9.4:**
+**Version 1.0.0:**
 - Fixed a bug on mobile cards / capabilities
 - Made a fix where 'Onkyo Net/USB List information' messages disturbed the normal work.
 - **Sadly, you will have to delete your device to be able to use the mobile card to turn it on or off**
