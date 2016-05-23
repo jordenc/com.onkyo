@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "0.9.3",
+    "version": "0.9.4",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -40,7 +40,29 @@
 	         {
 		        "id": "icon",
 		        "capabilities": ["onoff"]
-		     }		     ]
+		     },
+		     {
+		        "id": "toggle",
+		        "capabilities": [
+		        {
+                    "id": "volume",
+                    "type": "number",
+                    "title": {
+                        "en": "My Capability"
+                    },
+                    "units": {
+                        "en": "Emiles"
+                    },
+                    "desc": {
+                        "en": "Amount of Emiles per Emile"
+                    },
+                    "decimals": 2,
+                    "getable": true,
+                    "setable": true
+                }
+		        ]
+		     }
+		     ]
           },
           "pair": [
             {

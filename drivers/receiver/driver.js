@@ -33,7 +33,7 @@ module.exports.init = function(devices_data, callback) {
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
 		    
-		    //module.exports.realtime(device, "onoff", true);
+		    module.exports.realtime(device, "onoff", true);
 
 		});
 	 
@@ -51,7 +51,7 @@ module.exports.deleted = function( device_data ) {
     
     devices[device_data.id] = [];
 	
-}
+};
 
 // CAPABILITIES
 module.exports.capabilities = {
@@ -82,30 +82,7 @@ module.exports.capabilities = {
 			}
 
         }
-    }/*,
-    my_volume: {
-
-        // this function is called by Homey when it wants to GET the dim state, e.g. when the user loads the smartphone interface
-        // `device_data` is the object as saved during pairing
-        // `callback` should return the current value in the format callback( err, value )
-        get: function( device_data, callback ){
-
-			Homey.log('Getting volume of ' + devices[device_data.id].settings.ipaddress);
-            //sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
-            callback(null,12);
-        },
-
-
-        set: function( device_data, volume, callback ) {
-	        
-	        Homey.log('Setting volume of ' + devices[device_data.id].settings.ipaddress + ' to ' + volume);
-
-			//sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '!1PWR00');
-			callback (null, true);
-
-        }
     }
-	*/
 }
 
 // END CAPABILITIES
@@ -496,7 +473,10 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress
-            }
+            },
+            capabilities: [
+	        	'onoff'
+	        ]
         }
         
         Homey.log('devices=' + JSON.stringify(devices));
@@ -520,7 +500,10 @@ module.exports.pair = function (socket) {
                     },
                     settings: {
                     	"ipaddress": device.host
-                	}
+                	},
+                	capabilities: [
+						'onoff'
+					]
 
                 }
             ]
