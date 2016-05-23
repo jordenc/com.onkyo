@@ -86,6 +86,76 @@
       }
     ],
     "flow": {
+	    "triggers": [
+		    {
+		    	"id": "receiverOn",
+				"title": {
+					"en": "Receiver gets powered on",
+					"nl": "Receiver gaat aan"
+				},
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                },
+	                "filter": "driver_id=receiver"
+	              }
+	            ]
+
+			},
+			{
+		    	"id": "receiverOff",
+				"title": {
+					"en": "Receiver gets powered off",
+					"nl": "Receiver gaat uit"
+				},
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                },
+	                "filter": "driver_id=receiver"
+	              }
+	            ]
+
+			},
+			{
+		    	"id": "volumeChanged",
+				"title": {
+					"en": "Volume changes",
+					"nl": "Volume wijzigt"
+				},
+				"tokens": [
+				{
+					"name": "volume",
+					"title": {
+						"en": "Volume",
+						"nl": "Volume"
+					},
+					"example": "18"
+				}
+				],
+				"args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                },
+	                "filter": "driver_id=receiver"
+	              }
+	            ]
+
+				
+			}
+	    ],
 	    "conditions": [
 		    {
 			    "id": "receiverOn",

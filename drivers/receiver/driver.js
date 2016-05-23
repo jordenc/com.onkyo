@@ -3,9 +3,10 @@
 var net = require('net');
 var tempIP = '';
 var tempName = '';
-//var client;
+var cmdclient = {};
 var devices = {};
 var result = [];
+var callbacklog = {};
 
 module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
 
@@ -30,14 +31,84 @@ module.exports.init = function(devices_data, callback) {
 	    
 	    devices[device.id] = device;
 	    
+	    
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
+		    
+		    //start socket
+			cmdclient[settings.ipaddress] = new net.Socket();
+			cmdclient[settings.ipaddress].connect(60128, settings.ipaddress);
+			
+			cmdclient[settings.ipaddress].on('error', function(err){
+			    Homey.log("Error: "+err.message);
+			    //callback (err.message, false);
+			});
+			
+			cmdclient[settings.ipaddress].on('data', function(data) {
+			
+				//cleanup command response from Onkyo
+				var test = data.toString();
+				test = test.split('!');
+				test = JSON.stringify(test[1]);
+				test = test.split("\\u");
+				test = test[0].substring(1);
+				Homey.log('DATA: ' + test);
+				
+				
+				if (test != '1NLSC-P') {
+					
+					Homey.log('[callbacklog] ' + callbacklog);
+					
+					if (callbacklog[settings.ipaddress][test.substring(0,4)]) {
+						
+						Homey.log('CALL THE BACK FOR ' + test);
+						
+						callbacklog[settings.ipaddress][test.substring(0,4)](test);
+						
+					} else {
+						
+						Homey.log('DONT CALL ' + test + ' / ' + callbacklog);
+						
+						var triggertest = test.substring (0,4);
+						
+						if (triggertest == '1MVL') {
+							
+							var hex = test.substr (4,2);
+							var volume = parseInt(hex, 16);
+							Homey.log('vol='+volume);
+							Homey.manager('flow').triggerDevice('volumeChanged', {
+								volume: volume
+							}, {device: device.id});
+							
+						} else if (triggertest == '1PWR') {
+							
+							if (test == '1PWR01') {
+								Homey.log('trigger ON for ' + device.id);
+								Homey.manager('flow').triggerDevice('receiverOn', {device: device.id});
+							} else {
+								Homey.log('trigger OFF for ' + device.id);
+								Homey.manager('flow').triggerDevice('receiverOff', {device: device.id});
+							}
+							
+						}
+						
+					}
+					
+				} else {
+					
+					//Homey.log('[DUMP]' + test);
+					
+				}
+				
+			});
+			
+			callbacklog[settings.ipaddress] = {};
+	
 		});
 		
 	});
 	
 	Homey.log("Onkyo app - init done");
-	
 	
 	callback (null, true);
 };
@@ -57,7 +128,7 @@ module.exports.capabilities = {
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
+            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '1PWR01');
             
         },
 
@@ -67,11 +138,11 @@ module.exports.capabilities = {
 
 			if (turnon) {
 				
-				sendCommand ('!1PWR01', devices[device_data.id].settings.ipaddress, callback, '!1PWR01');
+				sendCommand ('!1PWR01', devices[device_data.id].settings.ipaddress, callback, '1PWR01');
 				
 			} else {
 				
-				sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '!1PWR00');
+				sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '1PWR00');
 				
 			}
 
@@ -105,7 +176,7 @@ module.exports.capabilities = {
 			if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
 			
 			Homey.log ('target volume in HEX=' + hexVolume);
-			sendCommand ('!1MVL' + hexVolume, devices[device_data.id].settings.ipaddress, callback, '!1MVL' + hexVolume);
+			sendCommand ('!1MVL' + hexVolume, devices[device_data.id].settings.ipaddress, callback, '1MVL' + hexVolume);
 			
         }
     }
@@ -551,18 +622,34 @@ module.exports.pair = function (socket) {
 		Homey.log("Onkyo receiver app - User aborted pairing, or pairing is finished");
 	});
 }	
-	
+
+Homey.on('unload', function(){
+	//client.destroy();
+});
+
 // flow action handlers
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
-	sendCommand ('!1PWR01', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
+	sendCommand ('!1PWR01', devices[args.device.id].settings.ipaddress, function (result) {
+	
+		if (result == '1PWR01') callback (null, true); else callback (null, false);
+		
+	}, '1PWR');
 });
 
 Homey.manager('flow').on('action.powerOff', function (callback, args) {
-	sendCommand ('!1PWR00', devices[args.device.id].settings.ipaddress, callback, '!1PWR00');
+	sendCommand ('!1PWR00', devices[args.device.id].settings.ipaddress, function (result) {
+		
+		if (result == '1PWR00') callback (null, true); else callback (null, false);
+		
+	}, '1PWR');
 });
 
 Homey.manager('flow').on('action.changeInput', function (callback, args) {
-	sendCommand (args.input.inputName, devices[args.device.id].settings.ipaddress, callback, args.input.inputName);
+	sendCommand (args.input.inputName, devices[args.device.id].settings.ipaddress, function (result) {
+	
+		if (result == args.input.inputName.substring (1)) callback (null, true); else callback (null, false);	
+		
+	}, args.input.inputName.substring(1,5));
 });
 
 Homey.manager('flow').on('action.changeInput.input.autocomplete', function (callback, value) {
@@ -572,7 +659,11 @@ Homey.manager('flow').on('action.changeInput.input.autocomplete', function (call
 });
 
 Homey.manager('flow').on('action.changeListenmode', function (callback, args) {
-	sendCommand (args.listenmode.modeName, devices[args.device.id].settings.ipaddress, callback, args.listenmode.modeName);
+	sendCommand (args.listenmode.modeName, devices[args.device.id].settings.ipaddress, function (result) {
+		
+		if (result == args.listenmode.modeName.substring (1)) callback (null, true); else callback (null, false);	
+		
+	}, args.listenmode.modeName.substring(1,5));
 });
 
 Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', function (callback, value) {
@@ -582,11 +673,19 @@ Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', func
 });
 
 Homey.manager('flow').on('action.mute', function (callback, args){
-	sendCommand ('!1AMT01', devices[args.device.id].settings.ipaddress, callback, '!1AMT01');
+	sendCommand ('!1AMT01', devices[args.device.id].settings.ipaddress, function (result) {
+	
+		if (result == '1AMT01') callback (null, true); else callback (null, false);
+		
+	}, '1AMT');
 });
 
 Homey.manager('flow').on('action.unMute', function (callback, args){
-	sendCommand ('!1AMT00', devices[args.device.id].settings.ipaddress, callback, '!1AMT00');
+	sendCommand ('!1AMT00', devices[args.device.id].settings.ipaddress, function(result) {
+	
+		if (result == '1AMT00') callback (null, true); else callback (null, false);
+		
+	}, '1AMT');
 });
 
 Homey.manager('flow').on('action.setVolume', function (callback, args){
@@ -605,14 +704,26 @@ Homey.manager('flow').on('action.setVolume', function (callback, args){
 	if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
 	
 	Homey.log ('target volume in HEX=' + hexVolume);
-	sendCommand ('!1MVL' + hexVolume, devices[args.device.id].settings.ipaddress, callback, '!1MVL' + hexVolume);
+	sendCommand ('!1MVL' + hexVolume, devices[args.device.id].settings.ipaddress, function (result) {
+	
+		if (result == '1MVL' + hexVolume) callback (null, true); else callback (null, false);
+		
+	}, '1MVL');
 });
 
 Homey.manager('flow').on('action.volumeDown', function (callback, args) {
-	sendCommand ('!1MVLDOWN', devices[args.device.id].settings.ipaddress, callback, '!1MVLDOWN');
+	sendCommand ('!1MVLDOWN', devices[args.device.id].settings.ipaddress, function (result) {
+	
+		callback (null, true);
+				
+	}, '1MVL');
 });
 Homey.manager('flow').on('action.volumeUp', function (callback, args) {
-	sendCommand ('!1MVLUP', devices[args.device.id].settings.ipaddress, callback, '!1MVLUP');
+	sendCommand ('!1MVLUP', devices[args.device.id].settings.ipaddress, function (result) {
+	
+		callback (null, true);
+			
+	}, '1MVL');
 });
 
 Homey.manager('flow').on('action.setPreset', function (callback, args) {
@@ -624,20 +735,38 @@ Homey.manager('flow').on('action.setPreset', function (callback, args) {
 	
 	if (hexPreset.length < 2) hexPreset = '0' + hexPreset;
 	
-	sendCommand ('!1PRS' + hexPreset, devices[args.device.id].settings.ipaddress, callback, '!1PRS' + hexPreset);
+	sendCommand ('!1PRS' + hexPreset, devices[args.device.id].settings.ipaddress, function (result) {
+	
+		if (result == '1PRS' + hexPreset) callback (null, true); else callback (null, false);	
+		
+	}, '1PRS');
 });
 
 // CONDITIONS
 Homey.manager('flow').on('condition.receiverOn', function (callback, args) {
-	sendCommand ('!1PWRQSTN', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
+	
+	Homey.log('callback = ' + callback);
+	sendCommand ('!1PWRQSTN', devices[args.device.id].settings.ipaddress, function(result) {
+
+		if (result == '1PWR01') callback (null, true); else callback (null, false);
+		
+	}, '1PWR');
 });
 
 Homey.manager('flow').on('condition.muted', function (callback, args) {
-	sendCommand ('!1AMTQSTN', devices[args.device.id].settings.ipaddress, callback, '!1AMT01');
+	sendCommand ('!1AMTQSTN', devices[args.device.id].settings.ipaddress, function(result) {
+
+		if (result == '1AMT01') callback (null, true); else callback (null, false);
+		
+	}, '1AMT');
 });
 
 Homey.manager('flow').on('condition.inputselected', function (callback, args) {
-	sendCommand ('!1SLIQSTN', devices[args.device.id].settings.ipaddress, callback, args.input.inputName);
+	sendCommand ('!1SLIQSTN', devices[args.device.id].settings.ipaddress, function (result) {
+		
+		if (result == args.input.inputName.substring(1)) callback (null, true); else callback (null, false);
+		
+		}, args.input.inputName.substr(1, 4));
 });
 
 Homey.manager('flow').on('condition.inputselected.input.autocomplete', function (callback, value) {
@@ -649,67 +778,15 @@ Homey.manager('flow').on('condition.inputselected.input.autocomplete', function 
 
 function sendCommand (cmd, hostIP, callback, substring) {
 
+	Homey.log('======================================================');
 	Homey.log ("Onkyo receiver app - sending " + cmd + " to " + hostIP);
 	
-	var client = new net.Socket();
+	//create a 'backlog' of callbacks. Required because the Onkyo sometimes responds in a different order
+	Homey.log('[CBLOG] ' + substring + ' = ' + callback);
+	callbacklog[hostIP][substring] = callback;
 	
-	//if we require an answer, listen for an answer
-	if (substring) {
-		
-		client.on('data', function(data) {
-			
-			var test = data.toString();
-			
-			if (test.indexOf('!1NLSC-P') < 0) {
-				
-				Homey.log ('[' + substring + '] checking if ' + data + ' contains ' + substring);
-				
-				if (substring == 'return' && test.indexOf('!1MVL') >= 0) {
-					
-					var vol = test.split('!1MVL');
-					callback(vol[1].substring(0,2));
-					client.destroy();
-					
-				} else if (substring != 'return') {
-					
-					if (test.indexOf(substring) >= 0) {
-						
-						client.destroy();
-						Homey.log ('[' + substring + ' ] callback true');
-						callback (null, true);
-						
-					} else {
-						
-						client.destroy();
-						Homey.log ('[' + substring + ' ] callback false');
-						callback (null, false);
-						
-					}
-					
-				}
-				
-			} else {
-				
-				Homey.log('[DUMP]' + test);
-			}
-			
-		});
+	cmdclient[hostIP].write(eiscp_packet(cmd));
 	
-	}
-	
-	client.on('error', function(err){
-	    Homey.log("Error: "+err.message);
-	    callback (err.message, false);
-	})
-	
-	client.connect(60128, hostIP, function() {
-	
-		var line = eiscp_packet(cmd);
-			
-		client.write(line);
-			
-	});			
-
 }
 
 

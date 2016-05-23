@@ -3,7 +3,7 @@
 Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
 Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
 
-Enables the following cards to use in your flows:
+Enables the following actions to use in your flows:
 - Volume +1
 - Volume -1
 - Set specific volume (0 - 100, or 0-80 on some devices... but you shouldn't use a volume higher than 40 anyways)
@@ -12,6 +12,11 @@ Enables the following cards to use in your flows:
 - Mute or unmute
 - Set Tuner Preset (to switch tuner to a saved radio channel - make sure you set input to TUNER first)
 - Set listenmode
+
+Triggers available in your flows:
+- Receiver gets powered on
+- Receiver gets powered off
+- Volume changes (token: volume)
 
 Conditions available in your flows:
 - Is receiver powered on?
@@ -27,6 +32,7 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 - Fixed a bug on mobile cards / capabilities
 - Made a fix where 'Onkyo Net/USB List information' messages disturbed the normal work.
 - **Sadly, you will have to delete your device to be able to use the mobile card to turn it on or off**
+- Now includes triggers, so you can activate flows based on actions of your Onkyo receiver - whether it's done by Homey, your remote control or an external device!
 
 **Version 0.9.3:**
 - Fixed a bug on manual pairing
