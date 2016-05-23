@@ -418,7 +418,7 @@ module.exports.pair = function (socket) {
 	            data = message.slice(3).split('/');
 	            
 	            //only add new devices
-	            if(typeof devices[data[3].slice(0, 12)] === 'undefined') {
+	            if(typeof devices[data[3].slice(0, 12)] === 'undefined' || typeof devices[data[3].slice(0, 12)].settings === 'undefined') {
 		            result.push({
 		                host:     rinfo.address,
 		                port:     data[1],
