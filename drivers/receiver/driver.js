@@ -35,8 +35,9 @@ module.exports.init = function(devices_data, callback) {
 		});
 		
 		//add on/off button for each device, even older ones
-		module.exports.realtime(device, "onoff", true);
-	 
+		//module.exports.realtime(device, "onoff", true);
+		//won't work
+		
 	});
 	
 	Homey.log("Onkyo app - init done");

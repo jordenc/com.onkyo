@@ -26,6 +26,7 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 **Version 0.9.4:**
 - Fixed a bug on mobile cards / capabilities
 - Made a fix where 'Onkyo Net/USB List information' messages disturbed the normal work.
+- **Sadly, you will have to delete your device to be able to use the mobile card to turn it on or off**
 
 **Version 0.9.3:**
 - Fixed a bug on manual pairing
