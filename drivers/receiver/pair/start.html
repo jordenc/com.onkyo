@@ -48,7 +48,9 @@ function saveSettings () {
 	    },
 	    name: $('#Name').val(),
 	    capabilities: [
-        	'onoff'
+        	'onoff',
+        	'volume_set'
+
         ]
 	}, function( err, result ){
 	    if( err ) return console.error(err);
@@ -63,7 +65,8 @@ function saveSettings () {
 		    },
 		    name: $('#Name').val(),
 		    capabilities: [
-	        	'onoff'
+	        	'onoff',
+	        	'volume_set'
 	        ]
 		});
 	    

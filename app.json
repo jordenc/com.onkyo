@@ -40,6 +40,10 @@
 	         {
 		        "id": "icon",
 		        "capabilities": ["onoff"]
+		     },
+		     {
+			    "id": "slider",
+		        "capabilities": ["volume_set"] 
 		     }
 		     ]
           },
@@ -336,7 +340,7 @@
               }
             ]
         },
-         {
+        {
             "id": "setPreset",
             "title": {
                 "en": "Set tuner to preset number",

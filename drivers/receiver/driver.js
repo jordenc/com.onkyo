@@ -3,7 +3,7 @@
 var net = require('net');
 var tempIP = '';
 var tempName = '';
-var client;
+//var client;
 var devices = {};
 var result = [];
 
@@ -34,10 +34,6 @@ module.exports.init = function(devices_data, callback) {
 		    devices[device.id].settings = settings;
 		});
 		
-		//add on/off button for each device, even older ones
-		//module.exports.realtime(device, "onoff", true);
-		//won't work
-		
 	});
 	
 	Homey.log("Onkyo app - init done");
@@ -58,9 +54,6 @@ module.exports.deleted = function( device_data ) {
 module.exports.capabilities = {
     onoff: {
 
-        // this function is called by Homey when it wants to GET the dim state, e.g. when the user loads the smartphone interface
-        // `device_data` is the object as saved during pairing
-        // `callback` should return the current value in the format callback( err, value )
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
@@ -82,6 +75,38 @@ module.exports.capabilities = {
 				
 			}
 
+        }
+    },
+    volume_set: {
+
+        get: function( device_data, callback ){
+
+			Homey.log('Getting volume of ' + devices[device_data.id].settings.ipaddress);
+            sendCommand ('!1MVLQSTN', devices[device_data.id].settings.ipaddress, function (hex) {
+	         
+	         	Homey.log('[HEX]' + hex +'[/HEX]');
+	         	var volume = parseInt(hex, 16);
+	         	volume = Math.round(volume / 60 * 100);
+	         	volume = volume / 100;
+	         	Homey.log('[VOLUME] ' + volume);
+	         	callback (null, volume);
+	            
+	        }, 'return');
+            
+        },
+
+        set: function( device_data, volume, callback ) {
+	        
+	        Homey.log('Setting volume of ' + devices[device_data.id].settings.ipaddress + ' to ' + volume);
+	        
+	        volume = Math.round(volume * 60);
+	        var hexVolume = volume.toString(16).toUpperCase();
+	
+			if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
+			
+			Homey.log ('target volume in HEX=' + hexVolume);
+			sendCommand ('!1MVL' + hexVolume, devices[device_data.id].settings.ipaddress, callback, '!1MVL' + hexVolume);
+			
         }
     }
 }
@@ -459,7 +484,11 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress
-            }
+            },
+            capabilities: [
+	        	'onoff',
+	        	'volume_set'
+	        ]
         }
         
         Homey.log('devices=' + JSON.stringify(devices));		
@@ -476,7 +505,8 @@ module.exports.pair = function (socket) {
 				ipaddress: device.settings.ipaddress
             },
             capabilities: [
-	        	'onoff'
+	        	'onoff',
+	        	'volume_set'
 	        ]
         }
         
@@ -503,7 +533,8 @@ module.exports.pair = function (socket) {
                     	"ipaddress": device.host
                 	},
                 	capabilities: [
-						'onoff'
+						'onoff',
+						'volume_set'
 					]
 
                 }
@@ -564,7 +595,7 @@ Homey.manager('flow').on('action.setVolume', function (callback, args){
 	if (targetVolume > 100) {
 		
 		Homey.log ('Target Volume (' + targetVolume + ') is too high (> 100)');
-		callback (null, false);
+		callback ('Target Volume (' + targetVolume + ') is too high (> 100)', false);
 		
 	}
 	
@@ -597,7 +628,6 @@ Homey.manager('flow').on('action.setPreset', function (callback, args) {
 });
 
 // CONDITIONS
-
 Homey.manager('flow').on('condition.receiverOn', function (callback, args) {
 	sendCommand ('!1PWRQSTN', devices[args.device.id].settings.ipaddress, callback, '!1PWR01');
 });
@@ -615,48 +645,52 @@ Homey.manager('flow').on('condition.inputselected.input.autocomplete', function 
 	var items = searchForInputsByValue( inputSearchString );
 	callback(null, items);
 });
-
-/*
-Homey.manager('flow').on('condition.getVolume', function (callback, args) {
-	sendCommand ('!1MVLQSTN', devices[args.device.id].settings.ipaddress, callback, 'test');
-});
-*/
 //
 
 function sendCommand (cmd, hostIP, callback, substring) {
 
 	Homey.log ("Onkyo receiver app - sending " + cmd + " to " + hostIP);
-		
-	client = new net.Socket();
+	
+	var client = new net.Socket();
 	
 	//if we require an answer, listen for an answer
 	if (substring) {
 		
 		client.on('data', function(data) {
-			Homey.log('Received: ' + data);
 			
-			//Homey.log ('RAW: ' + JSON.stringify(data));
 			var test = data.toString();
 			
-			//prevent !1NLSC-P messages to disturb
 			if (test.indexOf('!1NLSC-P') < 0) {
 				
-				client.destroy();
+				Homey.log ('[' + substring + '] checking if ' + data + ' contains ' + substring);
 				
-				Homey.log ('checking if ' + data + ' contains ' + substring);
-				
-				if (test.indexOf(substring) >= 0) {
+				if (substring == 'return' && test.indexOf('!1MVL') >= 0) {
 					
-					Homey.log ('callback true');
-					callback (null, true);
+					var vol = test.split('!1MVL');
+					callback(vol[1].substring(0,2));
+					client.destroy();
 					
-				} else {
+				} else if (substring != 'return') {
 					
-					Homey.log ('callback false');
-					callback (null, false);
+					if (test.indexOf(substring) >= 0) {
+						
+						client.destroy();
+						Homey.log ('[' + substring + ' ] callback true');
+						callback (null, true);
+						
+					} else {
+						
+						client.destroy();
+						Homey.log ('[' + substring + ' ] callback false');
+						callback (null, false);
+						
+					}
 					
 				}
 				
+			} else {
+				
+				Homey.log('[DUMP]' + test);
 			}
 			
 		});
