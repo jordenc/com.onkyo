@@ -17,6 +17,7 @@ Triggers available in your flows:
 - Receiver gets powered on
 - Receiver gets powered off
 - Volume changes (token: volume)
+- Input changes (token: input)
 
 Conditions available in your flows:
 - Is receiver powered on?

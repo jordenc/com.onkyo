@@ -90,6 +90,18 @@ module.exports.init = function(devices_data, callback) {
 								Homey.manager('flow').triggerDevice('receiverOff', {device: device.id});
 							}
 							
+						} else if (triggertest == '1SLI') {
+							
+							allPossibleInputs.forEach( function(input) {
+								
+								if (input.inputName == '!' + test) {
+									
+									Homey.log ('SELECTED = ' + input.friendlyName);
+									Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: device.id});
+								
+								}
+								
+							});
 						}
 						
 					}

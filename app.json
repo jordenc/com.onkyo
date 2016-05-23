@@ -152,8 +152,33 @@
 	                "filter": "driver_id=receiver"
 	              }
 	            ]
-
-				
+			},
+			{
+		    	"id": "inputChanged",
+				"title": {
+					"en": "Selected input changes",
+					"nl": "Geselecteerde input wijzigt"
+				},
+				"tokens": [
+				{
+					"name": "input",
+					"title": {
+						"en": "Input",
+						"nl": "Input"
+					}
+				}
+				],
+				"args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+	                  "nl": "Selecteer receiver"
+	                },
+	                "filter": "driver_id=receiver"
+	              }
+	            ]
 			}
 	    ],
 	    "conditions": [
