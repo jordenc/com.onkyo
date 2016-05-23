@@ -25,6 +25,7 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 # Changelog
 **Version 0.9.4:**
 - Fixed a bug on mobile cards / capabilities
+- Made a fix where 'Onkyo Net/USB List information' messages disturbed the normal work.
 
 **Version 0.9.3:**
 - Fixed a bug on manual pairing

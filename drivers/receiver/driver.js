@@ -32,10 +32,10 @@ module.exports.init = function(devices_data, callback) {
 	    
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
-		    
-		    module.exports.realtime(device, "onoff", true);
-
 		});
+		
+		//add on/off button for each device, even older ones
+		module.exports.realtime(device, "onoff", true);
 	 
 	});
 	
@@ -633,22 +633,28 @@ function sendCommand (cmd, hostIP, callback, substring) {
 		
 		client.on('data', function(data) {
 			Homey.log('Received: ' + data);
-			client.destroy();
 			
 			//Homey.log ('RAW: ' + JSON.stringify(data));
 			var test = data.toString();
 			
-			Homey.log ('checking if ' + data + ' contains ' + substring);
-			
-			if (test.indexOf(substring) >= 0) {
+			//prevent !1NLSC-P messages to disturb
+			if (test.indexOf('!1NLSC-P') < 0) {
 				
-				Homey.log ('callback true');
-				callback (null, true);
+				client.destroy();
 				
-			} else {
+				Homey.log ('checking if ' + data + ' contains ' + substring);
 				
-				Homey.log ('callback false');
-				callback (null, false);
+				if (test.indexOf(substring) >= 0) {
+					
+					Homey.log ('callback true');
+					callback (null, true);
+					
+				} else {
+					
+					Homey.log ('callback false');
+					callback (null, false);
+					
+				}
 				
 			}
 			
