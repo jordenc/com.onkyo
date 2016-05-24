@@ -3,6 +3,8 @@
 Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
 Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
 
+**Want to show your appreciation for this app? A donation is possible via www.d2c.nl**
+
 Enables the following actions to use in your flows:
 - Volume +1
 - Volume -1
