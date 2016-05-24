@@ -54,16 +54,18 @@ module.exports.init = function(devices_data, callback) {
 				test = test[0].substring(1);
 				Homey.log('DATA: ' + test);
 				
-				
+				//Filter out 1NLSC-P requests
 				if (test != '1NLSC-P') {
 					
 					Homey.log('[callbacklog] ' + callbacklog);
 					
-					if (callbacklog[settings.ipaddress][test.substring(0,4)]) {
+					if (typeof callbacklog[settings.ipaddress][test.substring(0,4)] == 'function') {
 						
 						Homey.log('CALL THE BACK FOR ' + test);
 						
 						callbacklog[settings.ipaddress][test.substring(0,4)](test);
+						
+						callbacklog[settings.ipaddress][test.substring(0,4)]= [];
 						
 					} else {
 						
@@ -106,12 +108,8 @@ module.exports.init = function(devices_data, callback) {
 						
 					}
 					
-				} else {
-					
-					//Homey.log('[DUMP]' + test);
-					
-				}
-				
+				} 
+								
 			});
 			
 			callbacklog[settings.ipaddress] = {};
@@ -140,7 +138,11 @@ module.exports.capabilities = {
         get: function( device_data, callback ){
 
 			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, callback, '1PWR01');
+            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, function (result) {
+	            
+	            if (result == '1PWR01') callback (null, true); else callback (null, false);
+	            
+	        }, '1PWR');
             
         },
 
@@ -150,11 +152,19 @@ module.exports.capabilities = {
 
 			if (turnon) {
 				
-				sendCommand ('!1PWR01', devices[device_data.id].settings.ipaddress, callback, '1PWR01');
+				sendCommand ('!1PWR01', devices[device_data.id].settings.ipaddress, function (result) {
+				
+					if (result == '1PWR01') callback (null, true); else callback (null, false);
+					
+				}, '1PWR');
 				
 			} else {
 				
-				sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, callback, '1PWR00');
+				sendCommand ('!1PWR00', devices[device_data.id].settings.ipaddress, function (result) {
+				
+					if (result == '1PWR00') callback (null, true); else callback (null, false);	
+					
+				}, '1PWR');
 				
 			}
 
@@ -167,6 +177,7 @@ module.exports.capabilities = {
 			Homey.log('Getting volume of ' + devices[device_data.id].settings.ipaddress);
             sendCommand ('!1MVLQSTN', devices[device_data.id].settings.ipaddress, function (hex) {
 	         
+	         	var hex = hex.replace('1MVL','');
 	         	Homey.log('[HEX]' + hex +'[/HEX]');
 	         	var volume = parseInt(hex, 16);
 	         	volume = Math.round(volume / 60 * 100);
@@ -174,7 +185,7 @@ module.exports.capabilities = {
 	         	Homey.log('[VOLUME] ' + volume);
 	         	callback (null, volume);
 	            
-	        }, 'return');
+	        }, '1MVL');
             
         },
 
@@ -188,7 +199,11 @@ module.exports.capabilities = {
 			if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
 			
 			Homey.log ('target volume in HEX=' + hexVolume);
-			sendCommand ('!1MVL' + hexVolume, devices[device_data.id].settings.ipaddress, callback, '1MVL' + hexVolume);
+			sendCommand ('!1MVL' + hexVolume, devices[device_data.id].settings.ipaddress, function (result) {
+				
+				if (result == '1MVL' + hexVolume) callback (null, true); else callback (null, false);
+				
+			}, '1MVL');
 			
         }
     }
