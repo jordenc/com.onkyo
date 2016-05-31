@@ -810,6 +810,8 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	
 	//create a 'backlog' of callbacks. Required because the Onkyo sometimes responds in a different order
 	Homey.log('[CBLOG] ' + substring + ' = ' + callback);
+	
+	if (typeof callbacklog[hostIP] === "undefined") callbacklog[hostIP] = [];
 	callbacklog[hostIP][substring] = callback;
 	
 	cmdclient[hostIP].write(eiscp_packet(cmd));
