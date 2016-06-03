@@ -619,7 +619,7 @@ module.exports.pair = function (socket) {
 	        ]
         }
         
-        startsocket ({ipaddress: device.settings.ipaddress, device.data.id});	
+        startsocket ({ipaddress: device.settings.ipaddress, device_id: device.data.id});	
         
         Homey.log('devices=' + JSON.stringify(devices));
 		
