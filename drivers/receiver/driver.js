@@ -23,7 +23,7 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
 
 };
 
-function startsocket(settings, device_id) {
+function startsocket(settings) {
 	
 	cmdclient[settings.ipaddress] = new net.Socket();
 	cmdclient[settings.ipaddress].connect(60128, settings.ipaddress);
@@ -70,16 +70,16 @@ function startsocket(settings, device_id) {
 						Homey.log('vol='+volume);
 						Homey.manager('flow').triggerDevice('volumeChanged', {
 							volume: volume
-						}, {device: device_id});
+						}, {device: settings.device_id});
 						
 					} else if (triggertest == '1PWR') {
 						
 						if (test == '1PWR01') {
-							Homey.log('trigger ON for ' + device.id);
-							Homey.manager('flow').triggerDevice('receiverOn', {device: device_id});
+							Homey.log('trigger ON for ' + settings.device_id);
+							Homey.manager('flow').triggerDevice('receiverOn', {device: settings.device_id});
 						} else {
-							Homey.log('trigger OFF for ' + device.id);
-							Homey.manager('flow').triggerDevice('receiverOff', {device: device_id});
+							Homey.log('trigger OFF for ' + settings.device_id);
+							Homey.manager('flow').triggerDevice('receiverOff', {device: settings.device_id});
 						}
 						
 					} else if (triggertest == '1SLI') {
@@ -89,7 +89,7 @@ function startsocket(settings, device_id) {
 							if (input.inputName == '!' + test) {
 								
 								Homey.log ('SELECTED = ' + input.friendlyName);
-								Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: device_id});
+								Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: settings.device_id});
 							
 							}
 							
@@ -598,7 +598,7 @@ module.exports.pair = function (socket) {
 	        ]
         }
         
-        startsocket({ipaddress: device.settings.ipaddress, device.data.id});
+        startsocket({ipaddress: device.settings.ipaddress, device_id: device.data.id});
         
         Homey.log('devices=' + JSON.stringify(devices));		
 		
