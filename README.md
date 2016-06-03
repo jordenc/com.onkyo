@@ -31,6 +31,9 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 1.0.3**
+- Small bugfix on triggers
+
 **Version 1.0.2:**
 - Fixed a nasty bug that caused Onkyo app to crash on first time use of newly added device 
 

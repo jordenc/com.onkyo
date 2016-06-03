@@ -23,7 +23,7 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
 
 };
 
-function startsocket(settings) {
+function startsocket(settings, device_id) {
 	
 	cmdclient[settings.ipaddress] = new net.Socket();
 	cmdclient[settings.ipaddress].connect(60128, settings.ipaddress);
@@ -70,16 +70,16 @@ function startsocket(settings) {
 						Homey.log('vol='+volume);
 						Homey.manager('flow').triggerDevice('volumeChanged', {
 							volume: volume
-						}, {device: device.id});
+						}, {device: device_id});
 						
 					} else if (triggertest == '1PWR') {
 						
 						if (test == '1PWR01') {
 							Homey.log('trigger ON for ' + device.id);
-							Homey.manager('flow').triggerDevice('receiverOn', {device: device.id});
+							Homey.manager('flow').triggerDevice('receiverOn', {device: device_id});
 						} else {
 							Homey.log('trigger OFF for ' + device.id);
-							Homey.manager('flow').triggerDevice('receiverOff', {device: device.id});
+							Homey.manager('flow').triggerDevice('receiverOff', {device: device_id});
 						}
 						
 					} else if (triggertest == '1SLI') {
@@ -89,7 +89,7 @@ function startsocket(settings) {
 							if (input.inputName == '!' + test) {
 								
 								Homey.log ('SELECTED = ' + input.friendlyName);
-								Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: device.id});
+								Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: device_id});
 							
 							}
 							
@@ -118,7 +118,7 @@ module.exports.init = function(devices_data, callback) {
 	    module.exports.getSettings(device, function(err, settings){
 		    devices[device.id].settings = settings;
 		    
-		    startsocket (settings);	
+		    startsocket (settings, device.id);	
 			callbacklog[settings.ipaddress] = {};
 	
 		});
@@ -598,7 +598,7 @@ module.exports.pair = function (socket) {
 	        ]
         }
         
-        startsocket({ipaddress: device.settings.ipaddress});
+        startsocket({ipaddress: device.settings.ipaddress, device.data.id});
         
         Homey.log('devices=' + JSON.stringify(devices));		
 		
@@ -619,7 +619,7 @@ module.exports.pair = function (socket) {
 	        ]
         }
         
-        startsocket ({ipaddress: device.settings.ipaddress});	
+        startsocket ({ipaddress: device.settings.ipaddress, device.data.id});	
         
         Homey.log('devices=' + JSON.stringify(devices));
 		
