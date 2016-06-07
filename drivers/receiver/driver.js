@@ -598,6 +598,8 @@ module.exports.pair = function (socket) {
 	        ]
         }
         
+        callbacklog[device.settings.ipaddress] = [];
+        
         startsocket({ipaddress: device.settings.ipaddress, device_id: device.data.id});
         
         Homey.log('devices=' + JSON.stringify(devices));		
