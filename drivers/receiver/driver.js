@@ -40,9 +40,12 @@ function startsocket(settings) {
 			var test = data.toString();
 			test = test.split('!');
 			test = JSON.stringify(test[1]);
-			test = test.split("\\u");
-			test = test[0].substring(1);
-			Homey.log('DATA: ' + test);
+			
+			if (typeof test !== 'undefined') {
+				test = test.split("\\u");
+				test = test[0].substring(1);
+				Homey.log('DATA: ' + test);
+			}
 			
 			//Filter out 1NLSC-P requests
 			if (test != '1NLSC-P') {
