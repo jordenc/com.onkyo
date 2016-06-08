@@ -233,6 +233,9 @@ var allPossibleInputs = [
 		{	inputName: '!1SLI01',
 	 		friendlyName: "Cable/Sat TV"
 		},
+		{	inputName: '!1SLI11',
+			friendlyName: "STRM BOX"
+		},
 		{	inputName: '!1SLI05',
 	 		friendlyName: "PC"
 		},
@@ -243,10 +246,13 @@ var allPossibleInputs = [
 			friendlyName: "Aux"
 		},
 		{	inputName: '!1SLI23',
-			friendlyName: "TV/CD"
+			friendlyName: "CD"
 		},
 		{	inputName: '!1SLI22',
 	 		friendlyName: "Phono"
+		},
+		{	inputName: '!1SLI12',
+			friendlyName: "TV"
 		},
 		{	inputName: '!1SLI24',
 	 		friendlyName: "Tuner"
@@ -256,6 +262,9 @@ var allPossibleInputs = [
 		},
 		{	inputName: '!1SLI29',
 	 		friendlyName: "USB"
+		},
+		{	inputName: '1SLI2E',
+	 		friendlyName: "BLUETOOTH"
 		}
 ];
 		
