@@ -31,6 +31,9 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 1.0.5**
+- Better error handling
+
 **Version 1.0.4**
 - Added TV / Bluetooth / STRM BOX inputs
 - Small bugfix

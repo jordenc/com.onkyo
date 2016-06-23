@@ -48,11 +48,11 @@ function startsocket(settings) {
 			}
 			
 			//Filter out 1NLSC-P requests
-			if (test != '1NLSC-P') {
+			if (test != '1NLSC-P' && test != '') {
 				
 				Homey.log('[callbacklog] ' + callbacklog);
 				
-				if (typeof callbacklog[settings.ipaddress][test.substring(0,4)] == 'function') {
+				if (typeof test !== 'undefined' && typeof callbacklog[settings.ipaddress] !== 'undefined' && typeof callbacklog[settings.ipaddress][test.substring(0,4)] == 'function') {
 					
 					Homey.log('CALL THE BACK FOR ' + test);
 					
