@@ -64,39 +64,43 @@ function startsocket(settings) {
 					
 					Homey.log('DONT CALL ' + test + ' / ' + callbacklog);
 					
-					var triggertest = test.substring (0,4);
+					if (typeof test !== 'undefined') {
 					
-					if (triggertest == '1MVL') {
+						var triggertest = test.substring (0,4);
 						
-						var hex = test.substr (4,2);
-						var volume = parseInt(hex, 16);
-						Homey.log('vol='+volume);
-						Homey.manager('flow').triggerDevice('volumeChanged', {
-							volume: volume
-						}, {device: settings.device_id});
-						
-					} else if (triggertest == '1PWR') {
-						
-						if (test == '1PWR01') {
-							Homey.log('trigger ON for ' + settings.device_id);
-							Homey.manager('flow').triggerDevice('receiverOn', {device: settings.device_id});
-						} else {
-							Homey.log('trigger OFF for ' + settings.device_id);
-							Homey.manager('flow').triggerDevice('receiverOff', {device: settings.device_id});
-						}
-						
-					} else if (triggertest == '1SLI') {
-						
-						allPossibleInputs.forEach( function(input) {
+						if (triggertest == '1MVL') {
 							
-							if (input.inputName == '!' + test) {
-								
-								Homey.log ('SELECTED = ' + input.friendlyName);
-								Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: settings.device_id});
+							var hex = test.substr (4,2);
+							var volume = parseInt(hex, 16);
+							Homey.log('vol='+volume);
+							Homey.manager('flow').triggerDevice('volumeChanged', {
+								volume: volume
+							}, {device: settings.device_id});
 							
+						} else if (triggertest == '1PWR') {
+							
+							if (test == '1PWR01') {
+								Homey.log('trigger ON for ' + settings.device_id);
+								Homey.manager('flow').triggerDevice('receiverOn', {device: settings.device_id});
+							} else {
+								Homey.log('trigger OFF for ' + settings.device_id);
+								Homey.manager('flow').triggerDevice('receiverOff', {device: settings.device_id});
 							}
 							
-						});
+						} else if (triggertest == '1SLI') {
+							
+							allPossibleInputs.forEach( function(input) {
+								
+								if (input.inputName == '!' + test) {
+									
+									Homey.log ('SELECTED = ' + input.friendlyName);
+									Homey.manager('flow').triggerDevice('inputChanged', {input: input.friendlyName}, {device: settings.device_id});
+								
+								}
+								
+							});
+						}
+					
 					}
 					
 				}
