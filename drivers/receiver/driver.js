@@ -845,8 +845,15 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	if (typeof callbacklog[hostIP] === "undefined") callbacklog[hostIP] = [];
 	callbacklog[hostIP][substring] = callback;
 	
-	cmdclient[hostIP].write(eiscp_packet(cmd));
-	
+	if (typeof cmdclient[hostIP] !== 'undefined') {
+		cmdclient[hostIP].write(eiscp_packet(cmd));
+	} else {
+		Homey.log ('cmdclient[' + hostIP + '] is undefined, trying to restart socket');
+		settings.ipaddress = hostIP;
+		startsocket (settings);
+		
+		if (typeof cmdclient[hostIP] !== 'undefined') cmdclient[hostIP].write(eiscp_packet(cmd));
+	}
 }
 
 
