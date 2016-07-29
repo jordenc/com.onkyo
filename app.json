@@ -34,7 +34,7 @@
               "small": "drivers/receiver/assets/images/small.jpg"
           },
           "class": "speaker",
-          "capabilities": [ "" ],
+          "capabilities": [],
           "mobile": {
 	         "components": [ 
 	         {
