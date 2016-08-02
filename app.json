@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "1.0.7",
+    "version": "1.0.8",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
