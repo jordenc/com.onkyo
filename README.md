@@ -31,6 +31,9 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 1.0.9**
+- When the connection to a device gets broken, try to reconnect.
+
 **Version 1.0.8**
 - Fixed small bug causing app not to run on homey firmware 0.9.1
 

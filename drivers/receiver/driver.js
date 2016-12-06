@@ -153,13 +153,20 @@ module.exports.capabilities = {
 
         get: function( device_data, callback ){
 
-			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
-            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, function (result) {
-	            
-	            if (result == '1PWR01') callback (null, true); else callback (null, false);
-	            
-	        }, '1PWR');
+			if (typeof devices[device_data.id] === "undefined") {
+				
+				callback (null, false);
+				
+			} else {
+			
+				Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
+	            sendCommand ('!1PWRQSTN', devices[device_data.id].settings.ipaddress, function (result) {
+		            
+		            if (result == '1PWR01') callback (null, true); else callback (null, false);
+		            
+		        }, '1PWR');
             
+            }
         },
 
         set: function( device_data, turnon, callback ) {
@@ -222,6 +229,22 @@ module.exports.capabilities = {
 			}, '1MVL');
 			
         }
+    },
+    changeInput: {
+	    get: function (device_data, callback) {
+		    
+		    Homey.log('get Input');
+		    callback (null, "middle");
+		    
+	    },
+	    
+	    set: function (device_data, input, callback) {
+		    
+		    Homey.log ('set input: ' + JSON.stringify (input));
+		    
+	    }
+	    
+	    
     }
 }
 
@@ -607,11 +630,7 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress
-            },
-            capabilities: [
-	        	'onoff',
-	        	'volume_set'
-	        ]
+            }
         }
         
         callbacklog[device.settings.ipaddress] = [];
@@ -630,11 +649,7 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress
-            },
-            capabilities: [
-	        	'onoff',
-	        	'volume_set'
-	        ]
+            }
         }
         
         startsocket ({ipaddress: device.settings.ipaddress, device_id: device.data.id});	
@@ -660,11 +675,7 @@ module.exports.pair = function (socket) {
                     },
                     settings: {
                     	"ipaddress": device.host
-                	},
-                	capabilities: [
-						'onoff',
-						'volume_set'
-					]
+                	}
 
                 }
             ]
@@ -846,13 +857,17 @@ function sendCommand (cmd, hostIP, callback, substring) {
 	callbacklog[hostIP][substring] = callback;
 	
 	if (typeof cmdclient[hostIP] !== 'undefined') {
+		
 		cmdclient[hostIP].write(eiscp_packet(cmd));
+	
 	} else {
+		
 		Homey.log ('cmdclient[' + hostIP + '] is undefined, trying to restart socket');
-		settings.ipaddress = hostIP;
-		startsocket (settings);
+		
+		startsocket({ipaddress: hostIP});
 		
 		if (typeof cmdclient[hostIP] !== 'undefined') cmdclient[hostIP].write(eiscp_packet(cmd));
+	
 	}
 }
 
