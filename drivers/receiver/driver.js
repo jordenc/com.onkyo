@@ -25,6 +25,8 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
 
 function startsocket(settings) {
 	
+	Homey.log ('lets start polling ... ' + JSON.stringify (settings));
+	
 	cmdclient[settings.ipaddress] = new net.Socket();
 	cmdclient[settings.ipaddress].connect(60128, settings.ipaddress);
 	
