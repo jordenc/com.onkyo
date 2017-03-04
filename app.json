@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "1.0.9",
+    "version": "1.1.0",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -25,13 +25,58 @@
     
     "capabilities" : {
 	    "changeInput": {
-			"type": "boolean",
+			"type": "enum",
 			"title": {
 				"en": "Switch input",
 				"nl": "Verander input"
 			},
 			"getable": true,
-			"setable": true
+			"setable": true,
+			"values": [
+				{	"id": "!1SLI10",
+			 		"title": {"en":"BluRay/DVD player"}
+				},
+				{	"id": "!1SLI00",
+			 		"title": {"en":"VCR/DVR"}
+				},
+				{	"id": "!1SLI01",
+			 		"title": {"en":"Cable/Sat TV"}
+				},
+				{	"id": "!1SLI11",
+					"title": {"en":"STRM BOX"}
+				},
+				{	"id": "!1SLI05",
+			 		"title": {"en":"PC"}
+				},
+				{	"id": "!1SLI02",
+			 		"title": {"en":"Game"}
+				},
+				{	"id": "!1SLI03",
+					"title": {"en":"Aux"}
+				},
+				{	"id": "!1SLI23",
+					"title": {"en":"CD"}
+				},
+				{	"id": "!1SLI22",
+			 		"title": {"en":"Phono"}
+				},
+				{	"id": "!1SLI12",
+					"title": {"en":"TV"}
+				},
+				{	"id": "!1SLI24",
+			 		"title": {"en":"Tuner"}
+				},
+				{	"id": "!1SLI2B",
+			 		"title": {"en":"Net"}
+				},
+				{	"id": "!1SLI29",
+			 		"title": {"en":"USB"}
+				},
+				{	"id": "1SLI2E",
+			 		"title": {"en":"BLUETOOTH"}
+				}
+				
+			]
 	    }
 	    
 	},
@@ -67,6 +112,10 @@
 		     {
 			    "id": "slider",
 		        "capabilities": ["volume_set"] 
+		     },
+		     {
+			    "id": "picker",
+		        "capabilities": ["changeInput"]
 		     }
 		     ]
           },

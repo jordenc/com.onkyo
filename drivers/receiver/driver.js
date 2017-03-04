@@ -52,7 +52,7 @@ function startsocket(settings) {
 			//Filter out 1NLSC-P requests
 			if (test != '1NLSC-P' && test != '') {
 				
-				Homey.log('[callbacklog] ' + callbacklog);
+				Homey.log('[callbacklog] ' + JSON.stringify(callbacklog));
 				
 				if (typeof test !== 'undefined' && typeof callbacklog[settings.ipaddress] !== 'undefined' && typeof callbacklog[settings.ipaddress][test.substring(0,4)] == 'function') {
 					
@@ -236,7 +236,14 @@ module.exports.capabilities = {
 	    get: function (device_data, callback) {
 		    
 		    Homey.log('get Input');
-		    callback (null, "middle");
+		    
+		    sendCommand ('!1SLIQSTN', devices[device_data.id].settings.ipaddress, function (input) {
+	         	var channel = '!' + input;
+	         	Homey.log('RETURNED input = ' + channel);
+	         	//module.exports.realtime(device_data.id, 'changeInput', channel)
+	         	callback (null, channel);
+	            
+	        }, '1SLI');
 		    
 	    },
 	    
@@ -244,8 +251,15 @@ module.exports.capabilities = {
 		    
 		    Homey.log ('set input: ' + JSON.stringify (input));
 		    
+		    sendCommand (input, devices[device_data.id].settings.ipaddress, function (result) {
+	
+				Homey.log('result: ' + result + ' VS ' + input.substring(1));
+				//if (result === input.substring(1)) Homey.log('equal'); else Homey.log('NOT equal');	
+				if (result === input.substring(1)) callback (null, true); else callback (null, false);	
+		
+			}, input.substring(1));
+	
 	    }
-	    
 	    
     }
 }
