@@ -206,11 +206,12 @@
 				"tokens": [
 				{
 					"name": "volume",
+					"type": "number",
 					"title": {
 						"en": "Volume",
 						"nl": "Volume"
 					},
-					"example": "18"
+					"example": 18
 				}
 				],
 				"args": [
