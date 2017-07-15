@@ -4,7 +4,7 @@
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
     },
-    "version": "1.1.1",
+    "version": "1.1.2",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -14,7 +14,7 @@
       "large": "./assets/images/large.jpg",
       "small": "./assets/images/small.jpg"
     },
-    "category": "appliances",
+    "category": "amplifier",
     "description": {
     	"en": "Onkyo receiver app for Homey",
 		"nl": "Onkyo receiver app voor Homey"
