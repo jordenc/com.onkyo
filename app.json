@@ -335,6 +335,11 @@
                   "nl": "Selecteer receiver"
                 },
 	            "filter": "driver_id=receiver"
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
             ]
         },
@@ -353,7 +358,13 @@
                   "nl": "Selecteer receiver"
                 },
 	            "filter": "driver_id=receiver"
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
+
             ]
         },
         {
@@ -423,6 +434,11 @@
                   "nl": "Selecteer receiver"
                 },
                 "filter": "driver_id=receiver"
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
             ]
         },
@@ -441,6 +457,11 @@
                   "nl": "Selecteer receiver"
                 },
                 "filter": "driver_id=receiver"
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
             ]
         },
@@ -469,6 +490,11 @@
                    "en": "Target volume",
                    "nl": "Gewenst volume"
                 }
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
             ]
         },
@@ -487,10 +513,15 @@
                   "nl": "Selecteer receiver"
                 },
                 "filter": "driver_id=receiver"
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
             ]
         },
-         {
+        {
             "id": "volumeUp",
             "title": {
                 "en": "Volume up (+1)",
@@ -505,6 +536,11 @@
                   "nl": "Selecteer receiver"
                 },
                 "filter": "driver_id=receiver"
+              },
+              {
+	              "name": "zone",
+	              "type": "dropdown",
+	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}]
               }
             ]
         },
@@ -537,6 +573,7 @@
 
             ]
         }
+        
       ]
     }
 }

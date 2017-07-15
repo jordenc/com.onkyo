@@ -33,6 +33,9 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 # Changelog
 **Version 1.1.2**
 - App is now "Amplifier" class in Homey, which makes it possible to have some default control by speech
+- maxVolume is increased from 60 to 80 in the mobile card slider
+- Zone 2 now selectable in Power/volume cards
+- Zone 2 change input and listening modes using the existing cards (for example, "Zone 2 Bluray/DVD player")
 
 **Version 1.1.1**
 - Bugfix for the volumeChanged card (thanks nklerk!)

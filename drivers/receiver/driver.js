@@ -202,10 +202,12 @@ module.exports.capabilities = {
 			Homey.log('Getting volume of ' + devices[device_data.id].settings.ipaddress);
             sendCommand ('!1MVLQSTN', devices[device_data.id].settings.ipaddress, function (hex) {
 	         
+	         	var maxVolume = 80;
+	         	
 	         	var hex = hex.replace('1MVL','');
 	         	Homey.log('[HEX]' + hex +'[/HEX]');
 	         	var volume = parseInt(hex, 16);
-	         	volume = Math.round(volume / 60 * 100);
+	         	volume = Math.round(volume / maxVolume * 100);
 	         	volume = volume / 100;
 	         	Homey.log('[VOLUME] ' + volume);
 	         	callback (null, volume);
@@ -218,7 +220,9 @@ module.exports.capabilities = {
 	        
 	        Homey.log('Setting volume of ' + devices[device_data.id].settings.ipaddress + ' to ' + volume);
 	        
-	        volume = Math.round(volume * 60);
+	        var maxVolume = 80;
+	        
+	        volume = Math.round(volume * maxVolume);
 	        var hexVolume = volume.toString(16).toUpperCase();
 	
 			if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
@@ -308,6 +312,49 @@ var allPossibleInputs = [
 		},
 		{	inputName: '1SLI2E',
 	 		friendlyName: "BLUETOOTH"
+		},
+		
+		{	inputName: '!1SLZ10',
+	 		friendlyName: "Zone 2 BluRay/DVD player"
+		},
+		{	inputName: '!1SLZ00',
+	 		friendlyName: "Zone 2 VCR/DVR"
+		},
+		{	inputName: '!1SLZ01',
+	 		friendlyName: "Zone 2 Cable/Sat TV"
+		},
+		{	inputName: '!1SLZ11',
+			friendlyName: "Zone 2 STRM BOX"
+		},
+		{	inputName: '!1SLZ05',
+	 		friendlyName: "Zone 2 PC"
+		},
+		{	inputName: '!1SLZ02',
+	 		friendlyName: "Zone 2 Game"
+		},
+		{	inputName: '!1SLZ03',
+			friendlyName: "Zone 2 Aux"
+		},
+		{	inputName: '!1SLZ23',
+			friendlyName: "Zone 2 CD"
+		},
+		{	inputName: '!1SLZ22',
+	 		friendlyName: "Zone 2 Phono"
+		},
+		{	inputName: '!1SLZ12',
+			friendlyName: "Zone 2 TV"
+		},
+		{	inputName: '!1SLZ24',
+	 		friendlyName: "Zone 2 Tuner"
+		},
+		{	inputName: '!1SLZ2B',
+	 		friendlyName: "Zone 2 Net"
+		},
+		{	inputName: '!1SLZ29',
+	 		friendlyName: "Zone 2 USB"
+		},
+		{	inputName: '1SLZ2E',
+	 		friendlyName: "Zone 2 BLUETOOTH"
 		}
 ];
 		
@@ -509,6 +556,205 @@ var allPossibleListenmodes = [
 		},
 		{	modeName: '!1LMDA7',
 	 		friendlyName: "Dolby EX + Audyssey DSX"
+		},
+		
+		{	modeName: '!1LMZ00',
+	 		friendlyName: "Zone 2 Stereo"
+		},
+		{	modeName: '!1LMZ00',
+	 		friendlyName: "Zone 2 Direct"
+		},
+		{	modeName: '!1LMZ02',
+	 		friendlyName: "Zone 2 Surround"
+		},
+		{	modeName: '!1LMZ03',
+	 		friendlyName: "Zone 2 Film"
+		},
+		{	modeName: '!1LMZ04',
+	 		friendlyName: "Zone 2 THX"
+		},
+		{	modeName: '!1LMZ05',
+			friendlyName: "Zone 2 Action"
+		},
+		{	modeName: '!1LMZ06',
+			friendlyName: "Zone 2 Musical"
+		},
+		{	modeName: '!1LMZ07',
+	 		friendlyName: "Zone 2 Mono movie"
+		},
+		{	modeName: '!1LMZ08',
+	 		friendlyName: "Zone 2 Orchestra"
+		},
+		{	modeName: '!1LMZ09',
+	 		friendlyName: "Zone 2 Unplugged"
+		},
+		{	modeName: '!1LMZ09',
+	 		friendlyName: "Zone 2 Studio/Mix"
+		},
+		{	modeName: '!1LMZ0B',
+	 		friendlyName: "Zone 2 TV Logic"
+		},
+		{	modeName: '!1LMZ0C',
+	 		friendlyName: "Zone 2 All channels stereo"
+		},
+		{	modeName: '!1LMZ0D',
+	 		friendlyName: "Zone 2 Theater-dimensional"
+		},
+		{	modeName: '!1LMZ0E',
+	 		friendlyName: "Zone 2 Enhanced"
+		},
+		{	modeName: '!1LMZ0F',
+	 		friendlyName: "Zone 2 Mono"
+		},
+		{	modeName: '!1LMZ11',
+	 		friendlyName: "Zone 2 Pure audio"
+		},
+		{	modeName: '!1LMZ12',
+	 		friendlyName: "Zone 2 Multiplex"
+		},
+		{	modeName: '!1LMZ13',
+	 		friendlyName: "Zone 2 Full mono"
+		},
+		{	modeName: '!1LMZ14',
+	 		friendlyName: "Zone 2 Dolby Virtual"
+		},
+		{	modeName: '!1LMZ15',
+	 		friendlyName: "Zone 2 DTS Surround Sensation"
+		},
+		{	modeName: '!1LMZ16',
+	 		friendlyName: "Zone 2 Audyssey DSX"
+		},
+		{	modeName: '!1LMZ1F',
+	 		friendlyName: "Zone 2 Whole House Mode"
+		},
+		{	modeName: '!1LMZ40',
+	 		friendlyName: "Zone 2 5.1ch Surround"
+		},
+		{	modeName: '!1LMZ41',
+	 		friendlyName: "Zone 2 Dolby EX/DTS ES"
+		},
+		{	modeName: '!1LMZ42',
+	 		friendlyName: "Zone 2 THX Cinema"
+		},
+		{	modeName: '!1LMZ43',
+	 		friendlyName: "Zone 2 THX Surround EX"
+		},
+		{	modeName: '!1LMZ44',
+	 		friendlyName: "Zone 2 THX Music"
+		},
+		{	modeName: '!1LMZ45',
+	 		friendlyName: "Zone 2 THX Games"
+		},
+		{	modeName: '!1LMZ50',
+	 		friendlyName: "Zone 2 THX U2/S2/I/S Cinema/Cinema2"
+		},
+		{	modeName: '!1LMZ51',
+	 		friendlyName: "Zone 2 THX MusicMode,THX U2/S2/I/S Music"
+		},
+		{	modeName: '!1LMZ52',
+	 		friendlyName: "Zone 2 THX Games Mode,THX U2/S2/I/S Games"
+		},
+		{	modeName: '!1LMZ80',
+	 		friendlyName: "Zone 2 PLII/PLIIx Movie"
+		},
+		{	modeName: '!1LMZ81',
+	 		friendlyName: "Zone 2 PLII/PLIIx Music"
+		},
+		{	modeName: '!1LMZ82',
+	 		friendlyName: "Zone 2 Neo:6 Cinema/Neo:X Cinema"
+		},
+		{	modeName: '!1LMZ83',
+	 		friendlyName: "Zone 2 Neo:6 Music/Neo:X Music"
+		},
+		{	modeName: '!1LMZ84',
+	 		friendlyName: "Zone 2 PLII/PLIIx THX Cinema"
+		},
+		{	modeName: '!1LMZ85',
+	 		friendlyName: "Zone 2 Neo:6/Neo:X THX Cinema"
+		},
+		{	modeName: '!1LMZ86',
+	 		friendlyName: "Zone 2 PLII/PLIIx Game"
+		},
+		{	modeName: '!1LMZ88',
+	 		friendlyName: "Zone 2 Neural THX/Neural Surround"
+		},
+		{	modeName: '!1LMZ89',
+	 		friendlyName: "Zone 2 PLII/PLIIx THX Games"
+		},
+		{	modeName: '!1LMZ8A',
+	 		friendlyName: "Zone 2 Neo:6/Neo:X THX Games"
+		},
+		{	modeName: '!1LMZ8B',
+	 		friendlyName: "Zone 2 PLII/PLIIx THX Music"
+		},
+		{	modeName: '!1LMZ8C',
+	 		friendlyName: "Zone 2 Neo:6/Neo:X THX Music"
+		},
+		{	modeName: '!1LMZ8D',
+	 		friendlyName: "Zone 2 Neural THX Cinema"
+		},
+		{	modeName: '!1LMZ8E',
+	 		friendlyName: "Zone 2 Neural THX Music"
+		},
+		{	modeName: '!1LMZ8F',
+	 		friendlyName: "Zone 2 Neural THX Games"
+		},
+		{	modeName: '!1LMZ90',
+	 		friendlyName: "Zone 2 PLIIz Height"
+		},
+		{	modeName: '!1LMZ91',
+	 		friendlyName: "Zone 2 Neo:6 Cinema DTS Surround Sensation"
+		},
+		{	modeName: '!1LMZ92',
+	 		friendlyName: "Zone 2 Neo:6 Music DTS Surround Sensation"
+		},
+		{	modeName: '!1LMZ93',
+	 		friendlyName: "Zone 2 Neural Digital Music"
+		},
+		{	modeName: '!1LMZ94',
+	 		friendlyName: "Zone 2 PLIIz Height + THX Cinema"
+		},
+		{	modeName: '!1LMZ95',
+	 		friendlyName: "Zone 2 PLIIz Height + THX Music"
+		},
+		{	modeName: '!1LMZ96',
+	 		friendlyName: "Zone 2 PLIIz Height + THX Games"
+		},
+		{	modeName: '!1LMZ97',
+	 		friendlyName: "Zone 2 PLIIz Height + THX U2/S2 Cinema"
+		},
+		{	modeName: '!1LMZ98',
+	 		friendlyName: "Zone 2 PLIIz Height + THX U2/S2 Music"
+		},
+		{	modeName: '!1LMZ99',
+	 		friendlyName: "Zone 2 PLIIz Height + THX U2/S2 Games"
+		},
+		{	modeName: '!1LMZ9A',
+	 		friendlyName: "Zone 2 Neo:X Game"
+		},
+		{	modeName: '!1LMZA0',
+	 		friendlyName: "Zone 2 PLIIx/PLII Movie + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA1',
+	 		friendlyName: "Zone 2 PLIIx/PLII Music + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA2',
+	 		friendlyName: "Zone 2 PLIIx/PLII Game + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA3',
+	 		friendlyName: "Zone 2 Neo:6 Cinema + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA4',
+	 		friendlyName: "Zone 2 Neo:6 Music + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA5',
+	 		friendlyName: "Zone 2 Neural Surround + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA6',
+	 		friendlyName: "Zone 2 Neural Digital Music + Audyssey DSX"
+		},
+		{	modeName: '!1LMZA7',
+	 		friendlyName: "Zone 2 Dolby EX + Audyssey DSX"
 		}
 ];
 
@@ -714,20 +960,49 @@ Homey.on('unload', function(){
 
 // flow action handlers
 Homey.manager('flow').on('action.powerOn', function (callback, args) {
-	sendCommand ('!1PWR01', devices[args.device.id].settings.ipaddress, function (result) {
 	
-		if (result == '1PWR01') callback (null, true); else callback (null, false);
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
 		
-	}, '1PWR');
+		sendCommand ('!1ZPW01', devices[args.device.id].settings.ipaddress, function (result) {
+			
+			if (result == '1ZPW01') callback (null, true); else callback (null, false);
+			
+		}, '1ZPW');
+		
+	} else {
+		
+		sendCommand ('!1PWR01', devices[args.device.id].settings.ipaddress, function (result) {
+		
+			if (result == '1PWR01') callback (null, true); else callback (null, false);
+			
+		}, '1PWR');
+		
+	}
+	
 });
 
 Homey.manager('flow').on('action.powerOff', function (callback, args) {
-	sendCommand ('!1PWR00', devices[args.device.id].settings.ipaddress, function (result) {
+	
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
 		
-		if (result == '1PWR00') callback (null, true); else callback (null, false);
+		sendCommand ('!1ZPW00', devices[args.device.id].settings.ipaddress, function (result) {
+			
+			if (result == '1ZPW00') callback (null, true); else callback (null, false);
+			
+		}, '1ZPW');
 		
-	}, '1PWR');
+	} else {
+		
+		sendCommand ('!1PWR00', devices[args.device.id].settings.ipaddress, function (result) {
+			
+			if (result == '1PWR00') callback (null, true); else callback (null, false);
+			
+		}, '1PWR');
+		
+	}
+	
 });
+
 
 Homey.manager('flow').on('action.changeInput', function (callback, args) {
 	sendCommand (args.input.inputName, devices[args.device.id].settings.ipaddress, function (result) {
@@ -758,19 +1033,45 @@ Homey.manager('flow').on('action.changeListenmode.listenmode.autocomplete', func
 });
 
 Homey.manager('flow').on('action.mute', function (callback, args){
-	sendCommand ('!1AMT01', devices[args.device.id].settings.ipaddress, function (result) {
 	
-		if (result == '1AMT01') callback (null, true); else callback (null, false);
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
 		
-	}, '1AMT');
+		sendCommand ('!1ZMT01', devices[args.device.id].settings.ipaddress, function (result) {
+			
+			if (result == '1ZMT01') callback (null, true); else callback (null, false);
+			
+		}, '1ZMT');
+		
+	} else {
+		
+		sendCommand ('!1AMT01', devices[args.device.id].settings.ipaddress, function (result) {
+		
+			if (result == '1AMT01') callback (null, true); else callback (null, false);
+			
+		}, '1AMT');
+		
+	}
 });
 
 Homey.manager('flow').on('action.unMute', function (callback, args){
-	sendCommand ('!1AMT00', devices[args.device.id].settings.ipaddress, function(result) {
 	
-		if (result == '1AMT00') callback (null, true); else callback (null, false);
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
 		
-	}, '1AMT');
+		sendCommand ('!1ZMT00', devices[args.device.id].settings.ipaddress, function (result) {
+			
+			if (result == '1ZMT00') callback (null, true); else callback (null, false);
+			
+		}, '1ZMT');
+		
+	} else {
+		
+		sendCommand ('!1AMT00', devices[args.device.id].settings.ipaddress, function(result) {
+		
+			if (result == '1AMT00') callback (null, true); else callback (null, false);
+			
+		}, '1AMT');
+		
+	}
 });
 
 Homey.manager('flow').on('action.setVolume', function (callback, args){
@@ -789,26 +1090,65 @@ Homey.manager('flow').on('action.setVolume', function (callback, args){
 	if (hexVolume.length < 2) hexVolume = '0' + hexVolume;
 	
 	Homey.log ('target volume in HEX=' + hexVolume);
-	sendCommand ('!1MVL' + hexVolume, devices[args.device.id].settings.ipaddress, function (result) {
 	
-		if (result == '1MVL' + hexVolume) callback (null, true); else callback (null, false);
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
 		
-	}, '1MVL');
+		sendCommand ('!1ZVL' + hexVolume, devices[args.device.id].settings.ipaddress, function (result) {
+		
+			if (result == '1ZVL' + hexVolume) callback (null, true); else callback (null, false);
+			
+		}, '1ZVL');
+		
+	} else {
+		
+		sendCommand ('!1MVL' + hexVolume, devices[args.device.id].settings.ipaddress, function (result) {
+		
+			if (result == '1MVL' + hexVolume) callback (null, true); else callback (null, false);
+			
+		}, '1MVL');
+		
+	}
 });
 
 Homey.manager('flow').on('action.volumeDown', function (callback, args) {
-	sendCommand ('!1MVLDOWN', devices[args.device.id].settings.ipaddress, function (result) {
 	
-		callback (null, true);
-				
-	}, '1MVL');
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
+		
+		sendCommand ('!1ZVLDOWN', devices[args.device.id].settings.ipaddress, function (result) {
+			
+			callback (null, true);
+			
+		}, '1ZVL');
+		
+	} else {
+		
+		sendCommand ('!1MVLDOWN', devices[args.device.id].settings.ipaddress, function (result) {
+		
+			callback (null, true);
+					
+		}, '1MVL');
+		
+	}
 });
 Homey.manager('flow').on('action.volumeUp', function (callback, args) {
-	sendCommand ('!1MVLUP', devices[args.device.id].settings.ipaddress, function (result) {
 	
-		callback (null, true);
+	if (typeof args.zone  !== "undefined" && args.zone == "zone2") {
+		
+		sendCommand ('!1ZVLDOWN', devices[args.device.id].settings.ipaddress, function (result) {
 			
-	}, '1MVL');
+			callback (null, true);
+			
+		}, '1ZVL');
+		
+	} else {
+		
+		sendCommand ('!1MVLUP', devices[args.device.id].settings.ipaddress, function (result) {
+		
+			callback (null, true);
+				
+		}, '1MVL');
+		
+	}
 });
 
 Homey.manager('flow').on('action.setPreset', function (callback, args) {
