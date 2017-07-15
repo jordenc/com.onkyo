@@ -14,7 +14,7 @@
       "large": "./assets/images/large.jpg",
       "small": "./assets/images/small.jpg"
     },
-    "category": "amplifier",
+    "category": "appliances",
     "description": {
     	"en": "Onkyo receiver app for Homey",
 		"nl": "Onkyo receiver app voor Homey"
@@ -100,7 +100,7 @@
               "large": "drivers/receiver/assets/images/large.jpg",
               "small": "drivers/receiver/assets/images/small.jpg"
           },
-          "class": "speaker",
+          "class": "amplifier",
           "capabilities": [ "onoff", "volume_set", "changeInput" ],
 
           "mobile": {
