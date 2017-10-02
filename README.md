@@ -31,6 +31,9 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 1.1.3**
+- Added enter button
+
 **Version 1.1.2**
 - Devices are now "Amplifier" class in Homey, which makes it possible to have some default control by speech
 - maxVolume is increased from 60 to 80 in the mobile card slider

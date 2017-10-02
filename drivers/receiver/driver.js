@@ -755,6 +755,9 @@ var allPossibleListenmodes = [
 		},
 		{	modeName: '!1LMZA7',
 	 		friendlyName: "Zone 2 Dolby EX + Audyssey DSX"
+		},
+		{	modeName: '!OSDENTER',
+	 		friendlyName: "Enter"
 		}
 ];
 
