@@ -3,6 +3,8 @@
 Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
 Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
 
+Pioneer VSX-receivers that have support for the Onkyo eISCP protocol are also supported
+
 **Want to show your appreciation for this app? A donation is possible via http://www.d2c.nl **
 
 Enables the following actions to use in your flows:
@@ -31,6 +33,13 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 2.0.0***
+- SDKv2 version (so Homey-future-compatible)
+- Zone 3 added (for receivers that support this)
+- Support for DAB, Airplay and Tape (for receivers that support this)
+- New keys UP, DOWN, LEFT, RIGHT, HOME, EXIT (for OSD) added under "Listen mode"
+- Support for Pioneer VSX receivers (such as the Pioneer VSX 932) (untested)
+
 **Version 1.1.3**
 - Added enter button
 
