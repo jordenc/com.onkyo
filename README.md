@@ -33,12 +33,13 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
-**Version 2.0.0***
+**Version 2.0.0**
 - SDKv2 version (so Homey-future-compatible)
 - Zone 3 added (for receivers that support this)
 - Support for DAB, Airplay and Tape (for receivers that support this)
 - New keys UP, DOWN, LEFT, RIGHT, HOME, EXIT (for OSD) added under "Listen mode"
 - Support for Pioneer VSX receivers (such as the Pioneer VSX 932) (untested)
+- New "Disconnect and reconnect"-action card for when the connection is lost.
 
 **Version 1.1.3**
 - Added enter button

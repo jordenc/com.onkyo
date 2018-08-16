@@ -148,7 +148,7 @@
                     },
                     "children": [
 	                    {
-	                        "id": "ipaddress",
+	                        "id": "host",
 	                        "type": "text",
 	                        "label": {
 	                            "en": "IP address",
@@ -600,6 +600,25 @@
                    "en": "eISCP command",
                    "nl": "eISCP commando"
                 }
+              }
+
+            ]
+        },
+        {
+            "id": "Reconnect",
+            "title": {
+                "en": "Disconnect and reconnect",
+                "nl": "Opnieuw verbinding maken"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select receiver",
+                  "nl": "Selecteer receiver"
+                },
+                "filter": "driver_id=receiver"
               }
 
             ]
