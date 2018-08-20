@@ -33,6 +33,10 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+
+**Version 2.0.1**
+- Created a conversion for older devices when upgrading to version 2.0.0+
+
 **Version 2.0.0**
 - SDKv2 version (so Homey-future-compatible)
 - Zone 3 added (for receivers that support this)

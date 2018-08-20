@@ -594,6 +594,11 @@ class OnkyoDevice extends Homey.Device {
         device_data = this.getData();
         device = this;
         
+        let settings = this.getSettings();
+        
+        //Move older (< SDKv2) devices to new format
+        if (typeof settings.ipaddress !== 'undefined') device_data.host = settings.ipaddress;
+        
         driver = this.getDriver();
         
         this.setSettings({
