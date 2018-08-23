@@ -816,11 +816,11 @@ class OnkyoDevice extends Homey.Device {
 								
 								allPossibleInputs.forEach( function(input) {
 									
-									if (input.inputName == '!' + test) {
+									if (input.id == '!' + test) {
 										
-										console.log ('SELECTED = ' + input.friendlyName);
+										console.log ('SELECTED = ' + input.name);
 		
-								        let tokens = {input: input.friendlyName};
+								        let tokens = {input: input.name};
 								        let state = {};
 		        
 										driver.ready(() => {
@@ -924,11 +924,11 @@ class OnkyoDevice extends Homey.Device {
 			
 			console.log ("args = " + JSON.stringify (args));
 			
-			sendCommand (args.input.inputName, device_data.host, function (result) {
+			sendCommand (args.input.id, device_data.host, function (result) {
 
-				if (result == args.input.inputName.substring (1)) callback (null, true); else callback (null, false);	
+				if (result == args.input.id.substring (1)) callback (null, true); else callback (null, false);	
 				
-			}, args.input.inputName.substring(1,5));
+			}, args.input.id.substring(1,5));
 			
 		})
 		.getArgument('input')
@@ -1218,7 +1218,7 @@ class OnkyoDevice extends Homey.Device {
 	let receiverOn = new Homey.FlowCardCondition('receiverOn');
 	receiverOn
 	    .register()
-	    .registerRunListener(( args, state ) => {
+	    .registerRunListener(( args, state, callback ) => {
 	
 			sendCommand ('!1PWRQSTN', device_data.host, function(result) {
 		
@@ -1231,7 +1231,7 @@ class OnkyoDevice extends Homey.Device {
 	let muted = new Homey.FlowCardCondition('muted');
 	muted
 	    .register()
-	    .registerRunListener(( args, state ) => {
+	    .registerRunListener(( args, state, callback ) => {
 	
 	        sendCommand ('!1AMTQSTN', device_data.host, function(result) {
 		
@@ -1244,14 +1244,14 @@ class OnkyoDevice extends Homey.Device {
 	let inputselected = new Homey.FlowCardCondition('inputselected');
 	inputselected
 	    .register()
-	    .registerRunListener(( args, state ) => {
-	
-	        sendCommand ('!1SLIQSTN', device_data.host, function (result) {
+	    .registerRunListener(( args, state, callback ) => {
 				
-				if (result == args.input.inputName.substring(1)) callback (null, true); else callback (null, false);
+	      	sendCommand ('!1SLIQSTN', device_data.host, function (result) {
 				
-			}, args.input.inputName.substr(1, 4));
-	
+				if (result == args.input.id.substring(1)) callback (null, true); else callback (null, false);
+				
+			}, args.input.id.substr(1, 4));
+			    
 	    })
 	    .getArgument('input')
 		.registerAutocompleteListener(( query, args ) => {
@@ -1313,8 +1313,8 @@ function searchForListenmodesByValue ( value ) {
 		console.log(" value = " + JSON.stringify(value));
 		
 		var tempMode = allPossibleListenmodes[i];
-		if ( tempMode.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
-			tempItems.push({ icon: "", name: tempMode.friendlyName, modeName: tempMode.modeName });
+		if ( tempMode.name.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
+			tempItems.push({ icon: "", name: tempMode.name, modeName: tempMode.modeName });
 		}
 	}
 	return tempItems;
@@ -1324,8 +1324,8 @@ function searchForInputsByValue ( value ) {
 	var tempItems = [];
 	for (var i = 0; i < allPossibleInputs.length; i++) {
 		var tempInput = allPossibleInputs[i];
-		if ( tempInput.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
-			tempItems.push({ icon: "", name: tempInput.friendlyName, id: tempInput.inputName });
+		if ( tempInput.name.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
+			tempItems.push({ icon: "", name: tempInput.name, id: tempInput.id });
 		}
 	}
 	return tempItems;

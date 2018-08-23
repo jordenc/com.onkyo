@@ -34,6 +34,9 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 
 # Changelog
 
+**Version 2.0.2**
+- Bugfixes
+
 **Version 2.0.1**
 - Created a conversion for older devices when upgrading to version 2.0.0+
 
