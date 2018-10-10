@@ -1307,28 +1307,3 @@ function eiscp_packet (cmd) {
 	
 	return line;
 }
-
-function searchForListenmodesByValue ( value ) {
-	var tempItems = [];
-	for (var i = 0; i < allPossibleListenmodes.length; i++) {
-		
-		console.log(" value = " + JSON.stringify(value));
-		
-		var tempMode = allPossibleListenmodes[i];
-		if ( tempMode.name.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
-			tempItems.push({ icon: "", name: tempMode.name, modeName: tempMode.modeName });
-		}
-	}
-	return tempItems;
-}
-
-function searchForInputsByValue ( value ) {
-	var tempItems = [];
-	for (var i = 0; i < allPossibleInputs.length; i++) {
-		var tempInput = allPossibleInputs[i];
-		if ( tempInput.name.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
-			tempItems.push({ icon: "", name: tempInput.name, id: tempInput.id });
-		}
-	}
-	return tempItems;
-}
