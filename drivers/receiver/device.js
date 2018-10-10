@@ -1034,6 +1034,8 @@ class OnkyoDevice extends Homey.Device {
 			
 			device.startsocket (device_data);
 			
+			callback (null, true)
+			
 		});
 		
 	let unMute = new Homey.FlowCardAction('unMute');

@@ -61,28 +61,13 @@ class OnkyoDriver extends Homey.Driver {
 	      option.port       - receiver port should always be 60128 this is just available if you need it
 	    */
 	    
-	    var eiscp, send_queue,
-	    dgram = require('dgram'),
-	    util = require('util'),
-	    events = require('events'),
-	    config = { port: 60128, reconnect: true, reconnect_sleep: 5, modelsets: [], send_delay: 500, verify_commands: true };
+	    var dgram = require('dgram'),
+	    util = require('util');
 	    
 	    //var callback, timeout_timer, result,
-	    var timeout_timer, options = {},
+	    var options = {},
 	        client = dgram.createSocket('udp4'),
-	        argv = Array.prototype.slice.call(arguments),
-	        argc = argv.length;
-	
-		/*
-	    if (argc === 1 && typeof argv[0] === 'function') {
-	        callback = argv[0];
-	    } else if (argc === 2 && typeof argv[1] === 'function') {
-	        options = argv[0];
-	        callback = argv[1];
-	    } else {
-	        return;
-	    }
-	    */
+	        argv = Array.prototype.slice.call(arguments);
 	
 	    options.timeout = options.timeout || 5;
 	    options.address = options.address || '255.255.255.255';
@@ -136,7 +121,7 @@ class OnkyoDriver extends Homey.Driver {
 	        
 	        console.log(util.format("Sent ONKYO broadcast discovery packet to %s:%s", options.address, options.port));
 	        client.send(buffer, 0, buffer.length, options.port, options.address);
-	        timeout_timer = setTimeout(close, options.timeout * 1000);
+	        var timeout_timer = setTimeout(close, options.timeout * 1000);
 	        
 	        var buffer2 = eiscp_packet('!pECNQSTN');
 	        

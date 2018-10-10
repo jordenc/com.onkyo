@@ -34,6 +34,10 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 
 # Changelog
 
+**Version 2.0.3**
+- Added callback to Reconnect function (always success)
+- Removed unused parts of the older code
+
 **Version 2.0.2**
 - Bugfixes
 
