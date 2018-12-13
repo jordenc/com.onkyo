@@ -4,8 +4,8 @@
         "en": "Onkyo receiver / Pioneer VSX receiver",
         "nl": "Onkyo receiver / Pioneer VSX receiver"
     },
-    "version": "2.0.3",
-    "compatibility": "0.x || 1.x",
+    "version": "2.0.4",
+    "compatibility": "0.x || 1.x || 2.x",
     "author": {
         "name": "Chamid Media",
         "email": "info@chamidmedia.nl"
