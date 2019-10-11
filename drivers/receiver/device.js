@@ -600,7 +600,7 @@ class OnkyoDevice extends Homey.Device {
         let settings = this.getSettings();
         
         //Move older (< SDKv2) devices to new format
-        if (typeof settings.ipaddress !== 'undefined') device_data.host = settings.ipaddress;
+        //if (typeof settings.ipaddress !== 'undefined') device_data.host = settings.ipaddress;
         
         driver = this.getDriver();
         
@@ -797,12 +797,16 @@ class OnkyoDevice extends Homey.Device {
 		});
 		
 		cmdclient[settings.host].on('data', function(data) {
+			
+			
 		
 			if (typeof data !== 'undefined') {
 				//cleanup command response from Onkyo
 				var test = data.toString();
 				test = test.split('!');
 				test = JSON.stringify(test[1]);
+				
+				console.log('Received RAW EISP STRING = '+ test);
 				
 				if (typeof test !== 'undefined') {
 					test = test.split("\\u");
@@ -825,7 +829,7 @@ class OnkyoDevice extends Homey.Device {
 						
 					} else {
 						
-						console.log('DONT CALL ' + test + ' / ' + callbacklog);
+						//console.log('DONT CALL ' + test + ' / ' + callbacklog);
 						
 						if (typeof test !== 'undefined') {
 						
