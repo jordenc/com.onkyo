@@ -37,7 +37,7 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 - Volume Changes, Mute changes, Input changes and on/off changes now in sync
 - Removed support fot Pioneer reveiver
 
-** - KNOWN ISSUE, timeouts. **
+**- KNOWN ISSUE, timeouts**
 
 **Version 2.0.4**
 - Fixed compatibility version
