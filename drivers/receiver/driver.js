@@ -142,13 +142,7 @@ class OnkyoDriver extends Homey.Driver {
 	        console.log(util.format("Sent ONKYO broadcast discovery packet to %s:%s", options.address, options.port));
 	        client.send(buffer, 0, buffer.length, options.port, options.address);
 	        var timeout_timer = setTimeout(close, options.timeout * 1000);
-	        
-	        var buffer2 = eiscp_packet('!pECNQSTN');
-	        
-	        console.log(util.format("Sent PIONEER broadcast discovery packet to %s:%s", options.address, options.port));
-	        client.send(buffer2, 0, buffer2.length, options.port, options.address);
-	        //timeout_timer = setTimeout(close, options.timeout * 1000);
-	        
+
 	    })
 	    .bind(0);
 	
@@ -157,7 +151,6 @@ class OnkyoDriver extends Homey.Driver {
 }	
 
 module.exports = OnkyoDriver;
-
 
 function eiscp_packet (cmd) {
 	
