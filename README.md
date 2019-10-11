@@ -35,7 +35,7 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 - Compatibilty version homey firmware 2.0 or higher
 - Added capabilities volumeUp, VolumeDown, VolumeMute
 - Volume Changes, Mute changes, Input changes and on/off changes now in sync
-- Removed support fot Pioneer reveiver
+- Removed support fot Pioneer receiver
 
 **- KNOWN ISSUE, timeouts**
 
