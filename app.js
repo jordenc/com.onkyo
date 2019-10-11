@@ -8,5 +8,4 @@ class App extends Homey.App {
 	
 	}	
 }
-
 module.exports = App;
