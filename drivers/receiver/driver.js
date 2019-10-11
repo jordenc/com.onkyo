@@ -18,6 +18,12 @@ class OnkyoDriver extends Homey.Driver {
             
         this._TriggerreceiverOff = new Homey.FlowCardTriggerDevice('receiverOff')
             .register()
+		
+		this._TriggerreceiverMute = new Homey.FlowCardTriggerDevice('Mute')
+           .register()
+		   
+		this._TriggerreceiverunMute = new Homey.FlowCardTriggerDevice('unMute')
+           .register()
 
     }
 
@@ -48,6 +54,20 @@ class OnkyoDriver extends Homey.Driver {
                 .then( this.log )
                 .catch( this.error )
     }
+	
+	triggerreceiverMute( device, tokens, state ) {
+        this._TriggerreceiverMute
+            .trigger( device, tokens, state )
+                .then( this.log )
+                .catch( this.error )
+	 }
+	 
+	triggerreceiverunMute( device, tokens, state ) {
+         this._TriggerreceiverunMute
+            .trigger( device, tokens, state )
+				.then( this.log )
+				.catch( this.error )
+	 }
     	
 	onPairListDevices( data, callback ){
 

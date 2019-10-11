@@ -1,11 +1,11 @@
 {
     "id": "com.onkyo",
     "name": {
-        "en": "Onkyo receiver / Pioneer VSX receiver",
-        "nl": "Onkyo receiver / Pioneer VSX receiver"
+        "en": "Onkyo receiver",
+        "nl": "Onkyo receiver"
     },
-    "version": "2.0.4",
-    "compatibility": "0.x || 1.x || 2.x",
+    "version": "2.1.1",
+    "compatibility": ">=2.0.0",
     "author": {
         "name": "Chamid Media",
         "email": "info@chamidmedia.nl"
@@ -17,8 +17,8 @@
     },
     "category": "appliances",
     "description": {
-    	"en": "Onkyo receiver / Pioneer VSX receiver app for Homey",
-		"nl": "Onkyo receiver / Pioneer VSX receiver app voor Homey"
+    	"en": "Onkyo receiver",
+		"nl": "Onkyo receiver"
     },
     "dependencies": {
     		"net": "*"
@@ -108,13 +108,25 @@
               "small": "drivers/receiver/assets/images/small.jpg"
           },
           "class": "amplifier",
-          "capabilities": [ "onoff", "volume_set", "changeInput" ],
+          "capabilities": [ "onoff", "volume_set", "changeInput", "volume_up", "volume_mute", "volume_down" ],
 
           "mobile": {
 	         "components": [ 
 	         {
 		        "id": "icon",
 		        "capabilities": ["onoff"]
+		     },
+			 {
+		        "id": "icon",
+		        "capabilities": ["volume_up"]
+		     },
+			 {
+		        "id": "icon",
+		        "capabilities": ["volume_mute"]
+		     },
+			 {
+		        "id": "icon",
+		        "capabilities": ["volume_down"]
 		     },
 		     {
 			    "id": "slider",
@@ -231,6 +243,42 @@
 	            ]
 			},
 			{
+		    	"id": "Mute",
+				"title": {
+					"en": "Receiver Muted",
+					"nl": "Receiver Mute"
+				},
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+					  "nl": "Selecteer receiver"
+	                },
+	                "filter": "driver_id=receiver"
+	              }
+	            ]
+			},
+			{
+		    	"id": "unMute",
+				"title": {
+					"en": "Receiver UnMuted",
+					"nl": "Receiver UnMute"
+				},
+	            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select receiver",
+					  "nl": "Selecteer receiver"
+	                },
+	                "filter": "driver_id=receiver"
+	              }
+	            ]
+			},
+			{
 		    	"id": "inputChanged",
 				"title": {
 					"en": "Selected input changes",
@@ -256,6 +304,7 @@
 	                "filter": "driver_id=receiver"
 	              }
 	            ]
+				
 			}
 	    ],
 	    "conditions": [
