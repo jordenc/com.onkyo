@@ -589,6 +589,9 @@ class OnkyoDevice extends Homey.Device {
         this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this))
         this.registerCapabilityListener('volume_set', this.onCapabilityvolume_set.bind(this))
         this.registerCapabilityListener('changeInput', this.onCapabilitychangeInput.bind(this))
+		this.registerCapabilityListener('volume_mute', this.onCapabilitychangeMute.bind(this))
+		this.registerCapabilityListener('volume_up', this.onCapabilitychangeUp.bind(this))
+		this.registerCapabilityListener('volume_down', this.onCapabilitychangeDown.bind(this))
         
         
         device_data = this.getData();
@@ -597,7 +600,7 @@ class OnkyoDevice extends Homey.Device {
         let settings = this.getSettings();
         
         //Move older (< SDKv2) devices to new format
-        if (typeof settings.ipaddress !== 'undefined') device_data.host = settings.ipaddress;
+        //if (typeof settings.ipaddress !== 'undefined') device_data.host = settings.ipaddress;
         
         driver = this.getDriver();
         
@@ -674,6 +677,60 @@ class OnkyoDevice extends Homey.Device {
 
     }
 	
+	
+	onCapabilitychangeMute( changemute, value, callback ) {
+        
+        console.log('Setting device_status of ' + device_data.host + ' to ' + changemute);
+
+		if (changemute) {
+			
+			sendCommand ('!1AMT01', device_data.host, function (result) {
+			
+				if (result == '1AMT01') callback (null, true); else callback (null, false);
+				
+			}, '1AMT');
+			
+		} else {
+			
+			sendCommand ('!1AMT00', device_data.host, function (result) {
+			
+				console.log ("returned result = " + JSON.stringify(result));
+				if (result == '1AMT00') callback(null, true); else callback (null, false);
+				
+			}, '1AMT00');
+			
+		}
+			
+    }
+	
+	onCapabilitychangeUp( Volup, value, callback ) {
+        
+        console.log('Sending Volume+1');
+
+				sendCommand ('!1MVLUP', device_data.host, function (result) {
+			
+				if (result == '1MVLUP') callback (null, true); else callback (null, false);
+				
+			}, '1MVL');
+    }
+	
+	onCapabilitychangeDown( Voldown, value, callback ) {
+        
+        console.log('Sending Volume-1');
+
+			sendCommand ('!1MVLDOWN', device_data.host, function (result) {
+			
+			if (result == '1MVLDOWN') callback (null, true); else callback (null, false);
+				
+			}, '1MVL');
+    }
+	
+	onAdded() {
+        this.log('device added');
+        var device_data = this.getData();
+		this.startsocket (device_data);
+        }
+	
 	onAdded() {
 		
         this.log('device added');
@@ -740,12 +797,16 @@ class OnkyoDevice extends Homey.Device {
 		});
 		
 		cmdclient[settings.host].on('data', function(data) {
+			
+			
 		
 			if (typeof data !== 'undefined') {
 				//cleanup command response from Onkyo
 				var test = data.toString();
 				test = test.split('!');
 				test = JSON.stringify(test[1]);
+				
+				console.log('Received RAW EISP STRING = '+ test);
 				
 				if (typeof test !== 'undefined') {
 					test = test.split("\\u");
@@ -768,7 +829,7 @@ class OnkyoDevice extends Homey.Device {
 						
 					} else {
 						
-						console.log('DONT CALL ' + test + ' / ' + callbacklog);
+						//console.log('DONT CALL ' + test + ' / ' + callbacklog);
 						
 						if (typeof test !== 'undefined') {
 						
@@ -778,7 +839,9 @@ class OnkyoDevice extends Homey.Device {
 								
 								var hex = test.substr (4,2);
 								var volume = parseInt(hex, 16);
+								if (volume<10) volume = '0'+volume;
 								console.log('vol='+volume);
+								device.setCapabilityValue('volume_set', Number('0.'+volume));
 								
 						        let tokens = {volume: volume};
 						        let state = {};
@@ -792,6 +855,7 @@ class OnkyoDevice extends Homey.Device {
 								
 								if (test == '1PWR01') {
 									console.log('trigger ON for ' + settings.device_id);
+									device.setCapabilityValue('onoff', true);
 									
 							        let tokens = {};
 							        let state = {};
@@ -799,16 +863,49 @@ class OnkyoDevice extends Homey.Device {
 									driver.ready(() => {
 							            driver.triggerreceiverOn( device, tokens, state );
 							        });
+									
+									//send commmand to receive the correct input
+									sendCommand ('!1SLIQSTN', device_data.host)
+									//send commmand to receive the correct volume
+									sendCommand ('!11MVLQSTN', device_data.host)
 	        
 	        
 								} else {
 									console.log('trigger OFF for ' + settings.device_id);
+									device.setCapabilityValue('onoff', false);
 									
 							        let tokens = {};
 							        let state = {};
 	        
 									driver.ready(() => {
 							            driver.triggerreceiverOff( device, tokens, state );
+							        });
+								}
+								
+							} else if (triggertest == '1AMT') {
+																
+								if (test == '1AMT01') {
+									console.log('Mute for ' + settings.device_id);
+									device.setCapabilityValue('volume_mute', true)
+									
+									
+							        let tokens = {};
+							        let state = {};
+	        
+									driver.ready(() => {
+							            driver.triggerreceiverMute( device, tokens, state );
+							        });
+	        
+	        
+								} else {
+									console.log('Unmute for ' + settings.device_id);
+									device.setCapabilityValue('volume_mute', false)
+									
+							        let tokens = {};
+							        let state = {};
+	        
+									driver.ready(() => {
+							            driver.triggerreceiverunMute( device, tokens, state );
 							        });
 								}
 								
@@ -819,6 +916,7 @@ class OnkyoDevice extends Homey.Device {
 									if (input.id == '!' + test) {
 										
 										console.log ('SELECTED = ' + input.name);
+										device.setCapabilityValue('changeInput', input.id);
 		
 								        let tokens = {input: input.name};
 								        let state = {};

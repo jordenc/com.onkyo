@@ -1,9 +1,7 @@
-# Onkyo receiver app for Athom Homey
+# Onkyo receiver app for Homey
 
-Control your Onkyo network-enabled receiver using the Homey by Athom B.V.
-Only recent network-enabled receivers will work (TX-NR series). This app uses ISCP to control your receiver.
-
-Pioneer VSX-receivers that have support for the Onkyo eISCP protocol are also supported
+Control your Onkyo network-enabled receiver using the Homey.
+Only recent network-enabled receivers will work (TX-NR series). This app uses eISCP to control your receiver.
 
 **Want to show your appreciation for this app? A donation is possible via http://www.d2c.nl **
 
@@ -33,6 +31,13 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 2.1.1 BETA**
+- Compatibilty version homey firmware 2.0 or higher
+- Added capabilities volumeUp, VolumeDown, VolumeMute
+- Volume Changes, Mute changes, Input changes and on/off changes now in sync
+- Removed support fot Pioneer receiver
+
+**- KNOWN ISSUE, timeouts**
 
 **Version 2.0.4**
 - Fixed compatibility version
