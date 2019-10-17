@@ -31,13 +31,21 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 2.1.3 BETA**
+**Need 
+
+- Token/Tag volume corrected
+- making all capabilities custom to get rid of the default flows that Homey create
+- Minor bugfixes
+- **Sadly, you have to delete your existing devices and add them with the new pairing mechanism.**
+
+**KNOWN ISSUE, timeouts - Look like its a bit less, eventually the command wil be send to receiver**
+
 **Version 2.1.1 BETA**
 - Compatibilty version homey firmware 2.0 or higher
 - Added capabilities volumeUp, VolumeDown, VolumeMute
 - Volume Changes, Mute changes, Input changes and on/off changes now in sync
 - Removed support fot Pioneer receiver
-
-**- KNOWN ISSUE, timeouts**
 
 **Version 2.0.4**
 - Fixed compatibility version
