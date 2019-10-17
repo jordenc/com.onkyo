@@ -32,7 +32,6 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 
 # Changelog
 **Version 2.1.3 BETA**
-**Need 
 
 - Token/Tag volume corrected
 - making all capabilities custom to get rid of the default flows that Homey create
