@@ -1,678 +1,815 @@
 {
-    "id": "com.onkyo",
-    "name": {
+  "id": "com.onkyo",
+  "name": {
+    "en": "Onkyo receiver",
+    "nl": "Onkyo receiver"
+  },
+  "version": "2.1.3",
+  "compatibility": ">=2.0.0",
+  "author": {
+    "name": "Chamid Media",
+    "email": "info@chamidmedia.nl"
+  },
+  "sdk": 2,
+  "images": {
+    "large": "./assets/images/large.jpg",
+    "small": "./assets/images/small.jpg"
+  },
+  "category": "appliances",
+  "description": {
+    "en": "Onkyo receiver",
+    "nl": "Onkyo receiver"
+  },
+  "dependencies": {
+    "net": "*"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "email": "info@chamidmedia.nl"
+      }
+    }
+  },
+  "capabilities": {
+    "changeInput": {
+      "type": "enum",
+      "title": {
+        "en": "Switch input",
+        "nl": "Verander input"
+      },
+      "getable": true,
+      "setable": true,
+	  "uiComponent": "picker",
+      "values": [
+        {
+          "id": "!1SLI10",
+          "title": {
+            "en": "BluRay/DVD player"
+          }
+        },
+        {
+          "id": "!1SLI00",
+          "title": {
+            "en": "VCR/DVR"
+          }
+        },
+        {
+          "id": "!1SLI01",
+          "title": {
+            "en": "Cable/Sat TV"
+          }
+        },
+        {
+          "id": "!1SLI11",
+          "title": {
+            "en": "STRM BOX"
+          }
+        },
+        {
+          "id": "!1SLI05",
+          "title": {
+            "en": "PC"
+          }
+        },
+        {
+          "id": "!1SLI02",
+          "title": {
+            "en": "Game"
+          }
+        },
+        {
+          "id": "!1SLI03",
+          "title": {
+            "en": "Aux"
+          }
+        },
+        {
+          "id": "!1SLI23",
+          "title": {
+            "en": "CD"
+          }
+        },
+        {
+          "id": "!1SLI22",
+          "title": {
+            "en": "Phono"
+          }
+        },
+        {
+          "id": "!1SLI12",
+          "title": {
+            "en": "TV"
+          }
+        },
+        {
+          "id": "!1SLI24",
+          "title": {
+            "en": "Tuner"
+          }
+        },
+        {
+          "id": "!1SLI2B",
+          "title": {
+            "en": "Net"
+          }
+        },
+        {
+          "id": "!1SLI29",
+          "title": {
+            "en": "USB"
+          }
+        },
+        {
+          "id": "1SLI2E",
+          "title": {
+            "en": "BLUETOOTH"
+          }
+        }
+      ]
+    },
+    "volumeset": {
+      "type": "number",
+      "title": {
+        "en": "Volume",
+        "nl": "Volume"
+      },
+      "getable": true,
+      "setable": true,
+      "min": 0,
+      "max": 80,
+	  "decimals": 0,
+	  "step": 1,
+      "uiComponent": "slider"
+	  },
+	"on_off": {
+      "type": "boolean",
+      "title": {
+        "en": "On/Off",
+        "nl": "Aan/Uit"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle",
+	  "uiQuickAction": true
+	  },
+	"mute": {
+      "type": "boolean",
+      "title": {
+        "en": "Mute",
+        "nl": "Mute"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "button"
+	  },
+	"volup": {
+      "type": "boolean",
+      "title": {
+        "en": "Volume Up",
+        "nl": "Volume Up"
+      },
+      "setable": true,
+      "uiComponent": "button"
+	  },
+	"voldown": {
+      "type": "boolean",
+      "title": {
+        "en": "Volume Down",
+        "nl": "Volume Down"
+      },
+      "setable": true,
+      "uiComponent": "button"
+	  }
+  },
+  
+  "drivers": [
+    {
+      "id": "receiver",
+      "name": {
         "en": "Onkyo receiver",
         "nl": "Onkyo receiver"
-    },
-    "version": "2.1.1",
-    "compatibility": ">=2.0.0",
-    "author": {
-        "name": "Chamid Media",
-        "email": "info@chamidmedia.nl"
-    },
-    "sdk": 2,
-    "images": {
-      "large": "./assets/images/large.jpg",
-      "small": "./assets/images/small.jpg"
-    },
-    "category": "appliances",
-    "description": {
-    	"en": "Onkyo receiver",
-		"nl": "Onkyo receiver"
-    },
-    "dependencies": {
-    		"net": "*"
-    },
-    "contributing": {
-	    "donate": {
-	        "paypal": {
-	            "email": "info@chamidmedia.nl"
-	        }
-	    }
-	},
-    "capabilities" : {
-	    "changeInput": {
-			"type": "enum",
-			"title": {
-				"en": "Switch input",
-				"nl": "Verander input"
-			},
-			"getable": true,
-			"setable": true,
-			"values": [
-				{	"id": "!1SLI10",
-			 		"title": {"en":"BluRay/DVD player"}
-				},
-				{	"id": "!1SLI00",
-			 		"title": {"en":"VCR/DVR"}
-				},
-				{	"id": "!1SLI01",
-			 		"title": {"en":"Cable/Sat TV"}
-				},
-				{	"id": "!1SLI11",
-					"title": {"en":"STRM BOX"}
-				},
-				{	"id": "!1SLI05",
-			 		"title": {"en":"PC"}
-				},
-				{	"id": "!1SLI02",
-			 		"title": {"en":"Game"}
-				},
-				{	"id": "!1SLI03",
-					"title": {"en":"Aux"}
-				},
-				{	"id": "!1SLI23",
-					"title": {"en":"CD"}
-				},
-				{	"id": "!1SLI22",
-			 		"title": {"en":"Phono"}
-				},
-				{	"id": "!1SLI12",
-					"title": {"en":"TV"}
-				},
-				{	"id": "!1SLI24",
-			 		"title": {"en":"Tuner"}
-				},
-				{	"id": "!1SLI2B",
-			 		"title": {"en":"Net"}
-				},
-				{	"id": "!1SLI29",
-			 		"title": {"en":"USB"}
-				},
-				{	"id": "1SLI2E",
-			 		"title": {"en":"BLUETOOTH"}
-				}
-				
-			]
-	    }
-	    
-	},
-	"capabilitiesOptions": {
-		"volume_set": {
-			"title": {
-				"en": "Volume",
-				"nl": "Volume"
-			}
-		}
-	},
-    
-    "drivers": [
-      {
-          "id": "receiver",
-          "name": {
-              "en": "Onkyo receiver",
-              "nl": "Onkyo receiver"
-          },
-          "images": {
-              "large": "drivers/receiver/assets/images/large.jpg",
-              "small": "drivers/receiver/assets/images/small.jpg"
-          },
-          "class": "amplifier",
-          "capabilities": [ "onoff", "volume_set", "changeInput", "volume_up", "volume_mute", "volume_down" ],
-
-          "mobile": {
-	         "components": [ 
-	         {
-		        "id": "icon",
-		        "capabilities": ["onoff"]
-		     },
-			 {
-		        "id": "icon",
-		        "capabilities": ["volume_up"]
-		     },
-			 {
-		        "id": "icon",
-		        "capabilities": ["volume_mute"]
-		     },
-			 {
-		        "id": "icon",
-		        "capabilities": ["volume_down"]
-		     },
-		     {
-			    "id": "slider",
-		        "capabilities": ["volume_set"] 
-		     },
-		     {
-			    "id": "picker",
-		        "capabilities": ["changeInput"]
-		     }
-		     ]
-          },
-          "pair": [
-            {
-                "id": "list_devices",
-                "template": "list_devices",
-                "navigation": {
-                    "next": "add_devices"
-                }
-            },
-            {
-                "id": "add_devices",
-                "template": "add_devices"
-            }
-          ],
-          "settings": [
-                {
-                    "type": "group",
-                    "label": {
-                        "en": "General settings",
-                        "nl": "Algemene instellingen"
-                    },
-                    "children": [
-	                    {
-	                        "id": "host",
-	                        "type": "text",
-	                        "label": {
-	                            "en": "IP address",
-	                            "nl": "IP adres"
-	                        },
-	                        "value": "0.0.0.0"
-	                    }
-	                ]
-	            }
-	        ]
-      }
-    ],
-    "flow": {
-	    "triggers": [
-		    {
-		    	"id": "receiverOn",
-				"title": {
-					"en": "Receiver gets powered on",
-					"nl": "Receiver gaat aan"
-				},
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-
-			},
-			{
-		    	"id": "receiverOff",
-				"title": {
-					"en": "Receiver gets powered off",
-					"nl": "Receiver gaat uit"
-				},
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-
-			},
-			{
-		    	"id": "volumeChanged",
-				"title": {
-					"en": "Volume changes",
-					"nl": "Volume wijzigt"
-				},
-				"tokens": [
-				{
-					"name": "volume",
-					"type": "number",
-					"title": {
-						"en": "Volume",
-						"nl": "Volume"
-					},
-					"example": 18
-				}
-				],
-				"args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-			},
-			{
-		    	"id": "Mute",
-				"title": {
-					"en": "Receiver Muted",
-					"nl": "Receiver Mute"
-				},
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-					  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-			},
-			{
-		    	"id": "unMute",
-				"title": {
-					"en": "Receiver UnMuted",
-					"nl": "Receiver UnMute"
-				},
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-					  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-			},
-			{
-		    	"id": "inputChanged",
-				"title": {
-					"en": "Selected input changes",
-					"nl": "Geselecteerde input wijzigt"
-				},
-				"tokens": [
-				{
-					"name": "input",
-					"title": {
-						"en": "Input",
-						"nl": "Input"
-					}
-				}
-				],
-				"args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-				
-			}
-	    ],
-	    "conditions": [
-		    {
-			    "id": "receiverOn",
-			    "title": {
-				    "en": "Receiver !{{is|is not}} powered on",
-				    "nl": "Receiver !{{is|is niet}} aan"
-			    },
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]
-  
-		    },
-		    {
-			    "id": "muted",
-			    "title": {
-				    "en": "Receiver !{{is|is not}} muted",
-				    "nl": "Receiver !{{is|is niet}} muted"
-			    },
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              }
-	            ]		    
-		    },
-		    {
-			    "id": "inputselected",
-			    "title": {
-				    "en": "Receiver !{{has|has not got}} input selected",
-				    "nl": "Receiver !{{heeft|heeft niet}} input geselecteerd"
-			    },
-	            "args": [
-	              {
-	                "name": "device",
-	                "type": "device",
-	                "placeholder": {
-	                  "en": "Select receiver",
-	                  "nl": "Selecteer receiver"
-	                },
-	                "filter": "driver_id=receiver"
-	              },
-	              {
-				  	"name": "input",
-	                "type": "autocomplete",
-	                "placeholder": {
-	                  "en": "input",
-	                  "nl": "input"
-	                }
-	              }
-	            ]		    
-		    }
-		],
-        "actions": [
+      },
+      "images": {
+        "large": "drivers/receiver/assets/images/large.jpg",
+        "small": "drivers/receiver/assets/images/small.jpg"
+      },
+      "class": "amplifier",
+      "capabilities": [
+        "on_off",
+        "volumeset",
+        "changeInput",
+        "volup",
+        "mute",
+        "voldown"
+      ],
+      "pair": [
         {
-            "id": "powerOn",
-            "title": {
-                "en": "Turn power on",
-                "nl": "Aanzetten"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-	            "filter": "driver_id=receiver"
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-            ]
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
         },
         {
-            "id": "powerOff",
-            "title": {
-                "en": "Power off/standby",
-                "nl": "Uitschakelen/standby"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-	            "filter": "driver_id=receiver"
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-
-            ]
-        },
-        {
-            "id": "changeInput",
-            "title": {
-                "en": "Switch to input",
-                "nl": "Schakel naar input"
-            },
-            "args": [
-              {
-                "name": "input",
-                "type": "autocomplete",
-                "placeholder": {
-                  "en": "input",
-                  "nl": "input"
-                }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              }
-            ]
-        },
-        {
-            "id": "changeListenmode",
-            "title": {
-                "en": "Change listen mode",
-                "nl": "Verander luistermode"
-            },
-            "args": [
-              {
-                "name": "listenmode",
-                "type": "autocomplete",
-                "placeholder": {
-                  "en": "mode",
-                  "nl": "mode"
-                }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              }
-            ]
-        },
-        {
-            "id": "mute",
-            "title": {
-                "en": "Mute",
-                "nl": "Zet mute aan"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-            ]
-        },
-        {
-            "id": "unMute",
-            "title": {
-                "en": "Unmute",
-                "nl": "Zet mute uit"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-            ]
-        },
-        {
-            "id": "setVolume",
-            "title": {
-                "en": "Change volume",
-                "nl": "Verander volume"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-                "name": "volume",
-                "type": "number",
-                "min": 0,
-                "max": 99,
-                "placeholder": {
-                   "en": "Target volume",
-                   "nl": "Gewenst volume"
-                }
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-            ]
-        },
-         {
-            "id": "volumeDown",
-            "title": {
-                "en": "Volume down (-1)",
-                "nl": "Volume omlaag (-1)"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-            ]
-        },
-        {
-            "id": "volumeUp",
-            "title": {
-                "en": "Volume up (+1)",
-                "nl": "Volume omhoog (+1)"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-	              "name": "zone",
-	              "type": "dropdown",
-	              "values": [ { "id": "zone1", "label": "zone 1"}, { "id": "zone2", "label": "zone 2"}, { "id": "zone3", "label": "zone 3"}]
-              }
-            ]
-        },
-        {
-            "id": "setPreset",
-            "title": {
-                "en": "Set tuner to preset number",
-                "nl": "Zet radiotuner op preset nummer"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-                "name": "preset",
-                "type": "number",
-                "min": 1,
-                "max": 40,
-                "placeholder": {
-                   "en": "Preset number",
-                   "nl": "Gewenste preset"
-                }
-              }
-
-            ]
-        },
-        {
-            "id": "sendCustomCommand",
-            "title": {
-                "en": "Send a custom command",
-                "nl": "Verstuur een commando"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              },
-              {
-                "name": "command",
-                "type": "text",
-                "placeholder": {
-                   "en": "eISCP command",
-                   "nl": "eISCP commando"
-                }
-              }
-
-            ]
-        },
-        {
-            "id": "Reconnect",
-            "title": {
-                "en": "Disconnect and reconnect",
-                "nl": "Opnieuw verbinding maken"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select receiver",
-                  "nl": "Selecteer receiver"
-                },
-                "filter": "driver_id=receiver"
-              }
-
-            ]
+          "id": "add_devices",
+          "template": "add_devices"
         }
-        
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings",
+            "nl": "Algemene instellingen"
+          },
+          "children": [
+            {
+              "id": "host",
+              "type": "text",
+              "label": {
+                "en": "IP address",
+                "nl": "IP adres"
+              },
+              "value": "0.0.0.0"
+            }
+          ]
+        }
       ]
     }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "receiverOn",
+        "title": {
+          "en": "Receiver gets powered on",
+          "nl": "Receiver gaat aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "receiverOff",
+        "title": {
+          "en": "Receiver gets powered off",
+          "nl": "Receiver gaat uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "volumeChanged",
+        "title": {
+          "en": "Volume changes",
+          "nl": "Volume wijzigt"
+        },
+        "tokens": [
+          {
+            "name": "volume",
+            "type": "number",
+            "title": {
+              "en": "Volume",
+              "nl": "Volume"
+            },
+            "example": 18
+          }
+        ],
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "Mute",
+        "title": {
+          "en": "Receiver Muted",
+          "nl": "Receiver Mute"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "unMute",
+        "title": {
+          "en": "Receiver UnMuted",
+          "nl": "Receiver UnMute"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "inputChanged",
+        "title": {
+          "en": "Selected input changes",
+          "nl": "Geselecteerde input wijzigt"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "receiverOn",
+        "title": {
+          "en": "Receiver !{{is|is not}} powered on",
+          "nl": "Receiver !{{is|is niet}} aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "muted",
+        "title": {
+          "en": "Receiver !{{is|is not}} muted",
+          "nl": "Receiver !{{is|is niet}} muted"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "inputselected",
+        "title": {
+          "en": "Receiver !{{has|has not got}} input selected",
+          "nl": "Receiver !{{heeft|heeft niet}} input geselecteerd"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "input",
+              "nl": "input"
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "powerOn",
+        "title": {
+          "en": "Turn power on",
+          "nl": "Aanzetten"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "powerOff",
+        "title": {
+          "en": "Power off/standby",
+          "nl": "Uitschakelen/standby"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "changeInput",
+        "title": {
+          "en": "Switch to input",
+          "nl": "Schakel naar input"
+        },
+        "args": [
+          {
+            "name": "input",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "input",
+              "nl": "input"
+            }
+          },
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "changeListenmode",
+        "title": {
+          "en": "Change listen mode",
+          "nl": "Verander luistermode"
+        },
+        "args": [
+          {
+            "name": "listenmode",
+            "type": "autocomplete",
+            "placeholder": {
+              "en": "mode",
+              "nl": "mode"
+            }
+          },
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      },
+      {
+        "id": "mute",
+        "title": {
+          "en": "Mute",
+          "nl": "Zet mute aan"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "unMute",
+        "title": {
+          "en": "Unmute",
+          "nl": "Zet mute uit"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "setVolume",
+        "title": {
+          "en": "Change volume",
+          "nl": "Verander volume"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "volume",
+            "type": "number",
+            "min": 0,
+            "max": 80,
+            "placeholder": {
+              "en": "Target volume",
+              "nl": "Gewenst volume"
+            }
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "volumeDown",
+        "title": {
+          "en": "Volume down (-1)",
+          "nl": "Volume omlaag (-1)"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "volumeUp",
+        "title": {
+          "en": "Volume up (+1)",
+          "nl": "Volume omhoog (+1)"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "zone",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "zone1",
+                "label": "zone 1"
+              },
+              {
+                "id": "zone2",
+                "label": "zone 2"
+              },
+              {
+                "id": "zone3",
+                "label": "zone 3"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "setPreset",
+        "title": {
+          "en": "Set tuner to preset number",
+          "nl": "Zet radiotuner op preset nummer"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "preset",
+            "type": "number",
+            "min": 1,
+            "max": 40,
+            "placeholder": {
+              "en": "Preset number",
+              "nl": "Gewenste preset"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sendCustomCommand",
+        "title": {
+          "en": "Send a custom command",
+          "nl": "Verstuur een commando"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          },
+          {
+            "name": "command",
+            "type": "text",
+            "placeholder": {
+              "en": "eISCP command",
+              "nl": "eISCP commando"
+            }
+          }
+        ]
+      },
+      {
+        "id": "Reconnect",
+        "title": {
+          "en": "Disconnect and reconnect",
+          "nl": "Opnieuw verbinding maken"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "placeholder": {
+              "en": "Select receiver",
+              "nl": "Selecteer receiver"
+            },
+            "filter": "driver_id=receiver"
+          }
+        ]
+      }
+    ]
+  }
 }
