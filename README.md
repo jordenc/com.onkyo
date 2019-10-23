@@ -31,8 +31,11 @@ Discovery will fill in the IP-address and type as name of the device. Ofcourse, 
 Use at your own risk, I accept no responsibility for any damages caused by using this script.
 
 # Changelog
+**Version 2.1.4**
+- Resolved a onkyo bug when receiver is off and is turned on by e.g. spotyify device there is no EISCP command send from
+  onkyo to homey to set the on/off status.
+
 **Version 2.1.3 BETA**
-**Need 
 
 - Token/Tag volume corrected
 - making all capabilities custom to get rid of the default flows that Homey create

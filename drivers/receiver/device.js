@@ -862,9 +862,9 @@ class OnkyoDevice extends Homey.Device {
 							        });
 									
 									//send commmand to receive the correct input
-									sendCommand ('!1SLIQSTN', device_data.host)
+									sendCommand ('!1SLIQSTN', device_data.host);
 									//send commmand to receive the correct volume
-									sendCommand ('!1MVLQSTN', device_data.host)
+									sendCommand ('!1MVLQSTN', device_data.host);
 	        
 	        
 								} else {
@@ -877,9 +877,17 @@ class OnkyoDevice extends Homey.Device {
 									driver.ready(() => {
 							            driver.triggerreceiverOff( device, tokens, state );
 							        });
-								}
+								}								
+							} else if (trigger == '1NLT') {
 								
-							} else if (trigger == '1AMT') {
+								test = test.substring (0,4);
+								
+								if (test == '1NLT') {
+									console.log('STREAMING MEDIA NET INPUT');
+									//send commmand to check of reciver is on/off
+									sendCommand ('!1PWRQSTN', device_data.host);
+																	}
+								} else if (trigger == '1AMT') {
 																
 								if (test == '1AMT01') {
 									console.log('MUTE = ON');
