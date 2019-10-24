@@ -586,12 +586,12 @@ class OnkyoDevice extends Homey.Device {
         this.log('name:', this.getName());
         this.log('class:', this.getClass());
 
-        this.registerCapabilityListener('on_off', this.onCapabilityOn_off.bind(this))
-        this.registerCapabilityListener('volumeset', this.onCapabilityvolumeset.bind(this))
+        this.registerCapabilityListener('onoff', this.onCapabilityOn_off.bind(this))
+        this.registerCapabilityListener('volume_set', this.onCapabilityvolumeset.bind(this))
         this.registerCapabilityListener('changeInput', this.onCapabilitychangeInput.bind(this))
-		this.registerCapabilityListener('mute', this.onCapabilitychangeMute.bind(this))
-		this.registerCapabilityListener('volup', this.onCapabilitychangeUp.bind(this))
-		this.registerCapabilityListener('voldown', this.onCapabilitychangeDown.bind(this))
+		this.registerCapabilityListener('volume_mute', this.onCapabilitychangeMute.bind(this))
+		this.registerCapabilityListener('volume_up', this.onCapabilitychangeUp.bind(this))
+		this.registerCapabilityListener('volume_down', this.onCapabilitychangeDown.bind(this))
         
         
         device_data = this.getData();
@@ -839,10 +839,10 @@ class OnkyoDevice extends Homey.Device {
 								if (volume<10) volume = '0'+volume;
 								console.log('VOLUME = '+volume);
 								
-								let tokens = {'volume': volume};
+								let tokens = {'volume_set': volume};
 								let state = {};
 								
-								device.setCapabilityValue('volumeset', Number(volume));
+								device.setCapabilityValue('volume_set', Number(volume));
 	    								
 						        driver.ready(() => {
 						            driver.triggervolumeChanged( device, tokens, state );
@@ -852,7 +852,7 @@ class OnkyoDevice extends Homey.Device {
 								
 								if (test == '1PWR01') {
 									console.log('POWER = ON');
-									device.setCapabilityValue('on_off', true);
+									device.setCapabilityValue('onoff', true);
 									
 							        let tokens = {};
 									let state = {};
@@ -869,7 +869,7 @@ class OnkyoDevice extends Homey.Device {
 	        
 								} else {
 									console.log('POWER = OFF');
-									device.setCapabilityValue('on_off', false);
+									device.setCapabilityValue('onoff', false);
 									
 							        let tokens = {};
 									let state = {};
@@ -891,7 +891,7 @@ class OnkyoDevice extends Homey.Device {
 																
 								if (test == '1AMT01') {
 									console.log('MUTE = ON');
-									device.setCapabilityValue('mute', true)
+									device.setCapabilityValue('volume_mute', true)
 									
 									let tokens = {};
 							        let state = {};
@@ -903,7 +903,7 @@ class OnkyoDevice extends Homey.Device {
 	        
 								} else {
 									console.log('MUTE = OFF');
-									device.setCapabilityValue('mute', false)
+									device.setCapabilityValue('volume_mute', false)
 									
 							        let tokens = {};
 									let state = {};
@@ -1184,10 +1184,10 @@ class OnkyoDevice extends Homey.Device {
 			
 			var targetVolume = args.volume;
 
-			if (targetVolume > 100) {
+			if (targetVolume > 80) {
 				
-				console.log ('Target Volume (' + targetVolume + ') is too high (> 100)');
-				callback ('Target Volume (' + targetVolume + ') is too high (> 100)', false);
+				console.log ('Target Volume (' + targetVolume + ') is too high (> 80)');
+				callback ('Target Volume (' + targetVolume + ') is too high (> 80)', false);
 				
 			}
 			

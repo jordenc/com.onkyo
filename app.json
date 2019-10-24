@@ -4,7 +4,7 @@
     "en": "Onkyo receiver",
     "nl": "Onkyo receiver"
   },
-  "version": "2.1.4",
+  "version": "2.1.5",
   "compatibility": ">=2.0.0",
   "author": {
     "name": "Chamid Media",
@@ -127,7 +127,7 @@
         }
       ]
     },
-    "volumeset": {
+    "volume_set": {
       "type": "number",
       "title": {
         "en": "Volume",
@@ -139,9 +139,10 @@
       "max": 80,
 	  "decimals": 0,
 	  "step": 1,
+	  "chartType": "stepLine",
       "uiComponent": "slider"
 	  },
-	"on_off": {
+	"onoff": {
       "type": "boolean",
       "title": {
         "en": "On/Off",
@@ -152,7 +153,7 @@
       "uiComponent": "toggle",
 	  "uiQuickAction": true
 	  },
-	"mute": {
+	"volume_mute": {
       "type": "boolean",
       "title": {
         "en": "Mute",
@@ -162,7 +163,7 @@
       "setable": true,
       "uiComponent": "button"
 	  },
-	"volup": {
+	"volume_up": {
       "type": "boolean",
       "title": {
         "en": "Volume Up",
@@ -171,7 +172,7 @@
       "setable": true,
       "uiComponent": "button"
 	  },
-	"voldown": {
+	"volume_down": {
       "type": "boolean",
       "title": {
         "en": "Volume Down",
@@ -195,12 +196,12 @@
       },
       "class": "amplifier",
       "capabilities": [
-        "on_off",
-        "volumeset",
+        "onoff",
+        "volume_set",
         "changeInput",
-        "volup",
-        "mute",
-        "voldown"
+        "volume_up",
+        "volume_mute",
+        "volume_down"
       ],
       "pair": [
         {
@@ -283,7 +284,7 @@
         },
         "tokens": [
           {
-            "name": "volume",
+            "name": "volume_set",
             "type": "number",
             "title": {
               "en": "Volume",
