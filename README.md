@@ -32,7 +32,7 @@ Use at your own risk, I accept no responsibility for any damages caused by using
 
 # Changelog
 **Version 2.1.5**
-- Resolved a onkyo bug when receiver is off and is turned on by e.g. spotyify device there is no EISCP command send from
+- Resolved a onkyo bug when receiver is off and is turned on by e.g. spotify device there is no EISCP command send from
   onkyo to homey to set the on/off status.
 - back to default capabilities but whithouw double flows
 - Minor bugfixes
