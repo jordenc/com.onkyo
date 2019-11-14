@@ -1,14 +1,14 @@
 {
-  "id": "com.onkyo",
+  "id": "homey.onkyo",
   "name": {
-    "en": "Onkyo receiver",
-    "nl": "Onkyo receiver"
+    "en": "Onkyo Receiver",
+    "nl": "Onkyo Receiver"
   },
   "version": "2.1.5",
   "compatibility": ">=2.0.0",
   "author": {
-    "name": "Chamid Media",
-    "email": "info@chamidmedia.nl"
+    "name": "Mickel Luiten",
+    "email": "mickelluiten@gmail.com"
   },
   "sdk": 2,
   "images": {
@@ -23,13 +23,6 @@
   "dependencies": {
     "net": "*"
   },
-  "contributing": {
-    "donate": {
-      "paypal": {
-        "email": "info@chamidmedia.nl"
-      }
-    }
-  },
   "capabilities": {
     "changeInput": {
       "type": "enum",
@@ -39,7 +32,7 @@
       },
       "getable": true,
       "setable": true,
-	  "uiComponent": "picker",
+      "uiComponent": "picker",
       "values": [
         {
           "id": "!1SLI10",
@@ -137,12 +130,12 @@
       "setable": true,
       "min": 0,
       "max": 80,
-	  "decimals": 0,
-	  "step": 1,
-	  "chartType": "stepLine",
+      "decimals": 0,
+      "step": 1,
+      "chartType": "stepLine",
       "uiComponent": "slider"
-	  },
-	"onoff": {
+    },
+    "onoff": {
       "type": "boolean",
       "title": {
         "en": "On/Off",
@@ -151,9 +144,9 @@
       "getable": true,
       "setable": true,
       "uiComponent": "toggle",
-	  "uiQuickAction": true
-	  },
-	"volume_mute": {
+      "uiQuickAction": true
+    },
+    "volume_mute": {
       "type": "boolean",
       "title": {
         "en": "Mute",
@@ -162,8 +155,8 @@
       "getable": true,
       "setable": true,
       "uiComponent": "button"
-	  },
-	"volume_up": {
+    },
+    "volume_up": {
       "type": "boolean",
       "title": {
         "en": "Volume Up",
@@ -171,8 +164,8 @@
       },
       "setable": true,
       "uiComponent": "button"
-	  },
-	"volume_down": {
+    },
+    "volume_down": {
       "type": "boolean",
       "title": {
         "en": "Volume Down",
@@ -180,9 +173,8 @@
       },
       "setable": true,
       "uiComponent": "button"
-	  }
+    }
   },
-  
   "drivers": [
     {
       "id": "receiver",
