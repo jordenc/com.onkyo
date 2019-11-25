@@ -3,6 +3,8 @@ Onkyo receiver app for Homey
 Control your Onkyo network-enabled receiver using the Homey.
 Only recent network-enabled receivers will work (TX-NR series). This app uses eISCP to control your receiver.
 
+Pioneer VSX-receivers that have support for the Onkyo eISCP protocol are also supported
+
 Enables the following actions to use in your flows:
 - Volume +1
 - Volume -1

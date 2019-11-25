@@ -1,4 +1,8 @@
 # Changelog
+**Version 2.2.0**
+- Pioneer VSX added
+- Minor inprovements
+
 **Version 2.1.5**
 - Resolved a onkyo bug when receiver is off and is turned on by e.g. spotify device there is no EISCP command send from
   onkyo to homey to set the on/off status.
@@ -19,7 +23,7 @@
 - Compatibilty version homey firmware 2.0 or higher
 - Added capabilities volumeUp, VolumeDown, VolumeMute
 - Volume Changes, Mute changes, Input changes and on/off changes now in sync
-- Removed support fot Pioneer receiver
+
 
 **Version 2.0.4**
 - Fixed compatibility version

@@ -1,24 +1,37 @@
 {
   "id": "homey.onkyo",
   "name": {
-    "en": "Onkyo Receiver",
-    "nl": "Onkyo Receiver"
+    "en": "Onkyo receiver / Pioneer VSX receiver",
+    "nl": "Onkyo receiver / Pioneer VSX receiver"
   },
-  "version": "2.1.5",
+  "version": "2.2.0",
+  "sdk": 2,
   "compatibility": ">=2.0.0",
+  "brandColor": "#8142f5",
   "author": {
     "name": "Mickel Luiten",
     "email": "mickelluiten@gmail.com"
   },
-  "sdk": 2,
+  "contributors": {
+    "developers": [
+      {
+        "name": "Chamid Media",
+        "email": "info@chamidmedia.nl"
+      },
+      {
+        "name": "Mickel Luiten",
+        "email": "mickelluiten@gmail.com"
+      }
+    ]
+  },
   "images": {
     "large": "./assets/images/large.jpg",
     "small": "./assets/images/small.jpg"
   },
   "category": "appliances",
   "description": {
-    "en": "Onkyo receiver",
-    "nl": "Onkyo receiver"
+    "en": "Onkyo receiver / Pioneer VSX receiver",
+    "nl": "Onkyo receiver / Pioneer VSX receiver"
   },
   "dependencies": {
     "net": "*"
