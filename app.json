@@ -1,34 +1,40 @@
 {
-  "id": "com.onkyo",
+  "id": "homey.onkyo",
   "name": {
-    "en": "Onkyo receiver",
-    "nl": "Onkyo receiver"
+    "en": "Onkyo receiver / Pioneer VSX receiver",
+    "nl": "Onkyo receiver / Pioneer VSX receiver"
   },
-  "version": "2.1.3",
-  "compatibility": ">=2.0.0",
-  "author": {
-    "name": "Chamid Media",
-    "email": "info@chamidmedia.nl"
-  },
+  "version": "2.2.0",
   "sdk": 2,
+  "compatibility": ">=2.0.0",
+  "brandColor": "#8142f5",
+  "author": {
+    "name": "Mickel Luiten",
+    "email": "mickelluiten@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Chamid Media",
+        "email": "info@chamidmedia.nl"
+      },
+      {
+        "name": "Mickel Luiten",
+        "email": "mickelluiten@gmail.com"
+      }
+    ]
+  },
   "images": {
     "large": "./assets/images/large.jpg",
     "small": "./assets/images/small.jpg"
   },
   "category": "appliances",
   "description": {
-    "en": "Onkyo receiver",
-    "nl": "Onkyo receiver"
+    "en": "Onkyo receiver / Pioneer VSX receiver",
+    "nl": "Onkyo receiver / Pioneer VSX receiver"
   },
   "dependencies": {
     "net": "*"
-  },
-  "contributing": {
-    "donate": {
-      "paypal": {
-        "email": "info@chamidmedia.nl"
-      }
-    }
   },
   "capabilities": {
     "changeInput": {
@@ -39,7 +45,7 @@
       },
       "getable": true,
       "setable": true,
-	  "uiComponent": "picker",
+      "uiComponent": "picker",
       "values": [
         {
           "id": "!1SLI10",
@@ -127,7 +133,7 @@
         }
       ]
     },
-    "volumeset": {
+    "volume_set": {
       "type": "number",
       "title": {
         "en": "Volume",
@@ -137,11 +143,12 @@
       "setable": true,
       "min": 0,
       "max": 80,
-	  "decimals": 0,
-	  "step": 1,
+      "decimals": 0,
+      "step": 1,
+      "chartType": "stepLine",
       "uiComponent": "slider"
-	  },
-	"on_off": {
+    },
+    "onoff": {
       "type": "boolean",
       "title": {
         "en": "On/Off",
@@ -150,9 +157,9 @@
       "getable": true,
       "setable": true,
       "uiComponent": "toggle",
-	  "uiQuickAction": true
-	  },
-	"mute": {
+      "uiQuickAction": true
+    },
+    "volume_mute": {
       "type": "boolean",
       "title": {
         "en": "Mute",
@@ -161,8 +168,8 @@
       "getable": true,
       "setable": true,
       "uiComponent": "button"
-	  },
-	"volup": {
+    },
+    "volume_up": {
       "type": "boolean",
       "title": {
         "en": "Volume Up",
@@ -170,8 +177,8 @@
       },
       "setable": true,
       "uiComponent": "button"
-	  },
-	"voldown": {
+    },
+    "volume_down": {
       "type": "boolean",
       "title": {
         "en": "Volume Down",
@@ -179,9 +186,8 @@
       },
       "setable": true,
       "uiComponent": "button"
-	  }
+    }
   },
-  
   "drivers": [
     {
       "id": "receiver",
@@ -195,12 +201,12 @@
       },
       "class": "amplifier",
       "capabilities": [
-        "on_off",
-        "volumeset",
+        "onoff",
+        "volume_set",
         "changeInput",
-        "volup",
-        "mute",
-        "voldown"
+        "volume_up",
+        "volume_mute",
+        "volume_down"
       ],
       "pair": [
         {
@@ -283,7 +289,7 @@
         },
         "tokens": [
           {
-            "name": "volume",
+            "name": "volume_set",
             "type": "number",
             "title": {
               "en": "Volume",
